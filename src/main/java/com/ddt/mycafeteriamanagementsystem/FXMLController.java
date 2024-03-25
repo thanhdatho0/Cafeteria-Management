@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -71,6 +72,40 @@ public class FXMLController {
 
     private Alert alert;
 
+    public void loginBtn(){
+        if(si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Massage");
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect username/password");
+            alert.showAndWait();
+        }else {
+            String slctData = "SELECT username, password FROM employee WHERE username = ? and password = ?";
+            connect = Database.connectDB();
+            try {
+                prepare = connect.prepareStatement(slctData);
+                prepare.setString(1, si_username.getText());
+                prepare.setString(2, si_password.getText());
+
+                result = prepare.executeQuery();
+
+                if(result.next()){
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Massage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Login Successfully");
+                    alert.showAndWait();
+                }else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Massage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Incorrect username/password");
+                    alert.showAndWait();
+                }
+            }catch (Exception e){e.printStackTrace();}
+        }
+    }
+
     public void regisBtn(){
         //validate form dang ky
         if(su_username.getText().isEmpty()
@@ -84,43 +119,65 @@ public class FXMLController {
             alert.setContentText("May bi mu` ak");
             alert.show();
         }else {
-            String regisData = "INSERT INTO employee (username, password, question, answer)" + "VALUES(?, ?, ?, ?)";
+            String regisData = "INSERT INTO employee (username, password, question, answer, date)" + "VALUES(?, ?, ?, ?, ?)";
             connect = Database.connectDB();
 
             try {
 
-                prepare = connect.prepareStatement(regisData);
-                prepare.setString(1, su_username.getText());
-                prepare.setString(2, su_password.getText());
-                prepare.setString(3, (String)su_question.getSelectionModel().getSelectedItem());
-                prepare.setString(4, su_answer.getText());
+                String usernameCheck = "SELECT username FROM employee WHERE username = '"+ su_username.getText() + "'";
+                prepare = connect.prepareStatement(usernameCheck);
+                result = prepare.executeQuery();
 
-                prepare.executeUpdate();
 
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Information Massage");
-                alert.setHeaderText(null);
-                alert.setContentText("Successfully!");
-                alert.show();
+                if(result.next()){
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Massage");
+                    alert.setHeaderText(null);
+                    alert.setContentText(su_username.getText() + " is already taken");
+                    alert.showAndWait();
+                }else if(su_password.getText().length() < 8){
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Massage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Invalid password, at least 8 characters needed");
+                    alert.showAndWait();
+                }else {
+                    prepare = connect.prepareStatement(regisData);
+                    prepare.setString(1, su_username.getText());
+                    prepare.setString(2, su_password.getText());
+                    prepare.setString(3, (String)su_question.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, su_answer.getText());
 
-                TranslateTransition slider = new TranslateTransition();
+                    Date date = new Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                    prepare.setString(5, String.valueOf(sqlDate));
 
-                slider.setNode(side_form);
-                slider.setToX(0);
-                slider.setDuration(Duration.seconds(.5));
+                    prepare.executeUpdate();
 
-                slider.setOnFinished((ActionEvent e) ->{
-                    side_alreadyHaveBtn.setVisible(false);
-                    side_createBtn.setVisible(true);
-                });
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Massage");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully!");
+                    alert.show();
 
-                slider.play();
+                    su_username.setText("");
+                    su_password.setText("");
+                    su_question.getSelectionModel().clearSelection();
+                    su_answer.setText("");
 
-                su_username.setText("");
-                su_password.setText("");
-                su_question.getSelectionModel().clearSelection();
-                su_answer.setText("");
+                    TranslateTransition slider = new TranslateTransition();
 
+                    slider.setNode(side_form);
+                    slider.setToX(0);
+                    slider.setDuration(Duration.seconds(.5));
+
+                    slider.setOnFinished((ActionEvent e) ->{
+                        side_alreadyHaveBtn.setVisible(false);
+                        side_createBtn.setVisible(true);
+                    });
+
+                    slider.play();
+                }
 
             }catch (Exception e){e.printStackTrace();}
         }

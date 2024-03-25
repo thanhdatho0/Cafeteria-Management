@@ -26,7 +26,7 @@
                   <TextField fx:id="si_username" layoutX="40.0" layoutY="159.0" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="textField" stylesheets="@loginDesign.css" />
                   <PasswordField fx:id="si_password" layoutX="40.0" layoutY="200.0" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="textField" stylesheets="@loginDesign.css" />
                   <Hyperlink fx:id="si_forgotPass" layoutX="40.0" layoutY="241.0" style="-fx-border-color: #ffff;" text="Forgot Password?" textFill="#185a9d" />
-                  <Button fx:id="si_loginBtn" layoutX="40.0" layoutY="275.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Login">
+                  <Button fx:id="si_loginBtn" layoutX="40.0" layoutY="275.0" mnemonicParsing="false" onAction="#loginBtn" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Login">
                      <font>
                         <Font size="15.0" />
                      </font>
