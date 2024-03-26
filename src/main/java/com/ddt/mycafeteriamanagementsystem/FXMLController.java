@@ -22,6 +22,7 @@ import java.util.List;
 
 public class FXMLController {
 
+    //Login Form Attribute: Cac thuoc tinh cua form dang nhap
     @FXML
     private AnchorPane si_loginForm;
 
@@ -36,7 +37,9 @@ public class FXMLController {
 
     @FXML
     private Button si_loginBtn;
+    //END
 
+    //Slider Side Attribute
     @FXML
     private AnchorPane side_form;
 
@@ -45,7 +48,9 @@ public class FXMLController {
 
     @FXML
     private Button side_alreadyHaveBtn;
+    //END
 
+    //Sign Up Attribute
     @FXML
     private AnchorPane su_signupForm;
 
@@ -63,6 +68,44 @@ public class FXMLController {
 
     @FXML
     private Button su_signupBtn;
+    //END
+
+    //Forgot Pass Form Attribute
+    @FXML
+    private AnchorPane fp_form;
+
+    @FXML
+    private TextField fp_username;
+
+    @FXML
+    private ComboBox<?> fp_question;
+
+    @FXML
+    private TextField fp_answer;
+
+    @FXML
+    private Button fp_proceedBtn;
+
+    @FXML
+    private Button fp_backBtn;
+    //END
+
+    //Reset Pass Form Attribute
+    @FXML
+    private AnchorPane rsp_form;
+
+    @FXML
+    private PasswordField rsp_newPassword;
+
+    @FXML
+    private PasswordField rsp_confirmPassword;
+
+    @FXML
+    private Button rsp_resetBtn;
+
+    @FXML
+    private Button rsp_backBtn;
+    //END
 
 
     //Trong slide mon JAVA co nhac toi may cai nay :))
@@ -191,7 +234,7 @@ public class FXMLController {
 
 
 
-    public void showQuestionList(){
+    public void showQuestionList(ComboBox<?> cb){
         List<String> listOfQuest = new ArrayList<String>();
         //Do du lieu tu mang vao list
         /* Cach 1:
@@ -202,7 +245,8 @@ public class FXMLController {
         // Cach 2:
         Collections.addAll(listOfQuest, questionList);
         ObservableList listData = FXCollections.observableArrayList(listOfQuest);
-        su_question.setItems(listData);
+        //su_question.setItems(listData);
+        cb.setItems(listData);
     }
 
     public void switchForm(ActionEvent event){
@@ -220,10 +264,12 @@ public class FXMLController {
                 side_createBtn.setVisible(false);
             });
 
-            showQuestionList();
+            showQuestionList(su_question);
 
             slider.play();
         } else if (event.getSource() == side_alreadyHaveBtn) {
+            fp_form.setVisible(false);
+            si_loginForm.setVisible(true);
             slider.setToX(0);
             slider.setDuration(Duration.seconds(.5));
 
@@ -237,5 +283,107 @@ public class FXMLController {
 
 
     }
+
+    public void forgotPassLink(){
+        si_loginForm.setVisible(false);
+        fp_form.setVisible(true);
+        showQuestionList(fp_question);
+    }
+
+    public void backToLogin(){
+        backBtn(fp_form, si_loginForm);
+    }
+
+    public void backToForgotPassForm(){
+        backBtn(rsp_form, fp_form);
+    }
+
+    public void backBtn(AnchorPane recent, AnchorPane previous){
+        recent.setVisible(false);
+        previous.setVisible(true);
+    }
+
+    public void proceedBtn(){
+        if(fp_username.getText().isEmpty()
+           || fp_question.getSelectionModel().getSelectedItem() == null
+           || fp_answer.getText().isEmpty()){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Incorrect username/answer");
+            alert.showAndWait();
+        }else {
+            String checkTrueData = "SELECT username, question, answer FROM employee WHERE username = ? AND question = ? AND answer = ?";
+            connect = Database.connectDB();
+            try {
+                prepare = connect.prepareStatement(checkTrueData);
+                prepare.setString(1, fp_username.getText());
+                prepare.setString(2, (String) fp_question.getSelectionModel().getSelectedItem());
+                prepare.setString(3, fp_answer.getText());
+                result = prepare.executeQuery();
+
+                if(result.next()){
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully");
+                    alert.showAndWait();
+                    fp_form.setVisible(false);
+                    rsp_form.setVisible(true);
+                }else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Incorrect username/answer");
+                    alert.showAndWait();
+                }
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+
+    }
+
+    public void resetPassBtn(){
+        if(rsp_newPassword.getText().isEmpty() || rsp_confirmPassword.getText().isEmpty()){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+        } else if (!rsp_confirmPassword.getText().equals(rsp_confirmPassword.getText())) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Not match");
+            alert.showAndWait();
+        }else {
+            String getDate = "SELECT date FROM employee WHERE username = '"+ fp_username.getText() +"'";
+            connect = Database.connectDB();
+            try{
+                prepare = connect.prepareStatement(getDate);
+                result = prepare.executeQuery();
+
+                String date = "";
+                if(result.next()){
+                    date = result.getString("date");
+                }
+
+                String updatePass = "UPDATE employee SET password = '"+ rsp_newPassword.getText() +"'" +
+                        ", date = '"+ date +"' WHERE username = '"+ fp_username.getText() +"'";
+
+                prepare = connect.prepareStatement(updatePass);
+                prepare.executeUpdate();
+
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Done reset password");
+                alert.showAndWait();
+
+                backBtn(rsp_form, si_loginForm);
+            }catch (Exception e){e.printStackTrace();}
+        }
+    }
+
 
 }
