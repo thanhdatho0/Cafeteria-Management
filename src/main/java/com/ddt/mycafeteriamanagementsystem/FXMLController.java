@@ -6,9 +6,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -138,6 +141,15 @@ public class FXMLController {
                     alert.setHeaderText(null);
                     alert.setContentText("Login Successfully");
                     alert.showAndWait();
+
+                    FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainForm.fxml"));
+                    Scene scene = new Scene(fxmlLoader.load());
+                    Stage stage = new Stage();
+                    stage.setTitle("Cafeteria!");
+                    stage.setResizable(false);
+                    stage.setScene(scene);
+                    stage.show();
+
                 }else {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Massage");
