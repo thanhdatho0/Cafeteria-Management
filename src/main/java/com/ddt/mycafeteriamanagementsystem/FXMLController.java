@@ -136,11 +136,6 @@ public class FXMLController {
                 result = prepare.executeQuery();
 
                 if(result.next()){
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Massage");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Login Successfully");
-                    alert.showAndWait();
 
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainForm.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
