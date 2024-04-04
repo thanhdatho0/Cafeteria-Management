@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -11,10 +13,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ddt.mycafeteriamanagementsystem.mainFormController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -36,7 +40,7 @@
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="176.63999460937515" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Dashboard" AnchorPane.bottomAnchor="474.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+                        <Button fx:id="dashboard_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="176.63999460937515" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Dashboard" AnchorPane.bottomAnchor="474.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -45,7 +49,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="227.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Inventory" AnchorPane.bottomAnchor="423.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="227.0">
+                        <Button fx:id="inventory_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="227.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Inventory" AnchorPane.bottomAnchor="423.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="227.0">
                            <graphic>
                               <ImageView fitHeight="27.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -54,7 +58,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="277.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Menu" AnchorPane.bottomAnchor="373.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="277.0">
+                        <Button fx:id="menu_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="277.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Menu" AnchorPane.bottomAnchor="373.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="277.0">
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -63,7 +67,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="327.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Customers" AnchorPane.bottomAnchor="323.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="327.0">
+                        <Button fx:id="customers_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="327.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Customers" AnchorPane.bottomAnchor="323.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="327.0">
                            <graphic>
                               <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -72,7 +76,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button layoutX="14.0" layoutY="649.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="44.0" styleClass="logout" stylesheets="@mainForm.css" textFill="WHITE">
+                        <Button fx:id="logOut_btn" layoutX="14.0" layoutY="649.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="44.0" styleClass="logout" stylesheets="@mainForm.css" textFill="WHITE">
                            <graphic>
                               <ImageView fitHeight="28.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -87,9 +91,9 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane layoutX="-8.0" prefHeight="700.4159786250007" prefWidth="999.935969484376" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane layoutX="-8.0" prefHeight="700.4159786250007" prefWidth="999.935969484376" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane layoutX="54.0" layoutY="225.0" prefHeight="432.0" prefWidth="915.0" styleClass="statistics" stylesheets="@mainForm.css">
+                              <AnchorPane layoutX="54.0" layoutY="225.0" prefHeight="432.0" prefWidth="915.0" styleClass="statistics" stylesheets="@mainForm.css" visible="false">
                                  <children>
                                     <TableView layoutX="16.0" layoutY="14.0" prefHeight="396.0" prefWidth="887.0">
                                       <columns>
@@ -157,6 +161,149 @@
                                     <String fx:value="statistics" />
                                     <String fx:value="border" />
                                  </styleClass>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="menu_form" layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <AnchorPane layoutX="635.0" layoutY="28.0" prefHeight="650.0" prefWidth="350.0" styleClass="statistics" stylesheets="@mainForm.css">
+                                 <children>
+                                    <AnchorPane layoutX="-2.0" layoutY="453.0" prefHeight="195.0" prefWidth="350.0">
+                                       <children>
+                                          <VBox layoutX="26.0" layoutY="-33.6" prefHeight="195.2" prefWidth="350.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <HBox prefHeight="45.0" prefWidth="350.0">
+                                                   <children>
+                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Discount">
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" />
+                                                         </HBox.margin>
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="menu_discount" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="155.0" text="0 VND">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets right="15.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="350.0">
+                                                   <children>
+                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Amount">
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" />
+                                                         </HBox.margin>
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="menu_amount" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="155.0" text="0">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets right="15.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <HBox layoutX="10.0" layoutY="56.0" prefHeight="45.0" prefWidth="350.0">
+                                                   <children>
+                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Total">
+                                                         <HBox.margin>
+                                                            <Insets left="15.0" />
+                                                         </HBox.margin>
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </Label>
+                                                      <Label fx:id="menu_total" alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="155.0" text="0 VND">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                         <HBox.margin>
+                                                            <Insets right="15.0" />
+                                                         </HBox.margin>
+                                                      </Label>
+                                                   </children>
+                                                </HBox>
+                                                <Button fx:id="menu_pay_btn" mnemonicParsing="false" prefHeight="42.0" prefWidth="350.0" styleClass="gradient" stylesheets="@mainForm.css" text="Payment">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                   <VBox.margin>
+                                                      <Insets left="15.0" right="15.0" />
+                                                   </VBox.margin>
+                                                </Button>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane fx:id="menu_tableView" prefHeight="455.0" prefWidth="350.0">
+                                       <children>
+                                          <Label fx:id="menu_orders" layoutX="14.0" layoutY="14.0" prefHeight="29.0" prefWidth="178.0" text="Oders">
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Label>
+                                          <HBox layoutX="17.0" layoutY="44.0" prefHeight="38.0" prefWidth="321.0" styleClass="ruler" stylesheets="@mainForm.css">
+                                             <children>
+                                                <Label fx:id="menu_col_item" prefHeight="38.0" prefWidth="178.0" text="Item">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="menu_col_quantity" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="38.0" prefWidth="70.0" text="Quantity">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="menu_col_price" alignment="CENTER" layoutX="164.0" layoutY="10.0" prefHeight="44.0" prefWidth="85.0" text="Price">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane prefHeight="700.0" prefWidth="630.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="29.0" prefHeight="49.0" prefWidth="153.0" text="DTDCafe">
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="menu_search_text" layoutX="398.0" layoutY="39.0" styleClass="text-search" stylesheets="@mainForm.css">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </TextField>
+                                    <ImageView fx:id="menu_search_icon" fitHeight="27.0" fitWidth="21.0" layoutX="580.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Img/search.png" />
+                                       </image>
+                                    </ImageView>
+                                    <HBox layoutX="14.0" layoutY="89.0" prefHeight="60.0" prefWidth="590.0" styleClass="category" stylesheets="@mainForm.css">
+                                       <children>
+                                          <Button fx:id="menu_all_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="All" />
+                                          <Button fx:id="menu_mainFood_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Main Food" />
+                                          <Button fx:id="menu_fastFood_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Fast Food" />
+                                       </children>
+                                    </HBox>
+                                    <ScrollPane fx:id="menu_scrollPane" layoutX="13.0" layoutY="149.0" prefHeight="527.0" prefWidth="592.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                      </content>
+                                    </ScrollPane>
+                                 </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>

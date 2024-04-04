@@ -6,8 +6,8 @@
     -fx-background-color: linear-gradient(to top right,#185a9d, #43cea2);
 }
 
-
-.btn_nav{
+.btn_nav,
+.btn_menu{
     -fx-border-radius: 0;
     -fx-font-size: 15px;
     -fx-text-fill: #fff;
@@ -15,11 +15,19 @@
     -fx-cursor: hand;
 }
 
+.btn_menu{
+    -fx-text-fill: black ;
+}
+
+.btn_menu:hover{
+    -fx-text-fill: linear-gradient(to top right , #4ab694, #43cea2);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #43cea2;
+}
+
 .btn_nav:hover{
     -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
 }
-
-
 
 .logout{
     -fx-background-color: #5eb9ff;
@@ -54,7 +62,6 @@
 
 .tab-view1{
     -fx-background-color: linear-gradient(to top right, #0081a7, #00afb9); /* Gradient màu xanh */
-
 }
 
 .tab-view2{
@@ -63,4 +70,13 @@
 
 .tab-view3{
     -fx-background-color: linear-gradient(to top right, rgba(255, 215, 0, 0.8), rgba(255, 255, 0, 0.8)); /* Gradient màu vàng */
+}
+
+.ruler{
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: black;
+}
+
+.category{
+    -fx-background-color: #efeeee;
 }
