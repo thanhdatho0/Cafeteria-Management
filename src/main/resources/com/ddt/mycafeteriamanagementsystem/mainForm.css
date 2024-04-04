@@ -25,7 +25,8 @@
     -fx-border-color: #43cea2;
 }
 
-.btn_nav:hover{
+.btn_nav:hover,
+.btn_pay:hover{
     -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
 }
 

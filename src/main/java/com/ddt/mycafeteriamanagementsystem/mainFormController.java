@@ -1,15 +1,17 @@
 package com.ddt.mycafeteriamanagementsystem;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class mainFormController implements Initializable {
@@ -23,7 +25,7 @@ public class mainFormController implements Initializable {
     private Button inventory_btn;
 
     @FXML
-    private Button logOut_btn;
+    private Button logout_btn;
 
     @FXML
     private Button menu_all_btn;
@@ -76,12 +78,32 @@ public class mainFormController implements Initializable {
     @FXML
     private Label menu_total;
 
-//    private
-//    public void logout(){
-//        try {
-//
-//        }catch (Exception e){e.printStackTrace();}
-//    }
+    private Alert alert;
+    public void logout(){
+        try {
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to logout?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if(option.get().equals(ButtonType.OK)){
+                //Ẩn gioa
+                logout_btn.getScene().getWindow().hide();
+
+                //Limk lại trang đăng nhập
+                Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+
+                stage.setTitle("Cafe Shop");
+
+                stage.setScene(scene);;
+                stage.show();
+            }
+        }catch (Exception e){e.printStackTrace();}
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
