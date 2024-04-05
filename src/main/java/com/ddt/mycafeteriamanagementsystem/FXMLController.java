@@ -138,14 +138,9 @@ public class FXMLController {
                 if(result.next()){
 
                     // an cua so login de mo cua so moi
-                    alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Massage");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Successfully!");
-                    alert.showAndWait();
                     si_loginBtn.getScene().getWindow().hide();
 
-
+                    //Load MainFxml
                     FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainForm.fxml"));
                     Scene scene = new Scene(fxmlLoader.load());
                     Stage stage = new Stage();
