@@ -1,0 +1,66 @@
+.add-head{
+    -fx-background-color: rgb(4, 125, 125);
+}
+.btn-sa
+{
+    -fx-background-color: rgb(235, 106, 112);
+    -fx-background-radius: 40em;
+}
+
+.btn-ca
+{
+    -fx-background-radius: 40em;
+    -fx-background-color: #fff;
+    -fx-border-color: #333;
+    -fx-border-radius: 40em;
+}
+
+.browse
+{
+    -fx-border-color: #333;
+    -fx-padding: 0;
+}
+
+.add-bottom {
+    -fx-background-color: rgb(206, 243, 245);
+}
+
+.table-view
+{
+    -fx-background-color: #fff;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background
+{
+    -fx-background-color: rgb(59, 128, 128);
+    -fx-background-insets: 0 0 0 0;
+}
+
+.table-view .column-header, .filter
+{
+    -fx-background-color: transparent;
+    -fx-size: 40px;
+}
+
+.table-view .column-header .label
+{
+    -fx-text-fill: #fff;
+}
+
+.box-shadow
+{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10, 0 , 0 , 1 );
+}
+
+.btn-add
+{
+    -fx-background-color:rgb(255, 0, 0);
+    -fx-padding: 0;
+    -fx-cursor: hand;
+}
+
+.btn-add:hover
+{
+    -fx-background-color: rgb(235, 106, 112);
+}
