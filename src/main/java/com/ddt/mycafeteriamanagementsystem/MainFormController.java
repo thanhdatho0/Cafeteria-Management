@@ -2,6 +2,7 @@ package com.ddt.mycafeteriamanagementsystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +14,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,41 +37,8 @@ public class MainFormController implements Initializable {
     private Button logout_btn;
 
     //Biến trong inventory_form
-
-
-    @FXML
-    private Button inventory_btn_add;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_change;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_date;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_id;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_name;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_price;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_status;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_stock;
-
-    @FXML
-    private TableColumn<?, ?> inventory_col_type;
-
     @FXML
     private AnchorPane inventory_form;
-
-    @FXML
-    private TableView<?> inventory_tableView;
-
 
 
 
@@ -155,10 +122,6 @@ public class MainFormController implements Initializable {
     @FXML
     private Label menu_total;
 
-    //
-    @FXML
-    private AnchorPane main_form;
-
     private Alert alert;
 
     private Connection connect;
@@ -169,30 +132,36 @@ public class MainFormController implements Initializable {
     public ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
 
     //Inventory function.........
+
+
+
+
+
+
+    //Dash Board Attribute: thuộc tính của DashBoard
     @FXML
-    public void addDisplay_invent() {
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle("Cafeteria!");
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-
-        }catch (Exception e){e.printStackTrace();}
+    private AnchorPane dashBoard_form;
 
 
+
+    //Chuyển Pane
+    public void toDashBoard(){
+        dashBoard_form.setVisible(true);
+        menu_form.setVisible(false);
+        inventory_form.setVisible(false);
     }
 
+    public void toMenu(){
+        dashBoard_form.setVisible(false);
+        menu_form.setVisible(true);
+        inventory_form.setVisible(false);
+    }
 
-
-
-
-
-
-
+    public void toInventory(){
+        dashBoard_form.setVisible(false);
+        menu_form.setVisible(false);
+        inventory_form.setVisible(true);
+    }
 
 
 
@@ -283,5 +252,8 @@ public class MainFormController implements Initializable {
 
 
         menuDisplayCard();
+    }
+
+    public void addDisplay_invent(ActionEvent event) {
     }
 }

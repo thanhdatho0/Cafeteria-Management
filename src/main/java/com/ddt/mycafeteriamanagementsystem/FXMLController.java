@@ -145,7 +145,7 @@ public class FXMLController {
                     Scene scene = new Scene(fxmlLoader.load());
                     Stage stage = new Stage();
                     stage.setTitle("Cafeteria!");
-                    stage.setResizable(false);
+                    stage.setResizable(true);
                     stage.setScene(scene);
                     stage.show();
 

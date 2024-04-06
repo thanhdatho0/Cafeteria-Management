@@ -6,6 +6,10 @@
     -fx-background-color: linear-gradient(to top right,#185a9d, #43cea2);
 }
 
+.btn_nav:focused{
+    -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
+}
+
 .btn_nav,
 .btn_menu{
     -fx-border-radius: 0;
@@ -19,15 +23,15 @@
     -fx-text-fill: black ;
 }
 
-.btn_menu:hover{
-    -fx-text-fill: linear-gradient(to top right , #4ab694, #43cea2);
-    -fx-border-width: 0 0 1 0;
-    -fx-border-color: #43cea2;
-}
+/*.btn_menu:hover{*/
+/*    -fx-text-fill: linear-gradient(to top right , #4ab694, #43cea2);*/
+/*    -fx-border-width: 0 0 1 0;*/
+/*    -fx-border-color: #43cea2;*/
+/*}*/
 
 .btn_nav:hover,
 .btn_pay:hover{
-    -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
+    -fx-background-color: linear-gradient(to top right , #92ffdb, #53ffc4);
 }
 
 .logout{
@@ -80,4 +84,16 @@
 
 .category{
     -fx-background-color: #efeeee;
+}
+
+.white-bg{
+    -fx-background-color: #fff;
+}
+
+.shadow{
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 5, 0, 0, 0);
+}
+
+.transparent-bg{
+    -fx-background-color: transparent;
 }
