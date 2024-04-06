@@ -18,12 +18,17 @@ public class ProductData {
 
 
     //Product_form
-    public ProductData(Integer id, String productId, String productName, Double price, String image){
+    public ProductData(Integer id, String productId, String productName,
+                       String type, Integer stock, Double price, String status, String image, Date date){
         this.id = id;
         this.productID = productId;
         this.productName = productName;
+        this.type = type;
+        this.stock = stock;
         this.price = price;
+        this.status = status;
         this.image = image;
+        this.date = date;
     }
 
     public Integer getId() {

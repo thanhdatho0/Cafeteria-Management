@@ -6,7 +6,11 @@
     -fx-background-color: rgb(235, 106, 112);
     -fx-background-radius: 40em;
 }
+.btn-sa:hover
+{
+    -fx-background-color: rgb(245, 148, 151);
 
+}
 .btn-ca
 {
     -fx-background-radius: 40em;
@@ -14,11 +18,23 @@
     -fx-border-color: #333;
     -fx-border-radius: 40em;
 }
+.btn-ca:hover
+{
+    -fx-background-color: #cdb4b4;
+    -fx-border-color: #fff;
+}
+
 
 .browse
 {
     -fx-border-color: #333;
     -fx-padding: 0;
+
+}
+
+.btn-sa, .btn-ca
+{
+    -fx-cursor: hand;
 }
 
 .add-bottom {

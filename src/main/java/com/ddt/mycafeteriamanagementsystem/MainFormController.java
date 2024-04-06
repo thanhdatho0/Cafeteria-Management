@@ -8,6 +8,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -19,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -46,53 +49,31 @@ public class MainFormController implements Initializable {
     private TableColumn<?, ?> inventory_col_change;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_date;
+    private TableColumn<ProductData, String> inventory_col_date;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_id;
+    private TableColumn<ProductData, String> inventory_col_id;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_name;
+    private TableColumn<ProductData, String> inventory_col_name;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_price;
+    private TableColumn<ProductData, String> inventory_col_price;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_status;
+    private TableColumn<ProductData, String> inventory_col_status;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_stock;
+    private TableColumn<ProductData, String> inventory_col_stock;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_type;
+    private TableColumn<ProductData, String> inventory_col_type;
 
     @FXML
     private AnchorPane inventory_form;
 
     @FXML
-    private TableView<?> inventory_tableView;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private TableView<ProductData> inventory_tableView;
 
 
 
@@ -166,12 +147,15 @@ public class MainFormController implements Initializable {
     private Statement statement;
     private ResultSet result;
 
+    private Image images;
+
     public ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
+
+    private ObservableList<ProductData> inventoryListData;
 
     //Inventory function.........
     @FXML
     public void addDisplay_invent() {
-
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -182,11 +166,24 @@ public class MainFormController implements Initializable {
             stage.show();
 
         }catch (Exception e){e.printStackTrace();}
-
-
     }
 
+    // Hien data len bang
+    public void inventoryShowData()
+    {
+        inventoryListData = menuGetData();
 
+        inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        inventory_tableView.setItems(inventoryListData);
+
+    }
 
 
 
@@ -212,8 +209,12 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
                         result.getDouble("price"),
-                        result.getString("image"));
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
 
                 listData.add(productData);
             }
@@ -277,10 +278,20 @@ public class MainFormController implements Initializable {
             }
         }catch (Exception e){e.printStackTrace();}
     }
+
+    public AnchorPane getMain_form()
+    {
+        return main_form;
+    }
+
+    public Image getImages()
+    {
+        return images;
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+        inventoryShowData();
 
         menuDisplayCard();
     }
