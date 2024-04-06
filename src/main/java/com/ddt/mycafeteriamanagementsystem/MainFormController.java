@@ -41,9 +41,21 @@ public class MainFormController implements Initializable {
     @FXML
     private Button logout_btn;
 
+    //Biến trong dashBoard_form
+    @FXML
+    private AnchorPane dashBoard_form;
+
+
+
+
+
+
+
+
+
+
+
     //Biến trong inventory_form
-
-
     @FXML
     private Button inventory_btn_add;
 
@@ -155,6 +167,17 @@ public class MainFormController implements Initializable {
 
     private ObservableList<ProductData> inventoryListData;
 
+    //DashBoard function..............
+
+
+
+
+
+
+
+
+
+
     //Inventory function.........
     @FXML
     public void addDisplay_invent() {
@@ -187,33 +210,27 @@ public class MainFormController implements Initializable {
 
     }
 
-    //Dash Board Attribute: thuộc tính của DashBoard
-    @FXML
-    private AnchorPane dashBoard_form;
 
 
 
-    //Chuyển Pane
-    public void toDashBoard(){
-        dashBoard_form.setVisible(true);
-        menu_form.setVisible(false);
-        inventory_form.setVisible(false);
-    }
-
-    public void toMenu(){
-        dashBoard_form.setVisible(false);
-        menu_form.setVisible(true);
-        inventory_form.setVisible(false);
-    }
-
-    public void toInventory(){
-        dashBoard_form.setVisible(false);
-        menu_form.setVisible(false);
-        inventory_form.setVisible(true);
-    }
-
-
-
+//    //Chuyển Pane
+//    public void toDashBoard(){
+//        dashBoard_form.setVisible(true);
+//        menu_form.setVisible(false);
+//        inventory_form.setVisible(false);
+//    }
+//
+//    public void toMenu(){
+//        dashBoard_form.setVisible(false);
+//        menu_form.setVisible(true);
+//        inventory_form.setVisible(false);
+//    }
+//
+//    public void toInventory(){
+//        dashBoard_form.setVisible(false);
+//        menu_form.setVisible(false);
+//        inventory_form.setVisible(true);
+//    }
 
 
 
@@ -278,6 +295,7 @@ public class MainFormController implements Initializable {
         }
     }
 
+    //Chuyển Form
     public void switchForm(ActionEvent event){
         if(event.getSource() == dashboard_btn){
             dashBoard_form.setVisible(true);
@@ -348,9 +366,6 @@ public class MainFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-    }
-
-    public void addDisplay_invent(ActionEvent event) {
+        //Đưa tất cả trong hàm này vào hàm switch form
     }
 }
