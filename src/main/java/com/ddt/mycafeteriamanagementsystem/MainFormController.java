@@ -2,6 +2,7 @@ package com.ddt.mycafeteriamanagementsystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -250,6 +251,33 @@ public class MainFormController implements Initializable {
             }catch (Exception e){e.printStackTrace();}
         }
     }
+
+//    public void switchForm(ActionEvent event){
+//        if(event.getSource() == dashboard_btn){
+////            dashboard_form.setVisible(true);
+//            inventory_form.setVisible(false);
+//            menu_form.setVisible(false);
+////            customers_form.setVisible(false);
+//        }
+//        else if(event.getSource() == inventory_btn){
+////            dashboard_form.setVisible(false);
+//            inventory_form.setVisible(true);
+//            menu_form.setVisible(false);
+////            customers_form.setVisible(false);
+//        }
+//        else if(event.getSource() == menu_btn){
+////            dashboard_form.setVisible(false);
+//            inventory_form.setVisible(false);
+//            menu_form.setVisible(true);
+////            customers_form.setVisible(false);
+//        }
+//        else if(event.getSource() == customers_btn){
+////            dashboard_form.setVisible(false);
+//            inventory_form.setVisible(false);
+//            menu_form.setVisible(false);
+////            customers_form.setVisible(true);
+//        }
+//    }
 
     public void logout(){
         try {
