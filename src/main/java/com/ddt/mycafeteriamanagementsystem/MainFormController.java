@@ -38,33 +38,6 @@ public class MainFormController implements Initializable {
     //Biến trong inventory_form
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     //Biến trong menu_form
     @FXML
     private Button menu_all_btn;
