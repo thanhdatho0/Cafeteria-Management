@@ -21,6 +21,8 @@ import java.util.ResourceBundle;
 
 public class AddInventController implements Initializable {
 
+    @FXML
+    private AnchorPane addInvent_form;
 
     @FXML
     private Button invent_add_browBtn;
@@ -52,9 +54,14 @@ public class AddInventController implements Initializable {
     @FXML
     private ComboBox<String> invent_add_type;
 
+    private Image image;
+
+
 
     private String[]  typeList = {"Drink", "Side food", "Main feed"};
     private String[] statusList = {"Available", "Unvailable"};
+
+
     public void inventoryTypeList()
     {
         List<String> typeL = new ArrayList<>();
@@ -71,7 +78,7 @@ public class AddInventController implements Initializable {
         for (String data : statusList)
             statusL.add(data);
 
-        ObservableList listData = FXCollections.observableArrayList(statusL);
+        ObservableList<String> listData = FXCollections.observableArrayList(statusL);
         invent_add_status.setItems(listData);
     }
     @FXML
@@ -94,26 +101,23 @@ public class AddInventController implements Initializable {
 
     public void inventoryBrowse()
     {
-        AnchorPane mainForm = new MainFormController().getMain_form();
         FileChooser openFile = new FileChooser();
         openFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("Open Image File", "*png", "*jpg"));
 
-        File file = openFile.showOpenDialog(mainForm.getScene().getWindow());
+        File file = openFile.showOpenDialog(null);
 
     // DANG XEM
 
-//        if (file != null) {
-//            Data.path = file.getAbsolutePath();
-//            Image ims = new MainFormController().getImages();
-////            new MainFormController().setImages();
-//
-//            invent_add_imageView.setImage();
-//        }
+        if (file != null) {
+            Data.path = file.getAbsolutePath();
+            image = new Image(file.toURI().toString(), 270, 200, false, true);
+
+            invent_add_imageView.setImage(image);
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         inventoryTypeList();
         inventoryStatusList();
     }
