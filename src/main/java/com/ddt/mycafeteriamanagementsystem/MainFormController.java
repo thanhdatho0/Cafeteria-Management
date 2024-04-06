@@ -280,13 +280,13 @@ public class MainFormController implements Initializable {
 
     public void switchForm(ActionEvent event){
         if(event.getSource() == dashboard_btn){
-//            dashboard_form.setVisible(true);
+            dashBoard_form.setVisible(true);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
 //            customers_form.setVisible(false);
         }
         else if(event.getSource() == inventory_btn){
-//            dashboard_form.setVisible(false);
+            dashBoard_form.setVisible(false);
             inventory_form.setVisible(true);
             menu_form.setVisible(false);
 //            customers_form.setVisible(false);
@@ -295,7 +295,7 @@ public class MainFormController implements Initializable {
 
         }
         else if(event.getSource() == menu_btn){
-//            dashboard_form.setVisible(false);
+            dashBoard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(true);
 //            customers_form.setVisible(false);
@@ -303,7 +303,7 @@ public class MainFormController implements Initializable {
 
         }
         else if(event.getSource() == customers_btn){
-//            dashboard_form.setVisible(false);
+            dashBoard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
 //            customers_form.setVisible(true);

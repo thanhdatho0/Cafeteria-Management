@@ -23,15 +23,16 @@
     -fx-text-fill: black ;
 }
 
-/*.btn_menu:hover{*/
-/*    -fx-text-fill: linear-gradient(to top right , #4ab694, #43cea2);*/
-/*    -fx-border-width: 0 0 1 0;*/
-/*    -fx-border-color: #43cea2;*/
-/*}*/
+.btn_menu:hover{
+    -fx-text-fill: linear-gradient(to top right , #4ab694, #43cea2);
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #43cea2;
+}
 
 .btn_nav:hover,
 .btn_pay:hover{
     -fx-background-color: linear-gradient(to top right , #92ffdb, #53ffc4);
+    -fx-text-fill: #68829E;
 }
 
 .logout{

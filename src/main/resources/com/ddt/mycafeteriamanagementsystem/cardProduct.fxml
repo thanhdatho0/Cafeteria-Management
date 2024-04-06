@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="card_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="160.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ddt.mycafeteriamanagementsystem.CardProductController">
+<AnchorPane fx:id="card_form" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="160.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ddt.mycafeteriamanagementsystem.CardProductController">
    <children>
-      <Button fx:id="prod_card_btn" layoutX="40.0" layoutY="65.0" mnemonicParsing="false" prefHeight="180.0" prefWidth="160.0" stylesheets="@cardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Button fx:id="prod_card_btn" layoutX="40.0" layoutY="65.0" mnemonicParsing="false" prefHeight="200.0" prefWidth="160.0" stylesheets="@cardDesign.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <graphic>
             <VBox prefHeight="180.0" prefWidth="160.0">
                <children>
-                  <AnchorPane prefHeight="82.0" prefWidth="144.0">
+                  <AnchorPane prefHeight="94.0" prefWidth="144.0">
                      <children>
-                        <ImageView fx:id="prod_imageView" fitHeight="68.0" fitWidth="125.0" layoutX="10.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="prod_imageView" fitHeight="85.0" fitWidth="135.0" layoutX="4.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </AnchorPane>
-                  <HBox prefHeight="44.0" prefWidth="144.0">
+                  <HBox prefHeight="37.0" prefWidth="144.0">
                      <children>
                         <Label fx:id="prod_name" alignment="CENTER" prefHeight="44.0" prefWidth="157.0" text="Spagetti">
                            <font>
