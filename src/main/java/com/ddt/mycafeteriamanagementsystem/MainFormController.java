@@ -212,9 +212,7 @@ public class MainFormController implements Initializable {
                         result.getString("type"),
                         result.getInt("stock"),
                         result.getDouble("price"),
-                        result.getString("status"),
-                        result.getString("image"),
-                        result.getDate("date"));
+                        result.getString("image"));
 
                 listData.add(productData);
             }
