@@ -51,6 +51,7 @@ public class AddInventController implements Initializable {
 
     @FXML
     private ComboBox<String> invent_add_type;
+    private Image image;
 
 
     private String[]  typeList = {"Drink", "Side food", "Main feed"};
@@ -94,21 +95,18 @@ public class AddInventController implements Initializable {
 
     public void inventoryBrowse()
     {
-        AnchorPane mainForm = new MainFormController().getMain_form();
         FileChooser openFile = new FileChooser();
         openFile.getExtensionFilters().add(new FileChooser.ExtensionFilter("Open Image File", "*png", "*jpg"));
 
-        File file = openFile.showOpenDialog(mainForm.getScene().getWindow());
+        File file = openFile.showOpenDialog(null);
 
-    // DANG XEM
+        if (file != null) {
+            Data.path = file.getAbsolutePath();
+            image = new Image(file.toURI().toString(), 137, 128, false, true);
 
-//        if (file != null) {
-//            Data.path = file.getAbsolutePath();
-//            Image ims = new MainFormController().getImages();
-////            new MainFormController().setImages();
-//
-//            invent_add_imageView.setImage();
-//        }
+            invent_add_imageView.setImage(image);
+        }
+
     }
 
     @Override

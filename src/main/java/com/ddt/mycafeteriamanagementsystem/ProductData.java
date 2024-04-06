@@ -14,6 +14,17 @@ public class ProductData {
     private Date date;
 
     //Inventory_form..............
+    public ProductData(Integer id, String productID, String productName, String type, Integer stock, Double price, String status, String image, Date date) {
+        this.id = id;
+        this.productID = productID;
+        this.productName = productName;
+        this.type = type;
+        this.stock = stock;
+        this.price = price;
+        this.status = status;
+        this.image = image;
+        this.date = date;
+    }
 
 
 

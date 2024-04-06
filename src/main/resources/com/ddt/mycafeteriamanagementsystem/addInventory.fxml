@@ -103,7 +103,7 @@
                                           <ImageView fx:id="invent_add_imageView" fitHeight="128.0" fitWidth="137.0" layoutX="1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" />
                                        </children>
                                     </AnchorPane>
-                                    <Button fx:id="invent_add_browBtn" layoutX="48.0" layoutY="173.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="104.0" styleClass="btn-sa" stylesheets="@Inventory.css" text="Browse" textFill="WHITE" />
+                                    <Button fx:id="invent_add_browBtn" layoutX="48.0" layoutY="173.0" mnemonicParsing="false" onAction="#inventoryBrowse" prefHeight="35.0" prefWidth="104.0" styleClass="btn-sa" stylesheets="@Inventory.css" text="Browse" textFill="WHITE" />
                                  </children>
                               </AnchorPane>
                            </children>
