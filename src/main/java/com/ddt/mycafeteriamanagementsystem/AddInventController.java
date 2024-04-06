@@ -53,8 +53,8 @@ public class AddInventController implements Initializable {
 
     @FXML
     private ComboBox<String> invent_add_type;
-
     private Image image;
+
 
 
 
@@ -106,14 +106,13 @@ public class AddInventController implements Initializable {
 
         File file = openFile.showOpenDialog(null);
 
-    // DANG XEM
-
         if (file != null) {
             Data.path = file.getAbsolutePath();
-            image = new Image(file.toURI().toString(), 270, 200, false, true);
+            image = new Image(file.toURI().toString(), 137, 128, false, true);
 
             invent_add_imageView.setImage(image);
         }
+
     }
 
     @Override
