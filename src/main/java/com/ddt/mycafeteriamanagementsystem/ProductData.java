@@ -18,17 +18,14 @@ public class ProductData {
 
 
     //Product_form
-    public ProductData(Integer id, String productId, String productName,
-                       String type, Integer stock, Double price, String status, String image, Date date){
+    public ProductData(Integer id, String productId, String productName, String type, Integer stock, Double price, String image){
         this.id = id;
         this.productID = productId;
         this.productName = productName;
         this.type = type;
         this.stock = stock;
         this.price = price;
-        this.status = status;
         this.image = image;
-        this.date = date;
     }
 
     public Integer getId() {
@@ -43,9 +40,7 @@ public class ProductData {
         return productName;
     }
 
-    public String getType() {
-        return type;
-    }
+    public String getType() {return type;}
 
     public Integer getStock() {
         return stock;
