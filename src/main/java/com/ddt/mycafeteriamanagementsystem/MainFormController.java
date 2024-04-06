@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -210,7 +211,6 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("image"));
@@ -229,6 +229,7 @@ public class MainFormController implements Initializable {
         int row = 0;
         int column = 0;
 
+        menu_gridPane.getChildren().clear();
         menu_gridPane.getRowConstraints().clear();
         menu_gridPane.getColumnConstraints().clear();
 
@@ -247,37 +248,43 @@ public class MainFormController implements Initializable {
                 }
 
                 menu_gridPane.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(17));
 
             }catch (Exception e){e.printStackTrace();}
         }
     }
 
-//    public void switchForm(ActionEvent event){
-//        if(event.getSource() == dashboard_btn){
-////            dashboard_form.setVisible(true);
-//            inventory_form.setVisible(false);
-//            menu_form.setVisible(false);
-////            customers_form.setVisible(false);
-//        }
-//        else if(event.getSource() == inventory_btn){
-////            dashboard_form.setVisible(false);
-//            inventory_form.setVisible(true);
-//            menu_form.setVisible(false);
-////            customers_form.setVisible(false);
-//        }
-//        else if(event.getSource() == menu_btn){
-////            dashboard_form.setVisible(false);
-//            inventory_form.setVisible(false);
-//            menu_form.setVisible(true);
-////            customers_form.setVisible(false);
-//        }
-//        else if(event.getSource() == customers_btn){
-////            dashboard_form.setVisible(false);
-//            inventory_form.setVisible(false);
-//            menu_form.setVisible(false);
-////            customers_form.setVisible(true);
-//        }
-//    }
+    public void switchForm(ActionEvent event){
+        if(event.getSource() == dashboard_btn){
+//            dashboard_form.setVisible(true);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+//            customers_form.setVisible(false);
+        }
+        else if(event.getSource() == inventory_btn){
+//            dashboard_form.setVisible(false);
+            inventory_form.setVisible(true);
+            menu_form.setVisible(false);
+//            customers_form.setVisible(false);
+
+            inventoryShowData();
+
+        }
+        else if(event.getSource() == menu_btn){
+//            dashboard_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(true);
+//            customers_form.setVisible(false);
+            menuDisplayCard();
+
+        }
+        else if(event.getSource() == customers_btn){
+//            dashboard_form.setVisible(false);
+            inventory_form.setVisible(false);
+            menu_form.setVisible(false);
+//            customers_form.setVisible(true);
+        }
+    }
 
     public void logout(){
         try {
@@ -317,8 +324,6 @@ public class MainFormController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        inventoryShowData();
 
-        menuDisplayCard();
     }
 }
