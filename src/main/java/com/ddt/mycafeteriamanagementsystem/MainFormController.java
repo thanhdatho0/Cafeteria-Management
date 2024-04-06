@@ -2,6 +2,7 @@ package com.ddt.mycafeteriamanagementsystem;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -185,6 +186,30 @@ public class MainFormController implements Initializable {
 
     }
 
+    //Dash Board Attribute: thuộc tính của DashBoard
+    @FXML
+    private AnchorPane dashBoard_form;
+
+
+
+    //Chuyển Pane
+    public void toDashBoard(){
+        dashBoard_form.setVisible(true);
+        menu_form.setVisible(false);
+        inventory_form.setVisible(false);
+    }
+
+    public void toMenu(){
+        dashBoard_form.setVisible(false);
+        menu_form.setVisible(true);
+        inventory_form.setVisible(false);
+    }
+
+    public void toInventory(){
+        dashBoard_form.setVisible(false);
+        menu_form.setVisible(false);
+        inventory_form.setVisible(true);
+    }
 
 
 
@@ -292,5 +317,8 @@ public class MainFormController implements Initializable {
         inventoryShowData();
 
         menuDisplayCard();
+    }
+
+    public void addDisplay_invent(ActionEvent event) {
     }
 }
