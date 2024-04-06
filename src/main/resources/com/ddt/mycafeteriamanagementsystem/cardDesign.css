@@ -1,0 +1,12 @@
+.card{
+    -fx-background-color: #fff;
+    -fx-background-radius: 5px;
+}
+
+.shadow{
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
+}
+
+.card:hover{
+    -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
+}

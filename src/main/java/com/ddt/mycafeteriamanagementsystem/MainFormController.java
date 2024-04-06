@@ -212,6 +212,8 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("image"));
 
