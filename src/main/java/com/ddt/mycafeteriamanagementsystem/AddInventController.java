@@ -54,7 +54,7 @@ public class AddInventController implements Initializable {
     private Image image;
 
 
-    private String[]  typeList = {"Drink", "Side food", "Main feed"};
+    private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
     private String[] statusList = {"Available", "Unvailable"};
     public void inventoryTypeList()
     {
