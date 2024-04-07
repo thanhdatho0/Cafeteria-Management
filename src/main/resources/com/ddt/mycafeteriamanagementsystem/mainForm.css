@@ -32,8 +32,11 @@
 .btn_nav:hover,
 .btn_pay:hover{
     -fx-background-color: linear-gradient(to top right , #92ffdb, #53ffc4);
-    -fx-text-fill: #68829E;
+    /*-fx-text-fill: #68829E;*/
+    -fx-text-fill: #fff;
+
 }
+
 
 .logout{
     -fx-background-color: #5eb9ff;
