@@ -26,6 +26,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
     //Cây thư mục điều hướng
@@ -197,7 +198,7 @@ public class MainFormController implements Initializable {
     // Hien data len bang
     public void inventoryShowData()
     {
-        inventoryListData = menuGetData();
+        inventoryListData = InventoryDataList();
 
         inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
         inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
@@ -337,7 +338,6 @@ public class MainFormController implements Initializable {
             menu_form.setVisible(false);
 //            customers_form.setVisible(false);
 
-
             inventoryShowData();
 
         }
@@ -383,18 +383,11 @@ public class MainFormController implements Initializable {
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public AnchorPane getMain_form()
-    {
-        return main_form;
-    }
 
-    public Image getImages()
-    {
-        return images;
-    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Đưa tất cả trong hàm này vào hàm switch form
+        inventoryShowData();
     }
 }
