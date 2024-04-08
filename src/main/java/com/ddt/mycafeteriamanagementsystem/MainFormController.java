@@ -215,6 +215,7 @@ public class MainFormController implements Initializable {
     public ObservableList<ProductData> InventoryDataList() {
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM product";
+        asdasdafd
 
         connect = Database.connectDB();
 
