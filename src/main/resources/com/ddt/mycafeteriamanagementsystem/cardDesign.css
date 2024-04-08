@@ -7,6 +7,16 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
 }
 
-.card:hover{
-    -fx-background-color: linear-gradient(to top right ,#86ebcb, #43cea2);
+.text{
+    -fx-font-weight: 700;
+}
+
+.addBtn{
+    -fx-background-color: linear-gradient(to top right , #4ab694, #43cea2);
+    -fx-background-radius: 5px;
+    -fx-text-fill: #fff;
+}
+
+.addBtn:hover{
+    -fx-background-color: linear-gradient(to top right , #17d998, #43cea2);
 }

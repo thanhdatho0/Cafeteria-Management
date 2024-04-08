@@ -1,0 +1,10 @@
+.garbage{
+    -fx-background-color: none;
+    -fx-border-color: #a8a8ec;
+    -fx-border-width: 1px;
+}
+
+.garbage:hover{
+    -fx-background-color: #9d9999;
+    -fx-cursor: hand;
+}

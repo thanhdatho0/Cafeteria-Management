@@ -152,6 +152,8 @@ public class MainFormController implements Initializable {
     @FXML
     private Label menu_total;
 
+    @FXML
+    private GridPane order_gridPane;
     //
     @FXML
     private AnchorPane main_form;
@@ -162,12 +164,11 @@ public class MainFormController implements Initializable {
     private PreparedStatement prepare;
     private Statement statement;
     private ResultSet result;
-
     private Image images;
-
-    public ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
-
+    private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
     private ObservableList<ProductData> inventoryListData;
+    private ObservableList<ProductData> orderListData = FXCollections.observableArrayList();
+    private int cID;
 
     //DashBoard function..............
 
@@ -180,7 +181,7 @@ public class MainFormController implements Initializable {
 
 
 
-    //Inventory function.........
+    //Inventory function
     @FXML
     public void addDisplay_invent() {
         try {
@@ -209,7 +210,6 @@ public class MainFormController implements Initializable {
         inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         inventory_tableView.setItems(inventoryListData);
-
     }
 
     public ObservableList<ProductData> InventoryDataList() {
@@ -241,30 +241,6 @@ public class MainFormController implements Initializable {
         return listData;
     }
 
-
-//    //Chuyển Pane
-//    public void toDashBoard(){
-//        dashBoard_form.setVisible(true);
-//        menu_form.setVisible(false);
-//        inventory_form.setVisible(false);
-//    }
-//
-//    public void toMenu(){
-//        dashBoard_form.setVisible(false);
-//        menu_form.setVisible(true);
-//        inventory_form.setVisible(false);
-//    }
-//
-//    public void toInventory(){
-//        dashBoard_form.setVisible(false);
-//        menu_form.setVisible(false);
-//        inventory_form.setVisible(true);
-//    }
-
-
-
-
-
     //Product function
     public ObservableList<ProductData> menuGetData(){
         String sql = "SELECT * FROM product";
@@ -281,9 +257,12 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
+                        result.getString("type"),
                         result.getInt("stock"),
                         result.getDouble("price"),
-                        result.getString("image"));
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
 
                 listData.add(productData);
             }
@@ -324,6 +303,69 @@ public class MainFormController implements Initializable {
         }
     }
 
+    //Order function
+    public ObservableList<ProductData> orderGetData(){
+        String sql = "SELECT * FROM product";
+
+        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ProductData productData;
+            while(result.next()){
+                productData = new ProductData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+
+                listData.add(productData);
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+        return listData;
+    }
+
+    public void orderDisplay(){
+        orderListData.clear();
+        orderListData.addAll(orderGetData());
+
+        int row = 0;
+        int column = 0;
+
+        order_gridPane.getChildren().clear();
+        order_gridPane.getRowConstraints().clear();
+        order_gridPane.getColumnConstraints().clear();
+
+        for(int q = 0; q <  orderListData.size(); q++){
+
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("ordersProduct.fxml"));
+                AnchorPane pane = load.load();
+                OrderProductController oderC = load.getController();
+                oderC.setData(orderListData.get(q));
+
+                if(column == 1){
+                    column = 0;
+                    row += 1;
+                }
+
+                order_gridPane.add(pane, column++, row);
+//                GridPane.setMargin(pane, new Insets(17));
+
+            }catch (Exception e){e.printStackTrace();}
+
+        }
+    }
+
+
+
     //Chuyển Form
     public void switchForm(ActionEvent event){
         if(event.getSource() == dashboard_btn){
@@ -347,6 +389,7 @@ public class MainFormController implements Initializable {
             menu_form.setVisible(true);
 //            customers_form.setVisible(false);
             menuDisplayCard();
+            orderDisplay();
 
         }
         else if(event.getSource() == customers_btn){
@@ -382,8 +425,38 @@ public class MainFormController implements Initializable {
             }
         }catch (Exception e){e.printStackTrace();}
     }
+    public void customerID(){
+        String sql = "SELECT MAX(customer_id) from customer";
+        connect = Database.connectDB();
 
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
 
+            if(result.next()){
+                cID = result.getInt("MAX(customer_id)");
+            }
+
+            String checkCID = "SELECT MAX(customer_id) FROM receipt";
+            prepare = connect.prepareStatement(checkCID);
+            result = prepare.executeQuery();
+
+            int checkID = 0;
+            if(result.next()){
+                checkID = result.getInt("MAX(customer_id)");
+            }
+
+            if(cID == 0){
+                cID += 1;
+            }
+            else if(cID == checkID){
+                cID += 1;
+            }
+
+            Data.cID = cID;
+
+        }catch (Exception e){e.printStackTrace();}
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

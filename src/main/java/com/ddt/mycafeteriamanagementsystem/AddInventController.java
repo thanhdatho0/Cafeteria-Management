@@ -63,7 +63,7 @@ public class AddInventController implements Initializable {
 
 
     private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
-    private String[] statusList = {"Available", "Unvailable"};
+    private String[] statusList = {"Available", "Unavailable"};
     public void inventoryTypeList()
     {
         List<String> typeL = new ArrayList<>();
