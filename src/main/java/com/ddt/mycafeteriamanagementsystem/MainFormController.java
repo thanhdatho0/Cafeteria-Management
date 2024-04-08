@@ -304,7 +304,7 @@ public class MainFormController implements Initializable {
                 }
 
                 menu_gridPane.add(pane, column++, row);
-                GridPane.setMargin(pane, new Insets(17));
+                GridPane.setMargin(pane, new Insets(15));
 
             }catch (Exception e){e.printStackTrace();}
         }
