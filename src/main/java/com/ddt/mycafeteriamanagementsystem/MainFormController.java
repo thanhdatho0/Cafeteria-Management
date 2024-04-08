@@ -251,30 +251,6 @@ public class MainFormController implements Initializable {
         return listData;
     }
 
-
-//    //Chuyển Pane
-//    public void toDashBoard(){
-//        dashBoard_form.setVisible(true);
-//        menu_form.setVisible(false);
-//        inventory_form.setVisible(false);
-//    }
-//
-//    public void toMenu(){
-//        dashBoard_form.setVisible(false);
-//        menu_form.setVisible(true);
-//        inventory_form.setVisible(false);
-//    }
-//
-//    public void toInventory(){
-//        dashBoard_form.setVisible(false);
-//        menu_form.setVisible(false);
-//        inventory_form.setVisible(true);
-//    }
-
-
-
-
-
     //Product function
     public ObservableList<ProductData> menuGetData(){
         String sql = "SELECT * FROM product";
