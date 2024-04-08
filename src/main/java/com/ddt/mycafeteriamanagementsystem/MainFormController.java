@@ -61,6 +61,9 @@ public class MainFormController implements Initializable {
     private Button inventory_btn_add;
 
     @FXML
+    private Button inventory_reloadBtn;
+
+    @FXML
     private TableColumn<?, ?> inventory_col_change;
 
     @FXML
@@ -210,6 +213,13 @@ public class MainFormController implements Initializable {
 
         inventory_tableView.setItems(inventoryListData);
 
+    }
+
+    public void inventoryLoadData(ActionEvent event){
+        if(event.getSource() == inventory_reloadBtn) {
+            inventoryListData = InventoryDataList();
+            inventory_tableView.setItems(inventoryListData);
+        }
     }
 
     public ObservableList<ProductData> InventoryDataList() {

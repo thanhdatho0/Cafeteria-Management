@@ -262,17 +262,26 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                              <TextField layoutX="751.0" layoutY="14.0" prefHeight="27.0" prefWidth="224.0" styleClass="text-search" stylesheets="@mainForm.css" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="14.0" />
-                              <ImageView fitHeight="28.0" fitWidth="18.0" layoutX="944.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="663.0" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="18.399999999999956">
+                              <TextField layoutX="743.2" layoutY="15.2" maxWidth="300.0" prefHeight="27.0" prefWidth="225.0" styleClass="text-search" stylesheets="@mainForm.css" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="15.0" />
+                              <ImageView fitHeight="28.0" fitWidth="18.0" layoutX="941.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="664.6" AnchorPane.rightAnchor="41.799999999999955" AnchorPane.topAnchor="19.0">
                                  <image>
                                     <Image url="@Img/search.png" />
                                  </image>
                               </ImageView>
-                              <Button fx:id="inventory_btn_add" layoutX="26.0" layoutY="8.0" mnemonicParsing="false" onAction="#addDisplay_invent" prefHeight="40.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@Inventory.css">
+                              <Button fx:id="inventory_btn_add" layoutX="14.0" layoutY="8.0" mnemonicParsing="false" onAction="#addDisplay_invent" prefHeight="40.0" prefWidth="40.0" styleClass="btn-add" stylesheets="@Inventory.css">
                                  <graphic>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@Img/plus.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="inventory_reloadBtn" layoutX="69.0" layoutY="4.0" mnemonicParsing="false" onAction="#inventoryLoadData" styleClass="reload-btn" stylesheets="@Inventory.css">
+                                 <graphic>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Img/reload.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>

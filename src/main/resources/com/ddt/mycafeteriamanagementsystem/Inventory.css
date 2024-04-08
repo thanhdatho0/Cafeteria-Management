@@ -80,3 +80,11 @@
 {
     -fx-background-color: rgb(235, 106, 112);
 }
+
+.reload-btn{
+    -fx-background-color: transparent;
+}
+
+.reload-btn:hover{
+    -fx-opacity: 0.4;
+}
