@@ -96,6 +96,7 @@ public class MainFormController implements Initializable {
 
 
 
+
     //Biến trong menu_form
     @FXML
     private Button menu_all_btn;
@@ -211,7 +212,34 @@ public class MainFormController implements Initializable {
         inventory_tableView.setItems(inventoryListData);
     }
 
+    public ObservableList<ProductData> InventoryDataList() {
+        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM product";
 
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ProductData prodData;
+            while(result.next()){
+                prodData = new ProductData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+
+                listData.add(prodData);
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+        return listData;
+    }
 
     //Product function
     public ObservableList<ProductData> menuGetData(){
