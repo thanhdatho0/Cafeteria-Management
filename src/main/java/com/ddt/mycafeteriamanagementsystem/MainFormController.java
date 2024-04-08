@@ -61,6 +61,9 @@ public class MainFormController implements Initializable {
     private Button inventory_btn_add;
 
     @FXML
+    private Button inventory_reloadBtn;
+
+    @FXML
     private TableColumn<?, ?> inventory_col_change;
 
     @FXML
@@ -212,6 +215,13 @@ public class MainFormController implements Initializable {
         inventory_tableView.setItems(inventoryListData);
     }
 
+    public void inventoryLoadData(ActionEvent event){
+        if(event.getSource() == inventory_reloadBtn) {
+            inventoryListData = InventoryDataList();
+            inventory_tableView.setItems(inventoryListData);
+        }
+    }
+
     public ObservableList<ProductData> InventoryDataList() {
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM product";
@@ -297,7 +307,7 @@ public class MainFormController implements Initializable {
                 }
 
                 menu_gridPane.add(pane, column++, row);
-                GridPane.setMargin(pane, new Insets(17));
+                GridPane.setMargin(pane, new Insets(15));
 
             }catch (Exception e){e.printStackTrace();}
         }

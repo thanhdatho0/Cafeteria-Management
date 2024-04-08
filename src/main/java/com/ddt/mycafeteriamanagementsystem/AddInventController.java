@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -23,6 +24,8 @@ import java.util.function.Consumer;
 
 public class AddInventController implements Initializable {
 
+    @FXML
+    private AnchorPane addInvent_form;
 
     @FXML
     private Button invent_add_browBtn;
@@ -80,7 +83,7 @@ public class AddInventController implements Initializable {
         for (String data : statusList)
             statusL.add(data);
 
-        ObservableList listData = FXCollections.observableArrayList(statusL);
+        ObservableList<String> listData = FXCollections.observableArrayList(statusL);
         invent_add_status.setItems(listData);
     }
     @FXML
