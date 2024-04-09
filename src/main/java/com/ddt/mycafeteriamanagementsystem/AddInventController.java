@@ -65,12 +65,8 @@ public class AddInventController implements Initializable {
 
 
 
-
-
-    private String[]  typeList = {"Drink", "Side food", "Main feed"};
-    private String[] statusList = {"Available", "Unvailable"};
-
-
+    private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
+    private String[] statusList = {"Available", "Unavailable"};
     public void inventoryTypeList()
     {
         List<String> typeL = new ArrayList<>();
@@ -192,6 +188,7 @@ public class AddInventController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         inventoryTypeList();
         inventoryStatusList();
     }
