@@ -71,5 +71,41 @@ public class ProductData {
     public Date getDate() {
         return date;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
 
