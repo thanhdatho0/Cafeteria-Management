@@ -64,9 +64,6 @@ public class FXMLController {
     private PasswordField su_password;
 
     @FXML
-    private TextField su_fullName;
-
-    @FXML
     private ComboBox<?> su_question;
 
     @FXML
@@ -113,9 +110,6 @@ public class FXMLController {
     private Button rsp_backBtn;
     //END
 
-    //Employee Class
-
-
 
     //Trong slide mon JAVA co nhac toi may cai nay :))
     private Connection connect;
@@ -142,10 +136,6 @@ public class FXMLController {
                 result = prepare.executeQuery();
 
                 if(result.next()){
-                    Date date = new Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    employee = new Employee();
-                    employee.setName(String.valueOf(su_fullName));
 
                     // an cua so login de mo cua so moi
                     si_loginBtn.getScene().getWindow().hide();
@@ -173,7 +163,6 @@ public class FXMLController {
     public void regisBtn(){
         //validate form dang ky
         if(su_username.getText().isEmpty()
-                || su_fullName.getText().isEmpty()
                 || su_password.getText().isEmpty()
                 || su_question.getSelectionModel().getSelectedItem() == null
                 || su_answer.getText().isEmpty())
@@ -184,7 +173,7 @@ public class FXMLController {
             alert.setContentText("May bi mu` ak");
             alert.show();
         }else {
-            String regisData = "INSERT INTO employee (name, username, password, question, answer, date)" + "VALUES(?, ?, ?, ?, ?, ?)";
+            String regisData = "INSERT INTO employee (username, password, question, answer, date)" + "VALUES(?, ?, ?, ?, ?)";
             connect = Database.connectDB();
 
             try {
@@ -208,16 +197,14 @@ public class FXMLController {
                     alert.showAndWait();
                 }else {
                     prepare = connect.prepareStatement(regisData);
-
-                    prepare.setString(1, su_fullName.getText());
-                    prepare.setString(2, su_username.getText());
-                    prepare.setString(3, su_password.getText());
-                    prepare.setString(4, (String)su_question.getSelectionModel().getSelectedItem());
-                    prepare.setString(5, su_answer.getText());
+                    prepare.setString(1, su_username.getText());
+                    prepare.setString(2, su_password.getText());
+                    prepare.setString(3, (String)su_question.getSelectionModel().getSelectedItem());
+                    prepare.setString(4, su_answer.getText());
 
                     Date date = new Date();
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    prepare.setString(6, String.valueOf(sqlDate));
+                    prepare.setString(5, String.valueOf(sqlDate));
 
                     prepare.executeUpdate();
 
@@ -329,8 +316,8 @@ public class FXMLController {
 
     public void proceedBtn(){
         if(fp_username.getText().isEmpty()
-           || fp_question.getSelectionModel().getSelectedItem() == null
-           || fp_answer.getText().isEmpty()){
+                || fp_question.getSelectionModel().getSelectedItem() == null
+                || fp_answer.getText().isEmpty()){
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);

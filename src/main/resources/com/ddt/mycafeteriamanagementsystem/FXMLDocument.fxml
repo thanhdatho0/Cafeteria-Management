@@ -40,16 +40,15 @@
                         <Font size="20.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="su_username" layoutX="40.0" layoutY="110.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="textField" stylesheets="@loginDesign.css" />
-                  <PasswordField fx:id="su_password" layoutX="40.0" layoutY="150.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="textField" stylesheets="@loginDesign.css" />
-                  <Button fx:id="su_signupBtn" layoutX="40.0" layoutY="346.0" mnemonicParsing="false" onAction="#regisBtn" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Sign Up">
+                  <TextField fx:id="su_username" layoutX="40.0" layoutY="125.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Username" styleClass="textField" stylesheets="@loginDesign.css" />
+                  <PasswordField fx:id="su_password" layoutX="40.0" layoutY="165.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Password" styleClass="textField" stylesheets="@loginDesign.css" />
+                  <Button fx:id="su_signupBtn" layoutX="40.0" layoutY="300.0" mnemonicParsing="false" onAction="#regisBtn" prefHeight="40.0" prefWidth="220.0" styleClass="login-btn" stylesheets="@loginDesign.css" text="Sign Up">
                      <font>
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <ComboBox fx:id="su_question" layoutX="40.0" layoutY="230.0" prefHeight="30.0" prefWidth="220.0" promptText="Question" styleClass="textField" stylesheets="@loginDesign.css" />
-                  <TextField fx:id="su_answer" layoutX="40.0" layoutY="270.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Answer" styleClass="textField" stylesheets="@loginDesign.css" />
-                  <TextField fx:id="su_fullName" layoutX="40.0" layoutY="190.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Full Name" styleClass="textField" stylesheets="@loginDesign.css" />
+                  <ComboBox fx:id="su_question" layoutX="40.0" layoutY="205.0" prefHeight="30.0" prefWidth="220.0" promptText="Question" styleClass="textField" stylesheets="@loginDesign.css" />
+                  <TextField fx:id="su_answer" layoutX="40.0" layoutY="245.0" onAction="#regisBtn" prefHeight="30.0" prefWidth="220.0" promptText="Answer" styleClass="textField" stylesheets="@loginDesign.css" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="fp_form" layoutX="300.0" prefHeight="400.0" prefWidth="300.0" styleClass="white" stylesheets="@loginDesign.css" visible="false">
