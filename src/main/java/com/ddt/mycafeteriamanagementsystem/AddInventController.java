@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import javafx.scene.input.MouseEvent;
 
 import java.io.File;
 import java.net.URL;
@@ -87,11 +88,12 @@ public class AddInventController implements Initializable {
         invent_add_status.setItems(listData);
     }
     @FXML
-    public void close() {
+    public void close(MouseEvent event)
+    {
         invent_add_cancel.getScene().getWindow().hide();
     }
 
-    public void inventoryAdd()
+    public void inventoryAdd(MouseEvent event)
     {
         if (invent_add_id.getText().isEmpty() ||
                 invent_add_name.getText().isEmpty() ||
@@ -158,7 +160,7 @@ public class AddInventController implements Initializable {
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
 
-                    close();
+                    close(event);
 
                 }
             } catch (Exception e)

@@ -1,5 +1,7 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +17,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,7 +68,7 @@ public class MainFormController implements Initializable {
     private Button inventory_reloadBtn;
 
     @FXML
-    private TableColumn<?, ?> inventory_col_change;
+    private TableColumn<ProductData, Void> inventory_col_change;
 
     @FXML
     private TableColumn<ProductData, String> inventory_col_date;
@@ -200,7 +204,7 @@ public class MainFormController implements Initializable {
     }
 
     // Hien data len bang
-    public void inventoryShowData()
+    /* public void inventoryShowData()
     {
         inventoryListData = InventoryDataList();
 
@@ -213,7 +217,76 @@ public class MainFormController implements Initializable {
         inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         inventory_tableView.setItems(inventoryListData);
+
     }
+     */
+
+
+    public void inventoryShowData() {
+        inventoryListData = InventoryDataList();
+
+        inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
+        inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        // Tạo một hàm callback để tạo các ô chứa nút cho mỗi hàng trong cột "Action"
+        Callback<TableColumn<ProductData, Void>, TableCell<ProductData, Void>> cellFactory = new Callback<>() {
+            @Override
+            public TableCell<ProductData, Void> call(final TableColumn<ProductData, Void> param) {
+                final TableCell<ProductData, Void> cell = new TableCell<>() {
+                    private final Button editButton = new Button("Edit");
+                    private final Button deleteButton = new Button("Delete");
+
+                    {
+                        // Xử lý sự kiện khi ấn nút 'Edit'
+                        editButton.setOnAction(event -> {
+                            // Lấy dữ liệu từ hàng tương ứng
+                            ProductData product = getTableView().getItems().get(getIndex());
+                            // Thực hiện hành động chỉnh sửa dữ liệu
+                            // Ví dụ: Hiển thị form chỉnh sửa với dữ liệu của 'product'
+                            // Sau khi chỉnh sửa, cập nhật dữ liệu trong bảng
+                            // Ví dụ: updateProduct(product);
+                        });
+
+                        // Xử lý sự kiện khi ấn nút 'Delete'
+                        deleteButton.setOnAction(event -> {
+                            // Lấy dữ liệu từ hàng tương ứng
+                            ProductData product = getTableView().getItems().get(getIndex());
+                            // Thực hiện hành động xóa dữ liệu
+                            // Ví dụ: xóa 'product' khỏi cơ sở dữ liệu
+                            // Sau khi xóa, cập nhật dữ liệu trong bảng
+                            // Ví dụ: deleteProduct(product);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        // Kiểm tra hàng trống hoặc không
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            // Nếu hàng không trống, hiển thị hai nút 'Edit' và 'Delete'
+                            HBox buttons = new HBox(editButton, deleteButton);
+                            buttons.setSpacing(5);
+                            setGraphic(buttons);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+// Thiết lập cellFactory cho cột 'Action'
+        inventory_col_change.setCellFactory(cellFactory );
+
+        inventory_tableView.setItems(inventoryListData);
+    }
+
 
     public void inventoryLoadData(ActionEvent event){
         if(event.getSource() == inventory_reloadBtn) {
