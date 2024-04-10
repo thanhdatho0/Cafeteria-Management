@@ -162,7 +162,6 @@ public class MainFormController implements Initializable {
     private AnchorPane main_form;
 
     private Alert alert;
-
     private Connection connect;
     private PreparedStatement prepare;
     private Statement statement;
@@ -524,7 +523,6 @@ public class MainFormController implements Initializable {
 //            customers_form.setVisible(true);
         }
     }
-
     public void menuReset(){
         totalP = 0;
         discount = 0;
