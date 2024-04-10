@@ -166,7 +166,6 @@ public class MainFormController implements Initializable {
     private AnchorPane main_form;
 
     private Alert alert;
-
     private Connection connect;
     private PreparedStatement prepare;
     private Statement statement;
@@ -174,7 +173,6 @@ public class MainFormController implements Initializable {
     private Image images;
     private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
     private ObservableList<ProductData> inventoryListData;
-    private ObservableList<ProductData> orderListData = FXCollections.observableArrayList();
     private int cID;
 
     //DashBoard function..............
@@ -386,9 +384,9 @@ public class MainFormController implements Initializable {
         }
     }
 
-    //Order function
     public ObservableList<ProductData> orderGetData(){
-        String sql = "SELECT * FROM product";
+        customerID();
+        String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
 
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
@@ -399,11 +397,13 @@ public class MainFormController implements Initializable {
 
             ProductData productData;
             while(result.next()){
-                productData = new ProductData(result.getInt("id"),
+                productData = new ProductData(
+                        result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("quantity"),
                         result.getDouble("price"),
-                        result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
@@ -414,6 +414,7 @@ public class MainFormController implements Initializable {
         return listData;
     }
 
+    private ObservableList<ProductData> orderListData = FXCollections.observableArrayList();
     public void orderDisplay(){
         orderListData.clear();
         orderListData.addAll(orderGetData());
@@ -440,14 +441,126 @@ public class MainFormController implements Initializable {
                 }
 
                 order_gridPane.add(pane, column++, row);
-//                GridPane.setMargin(pane, new Insets(17));
 
             }catch (Exception e){e.printStackTrace();}
-
         }
     }
 
+    private double totalP;
+    private int qty;
+    public void menuGetTotal(){
+        customerID();
+        String total = "SELECT SUM(price) FROM customer WHERE customer_id = " + cID;
 
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(total);
+            result  = prepare.executeQuery();
+
+            if(result.next()){
+                totalP = result.getDouble("SUM(price)");
+            }
+
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void menuGetAmount(){
+        customerID();
+        String amount = "SELECT SUM(quantity) FROM customer WHERE customer_id = " + cID;
+
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(amount);
+            result  = prepare.executeQuery();
+
+            if(result.next()){
+                qty = result.getInt("SUM(quantity)");
+            }
+
+        }catch (Exception e){e.printStackTrace();}
+    }
+
+    private double discount;
+    public void menuGetDiscount(){
+        menuGetAmount();
+        menuGetTotal();
+
+        if(qty < 10){
+            discount = totalP;
+            menu_total.setText(discount + " VND");
+        }
+        else{
+            discount = totalP - 20000;
+            menu_discount.setText("-" + 20000 + " VND");
+            menu_total.setText(discount + " VND");
+        }
+    }
+
+    public void menuDisplayTotal(){
+        menuGetAmount();
+        menu_amount.setText(String.valueOf(qty));
+        menuGetDiscount();
+    }
+
+    public void menuPayBtn(){
+        if(totalP == 0){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error message");
+            alert.setHeaderText(null);
+            alert.setContentText("Chon san pham de dit com me mai");
+            alert.showAndWait();
+        }
+        else{
+            menuGetTotal();
+            String insertPay = "INSERT INTO receipt (customer_id, total, date) "
+                    + "VALUES(?,?,?)";
+
+            connect = Database.connectDB();
+
+            try {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure?");
+                Optional<ButtonType> option = alert.showAndWait();
+
+                if(option.get().equals(ButtonType.OK)){
+                    customerID();
+                    menuGetTotal();
+                    menuGetDiscount();
+                    prepare = connect.prepareStatement(insertPay);
+                    prepare.setString(1, String.valueOf(cID));
+                    prepare.setString(2, String.valueOf(discount));
+
+                    Date date = new Date();
+                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+                    prepare.setString(3, String.valueOf(sqlDate));
+
+                    prepare.executeUpdate();
+
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successful");
+                    alert.showAndWait();
+
+                    orderDisplay();
+                    menuReset();
+                }
+                else{
+                    alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Information Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cancelled");
+                    alert.showAndWait();
+                }
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+    }
 
     //Chuyển Form
     public void switchForm(ActionEvent event){
@@ -472,6 +585,7 @@ public class MainFormController implements Initializable {
             menu_form.setVisible(true);
 //            customers_form.setVisible(false);
             menuDisplayCard();
+            menuDisplayTotal();
             orderDisplay();
 
         }
@@ -482,32 +596,15 @@ public class MainFormController implements Initializable {
 //            customers_form.setVisible(true);
         }
     }
-
-    public void logout(){
-        try {
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Error Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to logout?");
-            Optional<ButtonType> option = alert.showAndWait();
-
-            if(option.get().equals(ButtonType.OK)){
-                //Ẩn gioa
-                logout_btn.getScene().getWindow().hide();
-
-                //Limk lại trang đăng nhập
-                Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-
-                Stage stage = new Stage();
-                Scene scene = new Scene(root);
-
-                stage.setTitle("Cafe Shop");
-
-                stage.setScene(scene);;
-                stage.show();
-            }
-        }catch (Exception e){e.printStackTrace();}
+    public void menuReset(){
+        totalP = 0;
+        discount = 0;
+        qty = 0;
+        menu_total.setText("0 VND");
+        menu_amount.setText("0");
+        menu_discount.setText("0 VND");
     }
+
     public void customerID(){
         String sql = "SELECT MAX(customer_id) from customer";
         connect = Database.connectDB();
@@ -540,10 +637,38 @@ public class MainFormController implements Initializable {
 
         }catch (Exception e){e.printStackTrace();}
     }
+
+    public void logout(){
+        try {
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to logout?");
+            Optional<ButtonType> option = alert.showAndWait();
+
+            if(option.get().equals(ButtonType.OK)){
+                //Ẩn gioa
+                logout_btn.getScene().getWindow().hide();
+
+                //Limk lại trang đăng nhập
+                Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+
+                Stage stage = new Stage();
+                Scene scene = new Scene(root);
+
+                stage.setTitle("Cafe Shop");
+
+                stage.setScene(scene);;
+                stage.show();
+            }
+        }catch (Exception e){e.printStackTrace();}
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Đưa tất cả trong hàm này vào hàm switch form
         inventoryShowData();
+
+        menuDisplayCard();
     }
 }
