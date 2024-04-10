@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -191,12 +192,17 @@ public class MainFormController implements Initializable {
     public void addDisplay_invent() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
+            Parent root = fxmlLoader.load();
+
             Stage stage = new Stage();
             stage.setTitle("Cafeteria!");
             stage.setResizable(false);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(root);
             stage.setScene(scene);
-            stage.show();
+            stage.showAndWait();
 
         }catch (Exception e){e.printStackTrace();}
     }
