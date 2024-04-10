@@ -12,6 +12,7 @@ public class ProductData {
     private String status;
     private  String image;
     private Date date;
+    private Integer quantity;
 
     //Inventory_form
     public ProductData(Integer id, String productID, String productName, String type, Integer stock, Double price, String status, String image, Date date) {
@@ -39,12 +40,13 @@ public class ProductData {
     }
 
     //Order_form
-    public ProductData(Integer id, String productId, String productName, Double price, String status, String image, Date date){
+    public ProductData(Integer id, String productId, String productName, String type, Integer quantity, Double price, String image, Date date){
         this.id = id;
         this.productID = productId;
         this.productName = productName;
+        this.type =  type;
+        this.quantity = quantity;
         this.price = price;
-        this.status = status;
         this.image = image;
         this.date = date;
     }
@@ -84,6 +86,10 @@ public class ProductData {
 
     public Date getDate() {
         return date;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
     }
 }
 

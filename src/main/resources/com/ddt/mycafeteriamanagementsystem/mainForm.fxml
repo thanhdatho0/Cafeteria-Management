@@ -97,7 +97,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashBoard_form" prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashBoard_form" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="185.0" prefWidth="970.0" stylesheets="@mainForm.css" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                                  <styleClass>
@@ -288,7 +288,7 @@
                               </Button>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="menu_form" layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="menu_form" layoutX="14.0" layoutY="14.0" prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="635.0" layoutY="28.0" prefHeight="650.0" prefWidth="350.0" styleClass="statistics" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="21.600000000000023" AnchorPane.rightAnchor="14.600000000000023" AnchorPane.topAnchor="28.0">
                                  <children>
@@ -296,9 +296,9 @@
                                        <children>
                                           <VBox layoutX="26.0" layoutY="-33.6" prefHeight="195.2" prefWidth="350.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
-                                                <HBox prefHeight="45.0" prefWidth="350.0">
+                                                <HBox prefHeight="45.0" prefWidth="350.0" styleClass="ruler" stylesheets="@mainForm.css">
                                                    <children>
-                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Discount">
+                                                      <Label prefHeight="45.0" prefWidth="170.0" styleClass="text_bold" stylesheets="@mainForm.css" text="Discount">
                                                          <HBox.margin>
                                                             <Insets left="15.0" />
                                                          </HBox.margin>
@@ -316,9 +316,9 @@
                                                       </Label>
                                                    </children>
                                                 </HBox>
-                                                <HBox layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="350.0">
+                                                <HBox layoutX="10.0" layoutY="10.0" prefHeight="45.0" prefWidth="350.0" styleClass="ruler" stylesheets="@mainForm.css">
                                                    <children>
-                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Amount">
+                                                      <Label prefHeight="45.0" prefWidth="170.0" styleClass="text_bold" stylesheets="@mainForm.css" text="Amount">
                                                          <HBox.margin>
                                                             <Insets left="15.0" />
                                                          </HBox.margin>
@@ -338,7 +338,7 @@
                                                 </HBox>
                                                 <HBox layoutX="10.0" layoutY="56.0" prefHeight="45.0" prefWidth="350.0">
                                                    <children>
-                                                      <Label prefHeight="45.0" prefWidth="170.0" text="Total">
+                                                      <Label prefHeight="45.0" prefWidth="170.0" styleClass="text_bold" stylesheets="@mainForm.css" text="Total">
                                                          <HBox.margin>
                                                             <Insets left="15.0" />
                                                          </HBox.margin>
@@ -356,7 +356,7 @@
                                                       </Label>
                                                    </children>
                                                 </HBox>
-                                                <Button fx:id="menu_pay_btn" mnemonicParsing="false" prefHeight="42.0" prefWidth="350.0" stylesheets="@mainForm.css" text="Payment" textFill="WHITE">
+                                                <Button fx:id="menu_pay_btn" mnemonicParsing="false" onAction="#menuPayBtn" prefHeight="42.0" prefWidth="350.0" stylesheets="@mainForm.css" text="Payment" textFill="WHITE">
                                                    <font>
                                                       <Font size="15.0" />
                                                    </font>

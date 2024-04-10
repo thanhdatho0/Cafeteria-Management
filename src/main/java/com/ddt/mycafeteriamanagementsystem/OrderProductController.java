@@ -50,6 +50,7 @@ public class OrderProductController implements Initializable {
         String path = "File:" + productData.getImage();
         image = new Image(path, 40, 40, false, true);
         order_imageView.setImage(image);
+        order_quantity.setText(String.valueOf(productData.getQuantity()));
     }
 
     @Override

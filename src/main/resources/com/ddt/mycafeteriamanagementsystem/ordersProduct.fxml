@@ -31,7 +31,7 @@
                         <Insets left="2.0" />
                      </HBox.margin>
                   </VBox>
-                  <Label fx:id="order_quantity" alignment="CENTER" prefHeight="37.0" prefWidth="66.0" text="10">
+                  <Label fx:id="order_quantity" alignment="CENTER" prefHeight="37.0" prefWidth="66.0" styleClass="quantity" stylesheets="@orderProductDesign.css" text="10">
                      <font>
                         <Font size="14.0" />
                      </font>
