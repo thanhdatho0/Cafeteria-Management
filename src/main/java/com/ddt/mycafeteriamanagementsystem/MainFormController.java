@@ -264,18 +264,16 @@ public class MainFormController implements Initializable {
                             ProductData product = getTableView().getItems().get(getIndex());
                             // Thực hiện hành động chỉnh sửa dữ liệu
                             // Ví dụ: Hiển thị form chỉnh sửa với dữ liệu của 'product'
+                            addDisplay_invent();
                             // Sau khi chỉnh sửa, cập nhật dữ liệu trong bảng
                             // Ví dụ: updateProduct(product);
                         });
 
                         // Xử lý sự kiện khi ấn nút 'Delete'
                         deleteButton.setOnAction(event -> {
-                            // Lấy dữ liệu từ hàng tương ứng
                             ProductData product = getTableView().getItems().get(getIndex());
-                            // Thực hiện hành động xóa dữ liệu
-                            // Ví dụ: xóa 'product' khỏi cơ sở dữ liệu
-                            // Sau khi xóa, cập nhật dữ liệu trong bảng
-                            // Ví dụ: deleteProduct(product);
+                            DeleteProduct(product);
+                            inventoryLoadData();
                         });
                     }
 
@@ -304,11 +302,35 @@ public class MainFormController implements Initializable {
     }
 
 
-    public void inventoryLoadData(ActionEvent event){
-        if(event.getSource() == inventory_reloadBtn) {
+    public void DeleteProduct(ProductData prod)
+    {
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Error Message");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to DELETE Product ID: " + prod.getId() + " ?");
+        Optional<ButtonType> option =  alert.showAndWait();
+
+        if (option.get().equals(ButtonType.OK))
+        {
+            String deleteData = "DELETE FROM product WHERE id = " + prod.getId();
+            try {
+                prepare = connect.prepareStatement(deleteData);
+                prepare.executeUpdate();
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("successfully Deleted!");
+                alert.showAndWait();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    public void inventoryLoadData(){
             inventoryListData = InventoryDataList();
             inventory_tableView.setItems(inventoryListData);
-        }
     }
 
     public ObservableList<ProductData> InventoryDataList() {
