@@ -307,7 +307,7 @@ public class MainFormController implements Initializable {
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Error Message");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to DELETE Product ID: " + prod.getId() + " ?");
+        alert.setContentText("Are you sure you want to DELETE Product ID: " + prod.getProductID() + " ?");
         Optional<ButtonType> option =  alert.showAndWait();
 
         if (option.get().equals(ButtonType.OK))
