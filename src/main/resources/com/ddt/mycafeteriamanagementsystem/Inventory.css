@@ -45,6 +45,7 @@
 {
     -fx-background-color: #fff;
     -fx-padding: 0;
+    -fx-border-color: rgb(59, 128, 128);
 }
 
 .table-view .column-header-background

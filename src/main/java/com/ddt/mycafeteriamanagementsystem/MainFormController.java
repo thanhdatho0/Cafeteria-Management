@@ -98,13 +98,6 @@ public class MainFormController implements Initializable {
     @FXML
     private TableView<ProductData> inventory_tableView;
 
-
-
-
-
-
-
-
     //Biến trong menu_form
     @FXML
     private Button menu_all_btn;
@@ -162,9 +155,28 @@ public class MainFormController implements Initializable {
 
     @FXML
     private GridPane order_gridPane;
-    //
+
     @FXML
     private AnchorPane main_form;
+
+    //Biến trong customer_form
+    @FXML
+    private TableColumn<CustomerData, String> customer_col_cashier;
+
+    @FXML
+    private TableColumn<CustomerData, String> customer_col_customerID;
+
+    @FXML
+    private TableColumn<CustomerData, String> customer_col_date;
+
+    @FXML
+    private TableColumn<CustomerData, String> customer_col_total;
+
+    @FXML
+    private AnchorPane customer_form;
+
+    @FXML
+    private TableView<CustomerData> customer_tableView;
 
     private Alert alert;
     private Connection connect;
@@ -568,19 +580,57 @@ public class MainFormController implements Initializable {
         }
     }
 
+    //Customer_form
+    public ObservableList<CustomerData> customerDataList(){
+        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM receipt";
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+            CustomerData cData;
+
+            while (result.next()){
+                cData = new CustomerData(
+                        result.getInt("id"),
+                        result.getInt("customer_id"),
+                        result.getDouble("total"),
+                        result.getDate("date"));
+//                        result.getString("em_username"));
+
+                listData.add(cData);
+            }
+
+        }catch (Exception e){e.printStackTrace();}
+        return listData;
+    }
+
+    private ObservableList<CustomerData> customerListData;
+    public void customerShowData(){
+        customerListData = customerDataList();
+
+        customer_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        customer_col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        customer_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
+        customer_col_cashier.setCellValueFactory(new PropertyValueFactory<>("emUsername"));
+
+        customer_tableView.setItems(customerListData);
+    }
+
     //Chuyển Form
     public void switchForm(ActionEvent event){
         if(event.getSource() == dashboard_btn){
             dashBoard_form.setVisible(true);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
-//            customers_form.setVisible(false);
+            customer_form.setVisible(false);
         }
         else if(event.getSource() == inventory_btn){
             dashBoard_form.setVisible(false);
             inventory_form.setVisible(true);
             menu_form.setVisible(false);
-//            customers_form.setVisible(false);
+            customer_form.setVisible(false);
 
             inventoryShowData();
 
@@ -589,7 +639,8 @@ public class MainFormController implements Initializable {
             dashBoard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(true);
-//            customers_form.setVisible(false);
+            customer_form.setVisible(false);
+
             menuDisplayCard();
             menuDisplayTotal();
             orderDisplay();
@@ -599,7 +650,9 @@ public class MainFormController implements Initializable {
             dashBoard_form.setVisible(false);
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
-//            customers_form.setVisible(true);
+            customer_form.setVisible(true);
+
+            customerShowData();
         }
     }
     public void menuReset(){
@@ -676,5 +729,9 @@ public class MainFormController implements Initializable {
         inventoryShowData();
 
         menuDisplayCard();
+        menuDisplayTotal();
+        orderDisplay();
+
+        customerShowData();
     }
 }
