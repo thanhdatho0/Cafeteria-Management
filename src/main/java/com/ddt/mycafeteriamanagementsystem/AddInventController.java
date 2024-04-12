@@ -1,13 +1,12 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,12 +18,14 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 
 public class AddInventController implements Initializable {
 
+    private ProductData productData;
     @FXML
     private AnchorPane addInvent_form;
 
@@ -57,6 +58,8 @@ public class AddInventController implements Initializable {
 
     @FXML
     private ComboBox<String> invent_add_type;
+    @FXML
+    private Button invent_add_update;
     private Image image;
     private Alert alert;
     private Connection connect;
@@ -64,10 +67,31 @@ public class AddInventController implements Initializable {
     private ResultSet result;
     private PreparedStatement prepare;
 
-
-
     private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
     private String[] statusList = {"Available", "Unavailable"};
+
+    public void setAddInvent_form(ProductData productData)
+    {
+
+        this.productData = productData;
+        invent_add_id.setText(productData.getProductID());
+        invent_add_name.setText(productData.getProductName());
+        invent_add_stock.setText((String.valueOf(productData.getStock())));
+        invent_add_price.setText(String.valueOf(productData.getPrice()));
+        invent_add_type.setValue(productData.getType());
+        invent_add_status.setValue(productData.getStatus());
+
+        Data.path = productData.getImage();
+        Data.id = productData.getId();
+        String path = "File:" + productData.getImage();
+        image = new Image(path, 137,128,false,true);
+        invent_add_imageView.setImage(image);
+
+        invent_add_save.setVisible(false);
+        invent_add_update.setVisible(true);
+        invent_add_id.setEditable(false);
+        invent_add_name.setEditable(false);
+    }
     public void inventoryTypeList()
     {
         List<String> typeL = new ArrayList<>();
@@ -159,7 +183,6 @@ public class AddInventController implements Initializable {
                     alert.setHeaderText(null);
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
-
                     close(event);
 
                 }
@@ -168,10 +191,78 @@ public class AddInventController implements Initializable {
                 e.printStackTrace();
             }
         }
-
-
     }
 
+    public void updateProduct(MouseEvent event)
+    {
+        if (invent_add_type.getSelectionModel().getSelectedItem() == null
+                || invent_add_stock.getText().isEmpty()
+                || invent_add_stock.getText().isEmpty()
+                || invent_add_status.getSelectionModel().getSelectedItem() == null
+                || Data.path == null || Data.id == 0) {
+
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please fill all blank fields");
+            alert.showAndWait();
+
+        } else {
+
+            String path = Data.path;
+            path = path.replace("\\", "\\\\");
+
+            Date date = new Date(System.currentTimeMillis());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+            String updateData = "UPDATE product SET "
+                    + "prod_id = '" + invent_add_id.getText()
+                    + "', prod_name = '" + invent_add_name.getText()
+                    + "', type = '" + invent_add_type.getSelectionModel().getSelectedItem()
+                    + "', stock = '" + invent_add_stock.getText()
+                    + "', price = '" + invent_add_price.getText()
+                    + "', status = '" + invent_add_status.getSelectionModel().getSelectedItem()
+                    + "', image = '" + path
+                    + "', date = '"
+                    + sqlDate + "' WHERE id = " + Data.id;
+
+            connect = Database.connectDB();
+
+            try {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Error Message");
+                alert.setHeaderText(null);
+                alert.setContentText("Are you sure you want to UPDATE Product ID: " + invent_add_id.getText() + "?");
+                Optional<ButtonType> option = alert.showAndWait();
+
+                invent_add_save.setVisible(true);
+                invent_add_update.setVisible(false);
+
+                if (option.get().equals(ButtonType.OK)) {
+                    prepare = connect.prepareStatement(updateData);
+                    prepare.executeUpdate();
+
+                    alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Successfully Updated!");
+                    alert.showAndWait();
+
+                } else {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error Message");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Cancelled.");
+                    alert.showAndWait();
+                }
+
+                close(event);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void inventoryBrowse()
     {
         FileChooser openFile = new FileChooser();
@@ -190,7 +281,6 @@ public class AddInventController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         inventoryTypeList();
         inventoryStatusList();
     }

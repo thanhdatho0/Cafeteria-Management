@@ -1,7 +1,5 @@
 package com.ddt.mycafeteriamanagementsystem;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +20,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +28,6 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
     //Cây thư mục điều hướng
@@ -219,25 +215,31 @@ public class MainFormController implements Initializable {
         }catch (Exception e){e.printStackTrace();}
     }
 
-    // Hien data len bang
-    /* public void inventoryShowData()
-    {
-        inventoryListData = InventoryDataList();
+    @FXML
+    public void editForm(ProductData productData) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
 
-        inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
-        inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
-        inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
-        inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
-        inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        inventory_tableView.setItems(inventoryListData);
+            Parent root = fxmlLoader.load();
 
+            Stage stage = new Stage();
+            stage.setTitle("Cafeteria!");
+            stage.setResizable(false);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            AddInventController addIn = fxmlLoader.getController();
+            addIn.setAddInvent_form(productData);
+            stage.showAndWait();
+
+        }catch (Exception e){e.printStackTrace();}
     }
-     */
 
 
+    // Hien data len bang
     public void inventoryShowData() {
         inventoryListData = InventoryDataList();
 
@@ -260,13 +262,9 @@ public class MainFormController implements Initializable {
                     {
                         // Xử lý sự kiện khi ấn nút 'Edit'
                         editButton.setOnAction(event -> {
-                            // Lấy dữ liệu từ hàng tương ứng
                             ProductData product = getTableView().getItems().get(getIndex());
-                            // Thực hiện hành động chỉnh sửa dữ liệu
-                            // Ví dụ: Hiển thị form chỉnh sửa với dữ liệu của 'product'
-                            addDisplay_invent();
-                            // Sau khi chỉnh sửa, cập nhật dữ liệu trong bảng
-                            // Ví dụ: updateProduct(product);
+                            editForm(product);
+                            inventoryLoadData();
                         });
 
                         // Xử lý sự kiện khi ấn nút 'Delete'
@@ -326,7 +324,6 @@ public class MainFormController implements Initializable {
             }
         }
     }
-
 
     public void inventoryLoadData(){
             inventoryListData = InventoryDataList();
