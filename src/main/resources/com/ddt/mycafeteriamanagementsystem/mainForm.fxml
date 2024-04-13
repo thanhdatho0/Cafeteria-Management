@@ -262,7 +262,7 @@
                                     </TableView>
                                  </children>
                               </AnchorPane>
-                              <TextField layoutX="743.2" layoutY="15.2" maxWidth="300.0" prefHeight="27.0" prefWidth="225.0" styleClass="text-search" stylesheets="@mainForm.css" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="15.0" />
+                              <TextField fx:id="inventory_search" layoutX="743.2" layoutY="15.2" maxWidth="300.0" onAction="#searchInventory" prefHeight="27.0" prefWidth="225.0" styleClass="text-search" stylesheets="@mainForm.css" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="15.0" />
                               <ImageView fitHeight="28.0" fitWidth="18.0" layoutX="941.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="664.6" AnchorPane.rightAnchor="41.799999999999955" AnchorPane.topAnchor="19.0">
                                  <image>
                                     <Image url="@Img/search.png" />
@@ -423,7 +423,7 @@
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
-                                    <ImageView fx:id="menu_search_icon" fitHeight="20.0" fitWidth="20.0" layoutX="587.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="menu_search_icon" fitHeight="15.0" fitWidth="15.0" layoutX="588.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@Img/search.png" />
                                        </image>
