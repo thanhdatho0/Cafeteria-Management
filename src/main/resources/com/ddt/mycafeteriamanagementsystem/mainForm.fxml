@@ -46,7 +46,7 @@
                               </ImageView>
                            </children>
                         </AnchorPane>
-                        <Button fx:id="dashboard_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="176.63999460937515" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Dashboard" AnchorPane.bottomAnchor="474.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="177.0">
+                        <Button fx:id="dashboard_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="176.63999460937515" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Dashboard" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <graphic>
                               <ImageView fitHeight="30.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -55,7 +55,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="inventory_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="227.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Inventory" AnchorPane.bottomAnchor="423.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="227.0">
+                        <Button fx:id="inventory_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="227.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Inventory" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <graphic>
                               <ImageView fitHeight="27.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -64,7 +64,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="menu_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="277.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Menu" AnchorPane.bottomAnchor="373.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="277.0">
+                        <Button fx:id="menu_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="277.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Menu" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <graphic>
                               <ImageView fitHeight="25.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -73,7 +73,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="customers_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Customers" AnchorPane.bottomAnchor="323.4959801484381" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="327.0">
+                        <Button fx:id="customers_btn" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="327.0" mnemonicParsing="false" onAction="#switchForm" prefHeight="50.0" prefWidth="200.0" styleClass="btn_nav" stylesheets="@mainForm.css" text="Customers" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <graphic>
                               <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
