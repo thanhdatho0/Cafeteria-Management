@@ -12,6 +12,7 @@ public class ProductData {
     private String status;
     private  String image;
     private Date date;
+    private Integer quantity;
 
     //Inventory_form
     public ProductData(Integer id, String productID, String productName, String type, Integer stock, Double price, String status, String image, Date date) {
@@ -39,12 +40,13 @@ public class ProductData {
     }
 
     //Order_form
-    public ProductData(Integer id, String productId, String productName, Double price, String status, String image, Date date){
+    public ProductData(Integer id, String productId, String productName, String type, Integer quantity, Double price, String image, Date date){
         this.id = id;
         this.productID = productId;
         this.productName = productName;
+        this.type =  type;
+        this.quantity = quantity;
         this.price = price;
-        this.status = status;
         this.image = image;
         this.date = date;
     }
@@ -86,40 +88,8 @@ public class ProductData {
         return date;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public Integer getQuantity() {
+        return quantity;
     }
 }
 

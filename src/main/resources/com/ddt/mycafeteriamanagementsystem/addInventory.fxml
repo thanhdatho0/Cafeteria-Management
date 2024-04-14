@@ -112,8 +112,9 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="59.0" prefWidth="601.0" styleClass="add-bottom" stylesheets="@Inventory.css">
                      <children>
-                        <Button fx:id="invent_add_save" layoutX="426.0" layoutY="14.0" mnemonicParsing="false" onAction="#inventoryAdd" prefHeight="35.0" prefWidth="69.0" styleClass="btn-sa" stylesheets="@Inventory.css" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="9.039999296875017" />
-                        <Button fx:id="invent_add_cancel" layoutX="517.0" layoutY="14.0" mnemonicParsing="false" onAction="#close" prefHeight="35.0" prefWidth="69.0" styleClass="btn-ca" stylesheets="@Inventory.css" text="Cancel" AnchorPane.bottomAnchor="9.215999718750005" AnchorPane.topAnchor="13.823999578125012" />
+                        <Button fx:id="invent_add_save" layoutX="426.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#inventoryAdd" prefHeight="35.0" prefWidth="69.0" styleClass="btn-sa" stylesheets="@Inventory.css" text="Save" textFill="WHITE" AnchorPane.bottomAnchor="9.039999296875017" />
+                        <Button fx:id="invent_add_cancel" layoutX="517.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#close" prefHeight="35.0" prefWidth="69.0" styleClass="btn-ca" stylesheets="@Inventory.css" text="Cancel" AnchorPane.bottomAnchor="9.215999718750005" AnchorPane.topAnchor="13.823999578125012" />
+                        <Button fx:id="invent_add_update" layoutX="426.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#updateProduct" prefHeight="35.0" prefWidth="69.0" styleClass="btn-sa" stylesheets="@Inventory.css" text="Update" textFill="WHITE" visible="false" />
                      </children>
                   </AnchorPane>
                </children>
