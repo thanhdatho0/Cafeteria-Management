@@ -124,6 +124,7 @@ public class AddInventController implements Initializable {
                 invent_add_stock.getText().isEmpty() ||
                 invent_add_price.getText().isEmpty() ||
                 invent_add_type.getSelectionModel().getSelectedItem() == null ||
+                invent_add_status.getSelectionModel().getSelectedItem() == null ||
                 Data.path == null
         )
         {
