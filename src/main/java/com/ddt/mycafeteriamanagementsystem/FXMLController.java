@@ -136,7 +136,7 @@ public class FXMLController {
                 result = prepare.executeQuery();
 
                 if(result.next()){
-
+                    Data.username = si_username.getText();
                     // an cua so login de mo cua so moi
                     si_loginBtn.getScene().getWindow().hide();
 

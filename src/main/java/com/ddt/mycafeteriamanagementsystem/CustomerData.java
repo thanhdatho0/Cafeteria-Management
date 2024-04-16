@@ -10,12 +10,12 @@ public class CustomerData {
     private Date date;
     private String emUsername;
 
-    public CustomerData(Integer id, Integer customerID, Double total, Date date/*, String emUsername*/) {
+    public CustomerData(Integer id, Integer customerID, Double total, Date date, String emUsername) {
         this.id = id;
         this.customerID = customerID;
         this.total = total;
         this.date = date;
-//        this.emUsername = emUsername;
+        this.emUsername = emUsername;
     }
 
     public Integer getId() {

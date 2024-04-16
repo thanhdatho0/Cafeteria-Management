@@ -837,8 +837,8 @@ public class MainFormController implements Initializable {
         }
         else{
             menuGetTotal();
-            String insertPay = "INSERT INTO receipt (customer_id, total, date) "
-                    + "VALUES(?,?,?)";
+            String insertPay = "INSERT INTO receipt (customer_id, total, date, em_username) "
+                    + "VALUES(?,?,?,?)";
 
             connect = Database.connectDB();
 
@@ -861,6 +861,7 @@ public class MainFormController implements Initializable {
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
                     prepare.setString(3, String.valueOf(sqlDate));
+                    prepare.setString(4, Data.username);
 
                     prepare.executeUpdate();
 
@@ -910,8 +911,8 @@ public class MainFormController implements Initializable {
                         result.getInt("id"),
                         result.getInt("customer_id"),
                         result.getDouble("total"),
-                        result.getDate("date"));
-//                        result.getString("em_username"));
+                        result.getDate("date"),
+                        result.getString("em_username"));
 
                 listData.add(cData);
             }
