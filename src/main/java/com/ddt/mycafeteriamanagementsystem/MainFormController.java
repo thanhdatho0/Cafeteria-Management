@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -104,6 +105,9 @@ public class MainFormController implements Initializable {
     private TextField inventory_search;
 
     //Biến trong menu_form
+    @FXML
+    private Label menu_time;
+
     @FXML
     private Button menu_all_btn;
 
@@ -394,6 +398,15 @@ public class MainFormController implements Initializable {
     }
 
     //Product function
+    public void menuTime(){
+        Date date = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, d MMM, yyyy");
+        String formattedDate = dateFormat.format(date);
+
+        menu_time.setText(formattedDate);
+    }
+
     public ObservableList<ProductData> menuGetData(){
         String sql = "SELECT * FROM product";
 
@@ -990,6 +1003,7 @@ public class MainFormController implements Initializable {
             menu_form.setVisible(true);
             customer_form.setVisible(false);
 
+            menuTime();
             menuDisplayCard();
             menuDisplayTotal();
             orderDisplay();
@@ -1037,6 +1051,7 @@ public class MainFormController implements Initializable {
         //Đưa tất cả trong hàm này vào hàm switch form
         inventoryShowData();
 
+        menuTime();
         menuDisplayCard();
         menuDisplayTotal();
         orderDisplay();

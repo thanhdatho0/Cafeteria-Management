@@ -432,19 +432,19 @@
                                        <children>
                                           <Button fx:id="menu_all_btn" mnemonicParsing="false" onAction="#menuAllBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="All">
                                              <HBox.margin>
-                                                <Insets right="25.0" />
+                                                <Insets right="25.0" top="10.0" />
                                              </HBox.margin></Button>
                                           <Button fx:id="menu_drink_btn" mnemonicParsing="false" onAction="#menuDrinkBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Drink">
                                              <HBox.margin>
-                                                <Insets right="25.0" />
+                                                <Insets right="25.0" top="10.0" />
                                              </HBox.margin></Button>
                                           <Button fx:id="menu_mainFood_btn" mnemonicParsing="false" onAction="#menuMainFoodBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Main Food">
                                              <HBox.margin>
-                                                <Insets right="25.0" />
+                                                <Insets right="25.0" top="10.0" />
                                              </HBox.margin></Button>
                                           <Button fx:id="menu_fastFood_btn" mnemonicParsing="false" onAction="#menuFastFoodBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Fast Food">
                                              <HBox.margin>
-                                                <Insets />
+                                                <Insets top="10.0" />
                                              </HBox.margin></Button>
                                        </children>
                                     </HBox>
@@ -460,6 +460,11 @@
                                           </GridPane>
                                        </content>
                                     </ScrollPane>
+                                    <Label fx:id="menu_time" layoutX="168.0" layoutY="28.0" prefHeight="50.0" prefWidth="205.0" text="Monday, 16 Feb 2023">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                            </children>
