@@ -335,8 +335,6 @@ public class FXMLController {
             alert.setContentText("Not match");
             alert.showAndWait();
         }else {
-//            String getDate = "SELECT date FROM employee WHERE username = '"+ fp_username.getText() +"'";
-//            connect = Database.connectDB();
             employee = new Employee();
             employee.setPassword(rsp_newPassword.getText());
             employee.setUsername(fp_username.getText());
