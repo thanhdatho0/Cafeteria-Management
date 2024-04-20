@@ -25,6 +25,13 @@ import java.util.function.Consumer;
 
 public class AddInventController implements Initializable {
 
+//    private ProductData productData = new ProductData(invent_add_id.getText(), invent_add_name.getText(),
+//            invent_add_type.getSelectionModel().getSelectedItem(),
+//            Integer.parseInt(invent_add_stock.getText()),
+//            Double.parseDouble(invent_add_price.getText()),
+//            invent_add_status.getSelectionModel().getSelectedItem(),
+//            Data.);
+
     private ProductData productData;
     @FXML
     private AnchorPane addInvent_form;
@@ -72,7 +79,6 @@ public class AddInventController implements Initializable {
 
     public void setAddInvent_form(ProductData productData)
     {
-
         this.productData = productData;
         invent_add_id.setText(productData.getProductID());
         invent_add_name.setText(productData.getProductName());
@@ -156,28 +162,18 @@ public class AddInventController implements Initializable {
                 }
                 else
                 {
-                    String insertData = "insert into product "
-                            + "(prod_id, prod_name, type, stock, price, status, image, date) "
-                            + "values (?, ?, ?, ?, ?, ?, ?, ?)";
-
-                    prepare = connect.prepareStatement(insertData);
-                    prepare.setString(1, invent_add_id.getText());
-                    prepare.setString(2, invent_add_name.getText());
-                    prepare.setString(3, (String) invent_add_type.getSelectionModel().getSelectedItem());
-                    prepare.setString(4, invent_add_stock.getText());
-                    prepare.setString(5, invent_add_price.getText());
-                    prepare.setString(6, invent_add_status.getSelectionModel().getSelectedItem());
-
                     String path = Data.path;
                     path = path.replace("\\", "\\\\");
 
-                    prepare.setString(7, path);
                     Date date = new Date(System.currentTimeMillis());
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                    prepare.setString(8, String.valueOf(sqlDate));
-
-                    prepare.executeUpdate();
+                    InventoryDAO.getInstance().insert(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
+                            invent_add_type.getSelectionModel().getSelectedItem(),
+                            Integer.parseInt(invent_add_stock.getText()),
+                            Double.parseDouble(invent_add_price.getText()),
+                            invent_add_status.getSelectionModel().getSelectedItem(),
+                            path, sqlDate));
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Error Message");
@@ -215,19 +211,19 @@ public class AddInventController implements Initializable {
 
             Date date = new Date(System.currentTimeMillis());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-            String updateData = "UPDATE product SET "
-                    + "prod_id = '" + invent_add_id.getText()
-                    + "', prod_name = '" + invent_add_name.getText()
-                    + "', type = '" + invent_add_type.getSelectionModel().getSelectedItem()
-                    + "', stock = '" + invent_add_stock.getText()
-                    + "', price = '" + invent_add_price.getText()
-                    + "', status = '" + invent_add_status.getSelectionModel().getSelectedItem()
-                    + "', image = '" + path
-                    + "', date = '"
-                    + sqlDate + "' WHERE id = " + Data.id;
-
-            connect = Database.connectDB();
+//
+//            String updateData = "UPDATE product SET "
+//                    + "prod_id = '" + invent_add_id.getText()
+//                    + "', prod_name = '" + invent_add_name.getText()
+//                    + "', type = '" + invent_add_type.getSelectionModel().getSelectedItem()
+//                    + "', stock = '" + invent_add_stock.getText()
+//                    + "', price = '" + invent_add_price.getText()
+//                    + "', status = '" + invent_add_status.getSelectionModel().getSelectedItem()
+//                    + "', image = '" + path
+//                    + "', date = '"
+//                    + sqlDate + "' WHERE id = " + Data.id;
+//
+//            connect = Database.connectDB();
 
             try {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -240,8 +236,15 @@ public class AddInventController implements Initializable {
                 invent_add_update.setVisible(false);
 
                 if (option.get().equals(ButtonType.OK)) {
-                    prepare = connect.prepareStatement(updateData);
-                    prepare.executeUpdate();
+//                    prepare = connect.prepareStatement(updateData);
+//                    prepare.executeUpdate();
+
+                    InventoryDAO.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
+                            invent_add_type.getSelectionModel().getSelectedItem(),
+                            Integer.parseInt(invent_add_stock.getText()),
+                            Double.parseDouble(invent_add_price.getText()),
+                            invent_add_status.getSelectionModel().getSelectedItem(),
+                            path, sqlDate));
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Error Message");

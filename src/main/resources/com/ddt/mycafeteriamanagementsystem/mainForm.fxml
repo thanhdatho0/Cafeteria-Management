@@ -411,43 +411,72 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="700.0" prefWidth="630.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="369.6">
+                              <AnchorPane layoutX="19.967999390625017" prefHeight="702.0" prefWidth="594.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="386.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="29.0" prefHeight="49.0" prefWidth="153.0" text="DTDCafe" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="29.0">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="menu_search_text" layoutX="413.0" layoutY="38.0" prefHeight="30.0" prefWidth="200.0" promptText="Search for food, cafe, etc,..." styleClass="text-search" stylesheets="@mainForm.css">
+                                    <TextField fx:id="menu_search_text" layoutX="413.0" layoutY="38.0" prefHeight="30.0" prefWidth="200.0" promptText="Search for food, cafe, etc,..." styleClass="text-search" stylesheets="@mainForm.css" AnchorPane.rightAnchor="17.07998687500043" AnchorPane.topAnchor="38.0">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
                                     </TextField>
-                                    <ImageView fx:id="menu_search_icon" fitHeight="15.0" fitWidth="15.0" layoutX="588.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="menu_search_icon" fitHeight="15.0" fitWidth="15.0" layoutX="588.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="27.52798075781311" AnchorPane.topAnchor="46.0">
                                        <image>
                                           <Image url="@Img/search.png" />
                                        </image>
                                     </ImageView>
-                                    <HBox layoutX="14.0" layoutY="89.0" prefHeight="60.0" prefWidth="600.0" styleClass="category" stylesheets="@mainForm.css">
+                                    <Label fx:id="menu_time" layoutX="168.0" layoutY="28.0" prefHeight="50.0" prefWidth="205.0" text="Monday, 16 Feb 2023" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="257.27999214843777" AnchorPane.topAnchor="28.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <AnchorPane layoutY="89.08799728125008" prefHeight="590.0" prefWidth="594.0" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="89.0">
                                        <children>
-                                          <Button fx:id="menu_all_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="All" />
-                                          <Button fx:id="menu_mainFood_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="95.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Drink" />
-                                          <Button fx:id="menu_fastFood_btn" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Main Food" />
-                                          <Button fx:id="menu_all_btn1" mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Fast Food" />
+                                          <VBox prefHeight="612.8639812968756" prefWidth="593.6639818828131" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                             <children>
+                                                <HBox prefHeight="60.0" prefWidth="600.0" styleClass="category" stylesheets="@mainForm.css">
+                                                   <children>
+                                                      <Button fx:id="menu_all_btn" mnemonicParsing="false" onAction="#menuAllBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="All">
+                                                         <HBox.margin>
+                                                            <Insets right="25.0" top="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button fx:id="menu_drink_btn" mnemonicParsing="false" onAction="#menuDrinkBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Drink">
+                                                         <HBox.margin>
+                                                            <Insets right="25.0" top="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button fx:id="menu_mainFood_btn" mnemonicParsing="false" onAction="#menuMainFoodBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Main Food">
+                                                         <HBox.margin>
+                                                            <Insets right="25.0" top="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                      <Button fx:id="menu_fastFood_btn" mnemonicParsing="false" onAction="#menuFastFoodBtn" prefHeight="34.0" prefWidth="120.0" styleClass="btn_menu" stylesheets="@mainForm.css" text="Fast Food">
+                                                         <HBox.margin>
+                                                            <Insets top="10.0" />
+                                                         </HBox.margin>
+                                                      </Button>
+                                                   </children>
+                                                </HBox>
+                                                <ScrollPane fx:id="menu_scrollPane" prefHeight="560.0" prefWidth="594.0">
+                                                   <content>
+                                                      <GridPane fx:id="menu_gridPane" prefHeight="34.0" prefWidth="106.0">
+                                                        <columnConstraints>
+                                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                        </columnConstraints>
+                                                         <padding>
+                                                            <Insets left="8.0" />
+                                                         </padding>
+                                                      </GridPane>
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </VBox>
                                        </children>
-                                    </HBox>
-                                    <ScrollPane fx:id="menu_scrollPane" layoutX="13.0" layoutY="149.0" prefHeight="530.0" prefWidth="600.0">
-                                       <content>
-                                          <GridPane fx:id="menu_gridPane" prefHeight="34.0" prefWidth="106.0">
-                                            <columnConstraints>
-                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                            </columnConstraints>
-                                             <padding>
-                                                <Insets left="8.0" />
-                                             </padding>
-                                          </GridPane>
-                                       </content>
-                                    </ScrollPane>
+                                    </AnchorPane>
                                  </children>
                               </AnchorPane>
                            </children>

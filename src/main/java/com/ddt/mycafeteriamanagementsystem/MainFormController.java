@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -105,7 +106,19 @@ public class MainFormController implements Initializable {
 
     //Biến trong menu_form
     @FXML
+    private Label menu_time;
+
+    @FXML
     private Button menu_all_btn;
+
+    @FXML
+    private Button menu_drink_btn;
+
+    @FXML
+    private Button menu_fastFood_btn;
+
+    @FXML
+    private Button menu_mainFood_btn;
 
     @FXML
     private Label menu_amount;
@@ -126,16 +139,10 @@ public class MainFormController implements Initializable {
     private Label menu_discount;
 
     @FXML
-    private Button menu_fastFood_btn;
-
-    @FXML
     private AnchorPane menu_form;
 
     @FXML
     private GridPane menu_gridPane;
-
-    @FXML
-    private Button menu_mainFood_btn;
 
     @FXML
     private Label menu_orders;
@@ -391,8 +398,104 @@ public class MainFormController implements Initializable {
     }
 
     //Product function
+    public void menuTime(){
+        Date date = new Date();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, d MMM, yyyy");
+        String formattedDate = dateFormat.format(date);
+
+        menu_time.setText(formattedDate);
+    }
+
     public ObservableList<ProductData> menuGetData(){
         String sql = "SELECT * FROM product";
+
+        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ProductData productData;
+            while(result.next()){
+                productData = new ProductData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+
+                listData.add(productData);
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+        return listData;
+    }
+
+    public ObservableList<ProductData> menuDrinkData(){
+        String sql = "SELECT * FROM product WHERE type = 'Drink'";
+
+        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ProductData productData;
+            while(result.next()){
+                productData = new ProductData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+
+                listData.add(productData);
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+        return listData;
+    }
+
+    public ObservableList<ProductData> menuFastFoodData(){
+        String sql = "SELECT * FROM product WHERE type = 'Fast Food'";
+
+        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        connect = Database.connectDB();
+
+        try {
+            prepare = connect.prepareStatement(sql);
+            result = prepare.executeQuery();
+
+            ProductData productData;
+            while(result.next()){
+                productData = new ProductData(result.getInt("id"),
+                        result.getString("prod_id"),
+                        result.getString("prod_name"),
+                        result.getString("type"),
+                        result.getInt("stock"),
+                        result.getDouble("price"),
+                        result.getString("status"),
+                        result.getString("image"),
+                        result.getDate("date"));
+
+                listData.add(productData);
+            }
+        }catch (Exception e){e.printStackTrace();}
+
+        return listData;
+    }
+
+    public ObservableList<ProductData> menuMainFoodData(){
+        String sql = "SELECT * FROM product WHERE type = 'Main Food'";
 
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
@@ -451,6 +554,123 @@ public class MainFormController implements Initializable {
             }catch (Exception e){e.printStackTrace();}
         }
     }
+
+    public void menuAllBtn(){
+        menuDisplayCard();
+        menu_all_btn.getStyleClass().add("btn_clicked");
+        menu_drink_btn.getStyleClass().remove("btn_clicked");
+        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
+        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
+    }
+
+    public void menuDrinkBtn(){
+        cardListData.clear();
+        cardListData.addAll(menuDrinkData());
+
+        int row = 0;
+        int column = 0;
+
+        menu_gridPane.getChildren().clear();
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+
+        for(int q = 0; q < cardListData.size(); q++){
+
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("cardProduct.fxml"));
+                AnchorPane pane = load.load();
+                CardProductController cardC = load.getController();
+                cardC.setData(cardListData.get(q));
+
+                if(column == 3){
+                    column = 0;
+                    row += 1;
+                }
+
+                menu_gridPane.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(15));
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+        menu_all_btn.getStyleClass().remove("btn_clicked");
+        menu_drink_btn.getStyleClass().add("btn_clicked");
+        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
+        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
+    }
+
+    public void menuMainFoodBtn(){
+        cardListData.clear();
+        cardListData.addAll(menuMainFoodData());
+
+        int row = 0;
+        int column = 0;
+
+        menu_gridPane.getChildren().clear();
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+
+        for(int q = 0; q < cardListData.size(); q++){
+
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("cardProduct.fxml"));
+                AnchorPane pane = load.load();
+                CardProductController cardC = load.getController();
+                cardC.setData(cardListData.get(q));
+
+                if(column == 3){
+                    column = 0;
+                    row += 1;
+                }
+
+                menu_gridPane.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(15));
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+        menu_all_btn.getStyleClass().remove("btn_clicked");
+        menu_drink_btn.getStyleClass().remove("btn_clicked");
+        menu_mainFood_btn.getStyleClass().add("btn_clicked");
+        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
+    }
+
+    public void menuFastFoodBtn(){
+        cardListData.clear();
+        cardListData.addAll(menuFastFoodData());
+
+        int row = 0;
+        int column = 0;
+
+        menu_gridPane.getChildren().clear();
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+
+        for(int q = 0; q < cardListData.size(); q++){
+
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("cardProduct.fxml"));
+                AnchorPane pane = load.load();
+                CardProductController cardC = load.getController();
+                cardC.setData(cardListData.get(q));
+
+                if(column == 3){
+                    column = 0;
+                    row += 1;
+                }
+
+                menu_gridPane.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(15));
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+        menu_all_btn.getStyleClass().remove("btn_clicked");
+        menu_drink_btn.getStyleClass().remove("btn_clicked");
+        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
+        menu_fastFood_btn.getStyleClass().add("btn_clicked");
+    }
+
 //
 //    public void searchMenu(){
 //        FilteredList<ProductData> filter = new FilteredList<>(cardListData, e -> true);
@@ -630,8 +850,8 @@ public class MainFormController implements Initializable {
         }
         else{
             menuGetTotal();
-            String insertPay = "INSERT INTO receipt (customer_id, total, date) "
-                    + "VALUES(?,?,?)";
+            String insertPay = "INSERT INTO receipt (customer_id, total, date, em_username) "
+                    + "VALUES(?,?,?,?)";
 
             connect = Database.connectDB();
 
@@ -654,6 +874,7 @@ public class MainFormController implements Initializable {
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
                     prepare.setString(3, String.valueOf(sqlDate));
+                    prepare.setString(4, Data.username);
 
                     prepare.executeUpdate();
 
@@ -703,8 +924,8 @@ public class MainFormController implements Initializable {
                         result.getInt("id"),
                         result.getInt("customer_id"),
                         result.getDouble("total"),
-                        result.getDate("date"));
-//                        result.getString("em_username"));
+                        result.getDate("date"),
+                        result.getString("em_username"));
 
                 listData.add(cData);
             }
@@ -782,6 +1003,7 @@ public class MainFormController implements Initializable {
             menu_form.setVisible(true);
             customer_form.setVisible(false);
 
+            menuTime();
             menuDisplayCard();
             menuDisplayTotal();
             orderDisplay();
@@ -829,6 +1051,7 @@ public class MainFormController implements Initializable {
         //Đưa tất cả trong hàm này vào hàm switch form
         inventoryShowData();
 
+        menuTime();
         menuDisplayCard();
         menuDisplayTotal();
         orderDisplay();

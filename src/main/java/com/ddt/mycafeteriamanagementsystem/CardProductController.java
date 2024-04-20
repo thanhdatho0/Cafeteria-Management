@@ -136,8 +136,8 @@ public class CardProductController implements Initializable {
                     prod_image = prod_image.replace("\\", "\\\\");
 
                     String insertData = "INSERT INTO customer"
-                            + "(customer_id, prod_id, prod_name, type, quantity, price, date, image/*, em_username*/)"
-                            + "VALUES(?,?,?,?,?,?,?,?)";
+                            + "(customer_id, prod_id, prod_name, type, quantity, price, date, em_username, image)"
+                            + "VALUES(?,?,?,?,?,?,?,?,?)";
                     prepare = connect.prepareStatement(insertData);
                     prepare.setString(1, String.valueOf(Data.cID));
                     prepare.setString(2, prodID);
@@ -150,9 +150,9 @@ public class CardProductController implements Initializable {
                     Date date = new Date();
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                     prepare.setString(7, String.valueOf(sqlDate));
-                    prepare.setString(8, prod_image);
+                    prepare.setString(8, Data.username);
+                    prepare.setString(9, prod_image);
 
-//                    prepare.setString(6, Data.username);
                     prepare.executeUpdate();
 
                     int upStock = checkStck - qty;

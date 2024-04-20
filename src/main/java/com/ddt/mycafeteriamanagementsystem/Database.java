@@ -13,4 +13,19 @@ public class Database {
         }catch (Exception e){e.printStackTrace();}
         return null;
     }
+
+    public static void closeConnection(Connection c)
+    {
+        try {
+            if (c != null)
+                c.close();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
