@@ -13,10 +13,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -110,13 +106,10 @@ public class FXMLController {
     private Button rsp_backBtn;
     //END
 
-
-    //Trong slide mon JAVA co nhac toi may cai nay :))
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
-
     private Alert alert;
+
+    private Employee employee = null;
+    private EmployeeDAO employeeDAO = null;
 
     public void loginBtn(){
         if(si_username.getText().isEmpty() || si_password.getText().isEmpty()) {
@@ -126,16 +119,13 @@ public class FXMLController {
             alert.setContentText("Incorrect username/password");
             alert.showAndWait();
         }else {
-            String slctData = "SELECT username, password FROM employee WHERE username = ? and password = ?";
-            connect = Database.connectDB();
+            employee = new Employee();
+            employee.setUsername(si_username.getText());
+            employee.setPassword(si_password.getText());
+
+            employeeDAO = new EmployeeDAOImpl();
             try {
-                prepare = connect.prepareStatement(slctData);
-                prepare.setString(1, si_username.getText());
-                prepare.setString(2, si_password.getText());
-
-                result = prepare.executeQuery();
-
-                if(result.next()){
+                if(employeeDAO.login(employee).next()){
                     Data.username = si_username.getText();
                     // an cua so login de mo cua so moi
                     si_loginBtn.getScene().getWindow().hide();
@@ -173,40 +163,27 @@ public class FXMLController {
             alert.setContentText("May bi mu` ak");
             alert.show();
         }else {
-            String regisData = "INSERT INTO employee (username, password, question, answer, date)" + "VALUES(?, ?, ?, ?, ?)";
-            connect = Database.connectDB();
-
+            employee = new Employee(0,
+                    su_username.getText(),
+                    su_password.getText(),
+                    (String)su_question.getSelectionModel().getSelectedItem(),
+                    su_answer.getText());
+            employeeDAO = new EmployeeDAOImpl();
             try {
-
-                String usernameCheck = "SELECT username FROM employee WHERE username = '"+ su_username.getText() + "'";
-                prepare = connect.prepareStatement(usernameCheck);
-                result = prepare.executeQuery();
-
-
-                if(result.next()){
+                if(employeeDAO.isUserExist(employee).next()){
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Massage");
                     alert.setHeaderText(null);
                     alert.setContentText(su_username.getText() + " is already taken");
                     alert.showAndWait();
-                }else if(su_password.getText().length() < 8){
+                }else if(employee.getPassword().length() < 8){
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error Massage");
                     alert.setHeaderText(null);
                     alert.setContentText("Invalid password, at least 8 characters needed");
                     alert.showAndWait();
                 }else {
-                    prepare = connect.prepareStatement(regisData);
-                    prepare.setString(1, su_username.getText());
-                    prepare.setString(2, su_password.getText());
-                    prepare.setString(3, (String)su_question.getSelectionModel().getSelectedItem());
-                    prepare.setString(4, su_answer.getText());
-
-                    Date date = new Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    prepare.setString(5, String.valueOf(sqlDate));
-
-                    prepare.executeUpdate();
+                    employeeDAO.insert(employee);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Massage");
@@ -247,13 +224,6 @@ public class FXMLController {
 
     public void showQuestionList(ComboBox<?> cb){
         List<String> listOfQuest = new ArrayList<String>();
-        //Do du lieu tu mang vao list
-        /* Cach 1:
-        for(String data : questionList){
-            listOfQuest.add(data);
-        }
-         */
-        // Cach 2:
         Collections.addAll(listOfQuest, questionList);
         ObservableList listData = FXCollections.observableArrayList(listOfQuest);
         //su_question.setItems(listData);
@@ -324,16 +294,13 @@ public class FXMLController {
             alert.setContentText("Incorrect username/answer");
             alert.showAndWait();
         }else {
-            String checkTrueData = "SELECT username, question, answer FROM employee WHERE username = ? AND question = ? AND answer = ?";
-            connect = Database.connectDB();
+            employee = new Employee();
+            employee.setUsername(fp_username.getText());
+            employee.setQuestion((String)fp_question.getSelectionModel().getSelectedItem());
+            employee.setAnswer(fp_answer.getText());
             try {
-                prepare = connect.prepareStatement(checkTrueData);
-                prepare.setString(1, fp_username.getText());
-                prepare.setString(2, (String) fp_question.getSelectionModel().getSelectedItem());
-                prepare.setString(3, fp_answer.getText());
-                result = prepare.executeQuery();
-
-                if(result.next()){
+                employeeDAO = new EmployeeDAOImpl();
+                if(employeeDAO.isTrueInfo(employee).next()){
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
                     alert.setHeaderText(null);
@@ -368,22 +335,13 @@ public class FXMLController {
             alert.setContentText("Not match");
             alert.showAndWait();
         }else {
-            String getDate = "SELECT date FROM employee WHERE username = '"+ fp_username.getText() +"'";
-            connect = Database.connectDB();
+//            String getDate = "SELECT date FROM employee WHERE username = '"+ fp_username.getText() +"'";
+//            connect = Database.connectDB();
+            employee = new Employee();
+            employee.setPassword(rsp_newPassword.getText());
+            employee.setUsername(fp_username.getText());
             try{
-                prepare = connect.prepareStatement(getDate);
-                result = prepare.executeQuery();
-
-                String date = "";
-                if(result.next()){
-                    date = result.getString("date");
-                }
-
-                String updatePass = "UPDATE employee SET password = '"+ rsp_newPassword.getText() +"'" +
-                        ", date = '"+ date +"' WHERE username = '"+ fp_username.getText() +"'";
-
-                prepare = connect.prepareStatement(updatePass);
-                prepare.executeUpdate();
+                new EmployeeDAOImpl().updatePass(employee);
 
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Information Message");
