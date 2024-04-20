@@ -236,7 +236,6 @@ public class MainFormController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
 
-
             Parent root = fxmlLoader.load();
 
             Stage stage = new Stage();

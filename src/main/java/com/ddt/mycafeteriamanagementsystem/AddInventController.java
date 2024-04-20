@@ -24,14 +24,6 @@ import java.util.function.Consumer;
 
 
 public class AddInventController implements Initializable {
-
-//    private ProductData productData = new ProductData(invent_add_id.getText(), invent_add_name.getText(),
-//            invent_add_type.getSelectionModel().getSelectedItem(),
-//            Integer.parseInt(invent_add_stock.getText()),
-//            Double.parseDouble(invent_add_price.getText()),
-//            invent_add_status.getSelectionModel().getSelectedItem(),
-//            Data.);
-
     private ProductData productData;
     @FXML
     private AnchorPane addInvent_form;
@@ -74,6 +66,8 @@ public class AddInventController implements Initializable {
     private ResultSet result;
     private PreparedStatement prepare;
 
+    private String Path;
+
     private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
     private String[] statusList = {"Available", "Unavailable"};
 
@@ -86,9 +80,13 @@ public class AddInventController implements Initializable {
         invent_add_price.setText(String.valueOf(productData.getPrice()));
         invent_add_type.setValue(productData.getType());
         invent_add_status.setValue(productData.getStatus());
+        this.Path = productData.getImage();
 
-        Data.path = productData.getImage();
-        Data.id = productData.getId();
+//        Data.path = productData.getImage();
+
+//        InventoryDAOimpl.getInstance().get(productData.getId());
+
+//        Data.id = productData.getId();
         String path = "File:" + productData.getImage();
         image = new Image(path, 137,128,false,true);
         invent_add_imageView.setImage(image);
@@ -131,7 +129,7 @@ public class AddInventController implements Initializable {
                 invent_add_price.getText().isEmpty() ||
                 invent_add_type.getSelectionModel().getSelectedItem() == null ||
                 invent_add_status.getSelectionModel().getSelectedItem() == null ||
-                Data.path == null
+                invent_add_imageView.getImage() == null
         )
         {
             alert = new Alert(Alert.AlertType.ERROR);
@@ -162,13 +160,14 @@ public class AddInventController implements Initializable {
                 }
                 else
                 {
-                    String path = Data.path;
+                    String path = this.Path;
+
                     path = path.replace("\\", "\\\\");
 
                     Date date = new Date(System.currentTimeMillis());
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                    InventoryDAO.getInstance().insert(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
+                    InventoryDAOimpl.getInstance().insert(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
                             invent_add_type.getSelectionModel().getSelectedItem(),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
@@ -196,7 +195,7 @@ public class AddInventController implements Initializable {
                 || invent_add_stock.getText().isEmpty()
                 || invent_add_stock.getText().isEmpty()
                 || invent_add_status.getSelectionModel().getSelectedItem() == null
-                || Data.path == null || Data.id == 0) {
+                || invent_add_imageView == null) {
 
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
@@ -206,7 +205,7 @@ public class AddInventController implements Initializable {
 
         } else {
 
-            String path = Data.path;
+            String path = this.productData.getImage();
             path = path.replace("\\", "\\\\");
 
             Date date = new Date(System.currentTimeMillis());
@@ -239,7 +238,7 @@ public class AddInventController implements Initializable {
 //                    prepare = connect.prepareStatement(updateData);
 //                    prepare.executeUpdate();
 
-                    InventoryDAO.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
+                    InventoryDAOimpl.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
                             invent_add_type.getSelectionModel().getSelectedItem(),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
@@ -275,7 +274,7 @@ public class AddInventController implements Initializable {
         File file = openFile.showOpenDialog(null);
 
         if (file != null) {
-            Data.path = file.getAbsolutePath();
+          this.Path = file.getAbsolutePath();
             image = new Image(file.toURI().toString(), 137, 128, false, true);
 
             invent_add_imageView.setImage(image);
