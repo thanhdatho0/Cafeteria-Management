@@ -1,9 +1,7 @@
 package com.ddt.mycafeteriamanagementsystem;
 
-import javafx.beans.property.SimpleMapProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,9 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
-
-
 public class AddInventController implements Initializable {
     private ProductData productData;
     @FXML
@@ -61,16 +56,10 @@ public class AddInventController implements Initializable {
     private Button invent_add_update;
     private Image image;
     private Alert alert;
-    private Connection connect;
-    private Statement statement;
     private ResultSet result;
-    private PreparedStatement prepare;
-
     private String Path;
-
     private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
     private String[] statusList = {"Available", "Unavailable"};
-
     public void setAddInvent_form(ProductData productData)
     {
         this.productData = productData;
@@ -80,13 +69,9 @@ public class AddInventController implements Initializable {
         invent_add_price.setText(String.valueOf(productData.getPrice()));
         invent_add_type.setValue(productData.getType());
         invent_add_status.setValue(productData.getStatus());
+
         this.Path = productData.getImage();
 
-//        Data.path = productData.getImage();
-
-//        InventoryDAOimpl.getInstance().get(productData.getId());
-
-//        Data.id = productData.getId();
         String path = "File:" + productData.getImage();
         image = new Image(path, 137,128,false,true);
         invent_add_imageView.setImage(image);
@@ -120,7 +105,6 @@ public class AddInventController implements Initializable {
     {
         invent_add_cancel.getScene().getWindow().hide();
     }
-
     public void inventoryAdd(MouseEvent event)
     {
         if (invent_add_id.getText().isEmpty() ||
@@ -140,16 +124,9 @@ public class AddInventController implements Initializable {
         }
         else
         {
-            // kiem tra id item
-            String checkProdID = "select prod_id from product where prod_id = '"
-                    + invent_add_id.getText() + "'";
-
-            connect = Database.connectDB();
-
             try
             {
-                statement = connect.createStatement();
-                result = statement.executeQuery(checkProdID);
+                result = InventoryDAOimpl.getInstance().check(invent_add_id.getText());
 
                 if (result.next())
                 {
@@ -160,8 +137,12 @@ public class AddInventController implements Initializable {
                 }
                 else
                 {
+                    /* thay '\' trong link thanh '\\'
+                     do trong '\' trong java dc hieu la ky tu dac biet
+                     nen phem 1 dau '\' de tranh nham lan voi ky tu dac biet
+                     \ = \\ va \\ = \\\\
+                     */
                     String path = this.Path;
-
                     path = path.replace("\\", "\\\\");
 
                     Date date = new Date(System.currentTimeMillis());
@@ -180,7 +161,6 @@ public class AddInventController implements Initializable {
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();
                     close(event);
-
                 }
             } catch (Exception e)
             {
@@ -210,19 +190,6 @@ public class AddInventController implements Initializable {
 
             Date date = new Date(System.currentTimeMillis());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-//
-//            String updateData = "UPDATE product SET "
-//                    + "prod_id = '" + invent_add_id.getText()
-//                    + "', prod_name = '" + invent_add_name.getText()
-//                    + "', type = '" + invent_add_type.getSelectionModel().getSelectedItem()
-//                    + "', stock = '" + invent_add_stock.getText()
-//                    + "', price = '" + invent_add_price.getText()
-//                    + "', status = '" + invent_add_status.getSelectionModel().getSelectedItem()
-//                    + "', image = '" + path
-//                    + "', date = '"
-//                    + sqlDate + "' WHERE id = " + Data.id;
-//
-//            connect = Database.connectDB();
 
             try {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -235,8 +202,6 @@ public class AddInventController implements Initializable {
                 invent_add_update.setVisible(false);
 
                 if (option.get().equals(ButtonType.OK)) {
-//                    prepare = connect.prepareStatement(updateData);
-//                    prepare.executeUpdate();
 
                     InventoryDAOimpl.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
                             invent_add_type.getSelectionModel().getSelectedItem(),
@@ -258,7 +223,6 @@ public class AddInventController implements Initializable {
                     alert.setContentText("Cancelled.");
                     alert.showAndWait();
                 }
-
                 close(event);
 
             } catch (Exception e) {
@@ -279,9 +243,7 @@ public class AddInventController implements Initializable {
 
             invent_add_imageView.setImage(image);
         }
-
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         inventoryTypeList();

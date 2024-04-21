@@ -1,7 +1,6 @@
 package com.ddt.mycafeteriamanagementsystem;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class Database {
     public static Connection connectDB(){
@@ -24,8 +23,14 @@ public class Database {
         {
             e.printStackTrace();
         }
+    }
 
+    public static void closePreparedStatement(PreparedStatement preparedStatement) throws SQLException {
+        preparedStatement.close();
+    }
 
+    public static void closeResultSet(ResultSet resultSet) throws SQLException {
+        resultSet.close();
     }
 
 }

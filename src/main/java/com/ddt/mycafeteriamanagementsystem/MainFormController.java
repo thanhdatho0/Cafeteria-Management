@@ -325,10 +325,8 @@ public class MainFormController implements Initializable {
 
         if (option.get().equals(ButtonType.OK))
         {
-            String deleteData = "DELETE FROM product WHERE id = " + prod.getId();
             try {
-                prepare = connect.prepareStatement(deleteData);
-                prepare.executeUpdate();
+                InventoryDAOimpl.getInstance().delete(prod);
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -343,7 +341,6 @@ public class MainFormController implements Initializable {
     public void inventoryLoadData(){
             inventoryListData = InventoryDataList();
             inventory_tableView.setItems(inventoryListData);
-
     }
 
     public ObservableList<ProductData> InventoryDataList() {
