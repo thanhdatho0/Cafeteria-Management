@@ -199,6 +199,8 @@ public class MainFormController implements Initializable {
     private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
     private ObservableList<ProductData> inventoryListData;
     private int cID;
+    private Receipt receipt = null;
+    private ReceiptDAO receiptDAO = null;
 
     //DashBoard function..............
 
@@ -841,15 +843,10 @@ public class MainFormController implements Initializable {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error message");
             alert.setHeaderText(null);
-            alert.setContentText("Chon san pham de dit com me mai");
+            alert.setContentText("Please choose the product");
             alert.showAndWait();
         }
         else{
-            menuGetTotal();
-            String insertPay = "INSERT INTO receipt (customer_id, total, date, em_username) "
-                    + "VALUES(?,?,?,?)";
-
-            connect = Database.connectDB();
 
             try {
                 alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -862,17 +859,10 @@ public class MainFormController implements Initializable {
                     customerID();
                     menuGetTotal();
                     menuGetDiscount();
-                    prepare = connect.prepareStatement(insertPay);
-                    prepare.setString(1, String.valueOf(cID));
-                    prepare.setString(2, String.valueOf(discount));
 
-                    Date date = new Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-
-                    prepare.setString(3, String.valueOf(sqlDate));
-                    prepare.setString(4, Data.username);
-
-                    prepare.executeUpdate();
+                    receipt = new Receipt(0, cID, discount, Data.username);
+                    receiptDAO = new ReceiptDAOImpl();
+                    receiptDAO.insert(receipt);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
