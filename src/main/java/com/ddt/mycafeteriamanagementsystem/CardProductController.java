@@ -52,7 +52,10 @@ public class CardProductController implements Initializable {
     private double totalP;
     private double pr;
 
-
+    private Customer customer = null;
+    private CustomerDAO  customerDAO = null;
+    private Product product = null;
+    private ProductCardDAO productCardDAO = null;
 
     public void setData(ProductData productData){
         this.productData = productData;
@@ -97,7 +100,7 @@ public class CardProductController implements Initializable {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
-                alert.setContentText("Some thing wrong");
+                alert.setContentText("The product is out of stock/The product is unavailable, please wait for updates");
                 alert.showAndWait();
             }
             else{
@@ -113,16 +116,9 @@ public class CardProductController implements Initializable {
                 }
 
                 if(checkStck == 0){
-                    String updateStock =  "UPDATE product SET prod_name = '"
-                            +  prod_name.getText() + "', type = '"
-                            + type + "', stock = 0, price = " + pr
-                            + ", status = 'Unavailable', image = '"
-                            + prod_image + "', date = '"
-                            + prod_date + "' WHERE prod_id = '"
-                            + prodID + "'";
-
-                    prepare = connect.prepareStatement(updateStock);
-                    prepare.executeUpdate();
+                    product = new Product(0, prodID, prod_name.getText(), type, 0, pr, "Unavailable", prod_image, productData.getDate());
+                    productCardDAO = new ProductCardDAOImpl();
+                    productCardDAO.update(product);
                 }
 
                 if(checkStck < qty){
@@ -134,39 +130,17 @@ public class CardProductController implements Initializable {
                 }
                 else{
                     prod_image = prod_image.replace("\\", "\\\\");
-
-                    String insertData = "INSERT INTO customer"
-                            + "(customer_id, prod_id, prod_name, type, quantity, price, date, em_username, image)"
-                            + "VALUES(?,?,?,?,?,?,?,?,?)";
-                    prepare = connect.prepareStatement(insertData);
-                    prepare.setString(1, String.valueOf(Data.cID));
-                    prepare.setString(2, prodID);
-                    prepare.setString(3, prod_name.getText());
-                    prepare.setString(4, type);
-                    prepare.setString(5, String.valueOf(qty));
                     totalP = (qty * pr);
-                    prepare.setString(6, String.valueOf(totalP));
 
-                    Date date = new Date();
-                    java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                    prepare.setString(7, String.valueOf(sqlDate));
-                    prepare.setString(8, Data.username);
-                    prepare.setString(9, prod_image);
-
-                    prepare.executeUpdate();
+                    customer = new Customer(0, Data.cID, prodID, prod_name.getText(), type, qty, totalP, Data.username, prod_image);
+                    customerDAO = new CusotmerDAOImpl();
+                    customerDAO.insert(customer);
 
                     int upStock = checkStck - qty;
 
-                    String updateStock = "UPDATE product SET prod_name = '"
-                            +  prod_name.getText() + "', type = '"
-                            + type + "', stock = " + upStock + ", price = " + pr
-                            + ", status = '"
-                            + check + "', image = '"
-                            + prod_image + "', date = '"
-                            + prod_date + "' WHERE prod_id = '"
-                            + prodID + "'";
-                    prepare = connect.prepareStatement(updateStock);
-                    prepare.executeUpdate();
+                    product = new Product(0, prodID, prod_name.getText(), type, upStock, pr, check, prod_image, productData.getDate());
+                    productCardDAO = new ProductCardDAOImpl();
+                    productCardDAO.update(product);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");
