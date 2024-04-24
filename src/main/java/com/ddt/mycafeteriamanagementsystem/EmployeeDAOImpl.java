@@ -38,12 +38,22 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
     public List<Employee> getAll() throws SQLException {
         List<Employee> employeeList = new ArrayList<>();
-        int fId = 1;
-        Employee employee = get(fId);
-        while(employee != null){
+        connect = Database.connectDB();
+        String sql = "SELECT * FROM employee";
+        prepare = connect.prepareStatement(sql);
+        result = prepare.executeQuery();
+
+        if(result.next()){
+
+            Employee employee = new Employee(
+                    result.getInt("id"),
+                    result.getString("username"),
+                    result.getString("password"),
+                    result.getString("question"),
+                    result.getString("answer"),
+                    result.getDate("date")
+            );
             employeeList.add(employee);
-            fId++;
-            employee = get(fId);
         }
         return employeeList;
     }
