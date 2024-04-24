@@ -17,9 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -273,8 +271,8 @@ public class MainFormController implements Initializable {
             @Override
             public TableCell<ProductData, Void> call(final TableColumn<ProductData, Void> param) {
                 final TableCell<ProductData, Void> cell = new TableCell<>() {
-                    private final Button editButton = new Button("Edit");
-                    private final Button deleteButton = new Button("Delete");
+                    private final Button editButton = new Button();
+                    private final Button deleteButton = new Button();
 
                     {
                         // Xử lý sự kiện khi ấn nút 'Edit'
@@ -299,6 +297,8 @@ public class MainFormController implements Initializable {
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            deleteButton.getStyleClass().addAll("butTon", "deLete");
+                            editButton.getStyleClass().addAll("butTon", "eDit");
                             // Nếu hàng không trống, hiển thị hai nút 'Edit' và 'Delete'
                             HBox buttons = new HBox(editButton, deleteButton);
                             buttons.setSpacing(5);

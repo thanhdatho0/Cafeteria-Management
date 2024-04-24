@@ -89,3 +89,21 @@
 .reload-btn:hover{
     -fx-opacity: 0.4;
 }
+
+.butTon {
+    -fx-min-height: 30px;
+    -fx-min-width: 30px;
+    -fx-cursor: hand;
+    -fx-background-size: cover;
+    -fx-background-color: rgba(0, 0, 0, 0);
+}
+
+.eDit
+{
+    -fx-background-image: url("Img/edit.png");
+}
+
+.deLete
+{
+    -fx-background-image: url("Img/recycle-bin.png");
+}
