@@ -58,6 +58,7 @@ public class OrderProductController implements Initializable {
         image = new Image(path, 40, 40, false, true);
         order_imageView.setImage(image);
         order_quantity.setText(String.valueOf(productData.getQuantity()));
+        order_subtotal.setText(String.valueOf(productData.getPrice()));
     }
 
     public void orderGarbageBtn(){

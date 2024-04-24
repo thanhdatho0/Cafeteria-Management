@@ -201,6 +201,10 @@ public class MainFormController implements Initializable {
     private int cID;
     private Receipt receipt = null;
     private ReceiptDAO receiptDAO = null;
+    private OrderDetails orderDetails = null;
+    private OrderDetailsDAO orderDetailsDAO = null;
+    private Order order = null;
+    private OrderDAO orderDAO = null;
 
     //DashBoard function..............
 
@@ -262,7 +266,7 @@ public class MainFormController implements Initializable {
 
         inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
         inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("categories_id"));
         inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -360,7 +364,7 @@ public class MainFormController implements Initializable {
                 prodData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
+                        result.getInt("categories_id"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
@@ -420,7 +424,7 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
+                        result.getInt("categories_id"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
@@ -435,7 +439,7 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<ProductData> menuDrinkData(){
-        String sql = "SELECT * FROM product WHERE type = 'Drink'";
+        String sql = "SELECT * FROM product WHERE categories_id = 1";
 
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
@@ -449,7 +453,7 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
+                        result.getInt("categories_id"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
@@ -464,7 +468,7 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<ProductData> menuFastFoodData(){
-        String sql = "SELECT * FROM product WHERE type = 'Fast Food'";
+        String sql = "SELECT * FROM product WHERE categories_id = 2";
 
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
@@ -478,7 +482,7 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
+                        result.getInt("categories_id"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
@@ -493,7 +497,7 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<ProductData> menuMainFoodData(){
-        String sql = "SELECT * FROM product WHERE type = 'Main Food'";
+        String sql = "SELECT * FROM product WHERE categories_id = 3";
 
         ObservableList<ProductData> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
@@ -507,7 +511,7 @@ public class MainFormController implements Initializable {
                 productData = new ProductData(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
+                        result.getInt("categories_id"),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
@@ -735,7 +739,6 @@ public class MainFormController implements Initializable {
                         result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getString("type"),
                         result.getInt("quantity"),
                         result.getDouble("price"),
                         result.getString("image"),
@@ -859,6 +862,49 @@ public class MainFormController implements Initializable {
                     customerID();
                     menuGetTotal();
                     menuGetDiscount();
+
+//                    order = new Order(9, Data.username, cID);
+//                    orderDAO = new OrderDAOImpl();
+//                    orderDAO.insert(order);
+//
+//                    int quantity = 0;
+//                    orderGetData();
+//                    String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
+//                    connect = Database.connectDB();
+//
+//                    try {
+//                        prepare = connect.prepareStatement(sql);
+//                        result  = prepare.executeQuery();
+//
+//                        if(result.next()){
+//                            quantity = result.getInt("quantity");
+//                        }
+//
+//                    }catch (Exception e){e.printStackTrace();}
+//                    int prodID = 0;
+//                    customerID();
+//                    String value = "SELECT p.* FROM customer c "
+//                            + "INNER JOIN product p on c.prod_id = p.prod_id"
+//                            + " WHERE customer_id = " + cID;
+//
+//                    connect = Database.connectDB();
+//
+//                    try {
+//                        prepare = connect.prepareStatement(value);
+//                        result  = prepare.executeQuery();
+//
+//                        if(result.next()){
+//                            prodID = result.getInt("p.id");
+//                        }
+//
+//                    }catch (Exception e){e.printStackTrace();}
+//                    System.out.println(order.getId());
+//                    System.out.println(prodID);
+//                    System.out.println(quantity);
+//
+//                    orderDetails = new OrderDetails(order.getId(), prodID, quantity);
+//                    orderDetailsDAO = new OrderDetailsDAOImpl();
+//                    orderDetailsDAO.insert(orderDetails);
 
                     receipt = new Receipt(0, cID, discount, Data.username);
                     receiptDAO = new ReceiptDAOImpl();
