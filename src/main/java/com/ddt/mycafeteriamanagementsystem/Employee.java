@@ -15,7 +15,7 @@ public class Employee {
     public Employee(int id, String username, String password, String question, String answer, Date date) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.password = MD5.convert_to_MD5(password);
         this.question = question;
         this.answer = answer;
         this.date = date;
@@ -24,7 +24,7 @@ public class Employee {
     public Employee(int id, String username, String password, String question, String answer) {
         this.id = id;
         this.username = username;
-        this.password = password;
+        this.password = MD5.convert_to_MD5(password);
         this.question = question;
         this.answer = answer;
     }
@@ -50,7 +50,7 @@ public class Employee {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = MD5.convert_to_MD5(password);
     }
 
     public String getQuestion() {
