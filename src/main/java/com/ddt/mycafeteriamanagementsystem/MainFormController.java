@@ -31,9 +31,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
@@ -205,6 +203,12 @@ public class MainFormController implements Initializable {
     private OrderDetailsDAO orderDetailsDAO = null;
     private Order order = null;
     private OrderDAO orderDAO = null;
+    private Employee employee = null;
+    private EmployeeDAOImpl employeeDAO = null;
+    private Product product = null;
+    private ProductCardDAO productCardDAO = null;
+    private Customer customer = null;
+    private CusotmerDAOImpl cusotmerDAO = null;
 
     //DashBoard function..............
 
@@ -764,7 +768,7 @@ public class MainFormController implements Initializable {
         order_gridPane.getRowConstraints().clear();
         order_gridPane.getColumnConstraints().clear();
 
-        for(int q = 0; q <  orderListData.size(); q++){
+        for(int q = 0; q < orderListData.size(); q++){
 
             try {
                 FXMLLoader load = new FXMLLoader();
@@ -842,6 +846,12 @@ public class MainFormController implements Initializable {
         menuGetDiscount();
     }
 
+    int employee_id;
+    int prodID;
+    String prodNameCus;
+    int quantityCus;
+    int order_id;
+
     public void menuPayBtn(){
         if(totalP == 0){
             alert = new Alert(Alert.AlertType.ERROR);
@@ -859,53 +869,65 @@ public class MainFormController implements Initializable {
                 alert.setContentText("Are you sure?");
                 Optional<ButtonType> option = alert.showAndWait();
 
+                employee_id = 0;
+                order_id = 0;
+
                 if(option.get().equals(ButtonType.OK)){
                     customerID();
                     menuGetTotal();
                     menuGetDiscount();
+                    customerID();
 
-//                    order = new Order(9, Data.username, cID);
-//                    orderDAO = new OrderDAOImpl();
-//                    orderDAO.insert(order);
-//
-//                    int quantity = 0;
-//                    orderGetData();
-//                    String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
-//                    connect = Database.connectDB();
-//
-//                    try {
-//                        prepare = connect.prepareStatement(sql);
-//                        result  = prepare.executeQuery();
-//
-//                        if(result.next()){
-//                            quantity = result.getInt("quantity");
-//                        }
-//
-//                    }catch (Exception e){e.printStackTrace();}
-//                    int prodID = 0;
-//                    customerID();
-//                    String value = "SELECT p.* FROM customer c "
-//                            + "INNER JOIN product p on c.prod_id = p.prod_id"
-//                            + " WHERE customer_id = " + cID;
-//
-//                    connect = Database.connectDB();
-//
-//                    try {
-//                        prepare = connect.prepareStatement(value);
-//                        result  = prepare.executeQuery();
-//
-//                        if(result.next()){
-//                            prodID = result.getInt("p.id");
-//                        }
-//
-//                    }catch (Exception e){e.printStackTrace();}
-//                    System.out.println(order.getId());
-//                    System.out.println(prodID);
-//                    System.out.println(quantity);
-//
-//                    orderDetails = new OrderDetails(order.getId(), prodID, quantity);
-//                    orderDetailsDAO = new OrderDetailsDAOImpl();
-//                    orderDetailsDAO.insert(orderDetails);
+                    //Lay ID la primary key cua employee de insert vao order
+                    employee = new Employee();
+                    employeeDAO = new EmployeeDAOImpl();
+                    ResultSet resultSetEpl = employeeDAO.getIDEmployee(employee);
+                    if(resultSetEpl.next()){
+                        employee_id = resultSetEpl.getInt("id");
+                    }
+
+                    //Dien du lieu vao table order khi co khoa ngoai la ID cua employee
+                    order = new Order();
+                    order.setEmployee_id(employee_id);
+                    orderDAO = new OrderDAOImpl();
+                    orderDAO.insert(order);
+                    ResultSet resultSetOrder = orderDAO.getAllOrder(order);
+                    //Lay id cua order_id la primary key de insert vao orderDetail
+                    if(resultSetOrder.next()){
+                        order_id = resultSetOrder.getInt("MAX(id)");
+                    }
+
+                    /**
+                     * OrderDetail can prod_id va quantity => lay thong qua customer
+                     */
+
+                    //Lay prod_name va quantity cua customer da mua
+                    customer = new Customer();
+                    customer.setCustomer_id(cID);
+                    cusotmerDAO = new CusotmerDAOImpl();
+                    ResultSet resultSetCus = cusotmerDAO.getAllCustomer(customer);
+
+                    try {
+                        //Dung vong lap de lay het ten mon va so luong cua 1 khach hang
+                        while(resultSetCus.next()){
+                            prodNameCus = resultSetCus.getString("prod_name");
+                            quantityCus = resultSetCus.getInt("quantity");
+
+                            //Lay dc prod_name thi se lay dc ID la primary key cua product
+                            product = new Product();
+                            product.setProd_name(prodNameCus);
+                            productCardDAO = new ProductCardDAOImpl();
+                            ResultSet resultSetProd = productCardDAO.getIDProduct(product);
+                            if(resultSetProd.next()){
+                                prodID = resultSetProd.getInt("id");
+                            }
+
+                            //Dien vao order detail
+                            orderDetails = new OrderDetails(order_id, prodID, quantityCus);
+                            orderDetailsDAO = new OrderDetailsDAOImpl();
+                            orderDetailsDAO.insert(orderDetails);
+                        }
+                    }catch (Exception e){e.printStackTrace();}
 
                     receipt = new Receipt(0, cID, discount, Data.username);
                     receiptDAO = new ReceiptDAOImpl();

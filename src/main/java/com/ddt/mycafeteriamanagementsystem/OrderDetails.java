@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetails {
-    private int id;
+    private int order_id;
     private int prod_id;
     private int quantity;
     private Order order;
@@ -12,33 +12,33 @@ public class OrderDetails {
 
     public OrderDetails() {}
 
-    public OrderDetails(int id, int prod_id, int quantity) {
-        this.id = id;
+    public OrderDetails(int order_id, int prod_id, int quantity) {
+        this.order_id = order_id;
         this.prod_id = prod_id;
         this.quantity = quantity;
     }
 
-    public OrderDetails(int id, int prod_id, int quantity, Order order) {
-        this.id = id;
+    public OrderDetails(int order_id, int prod_id, int quantity, Order order) {
+        this.order_id = order_id;
         this.prod_id = prod_id;
         this.quantity = quantity;
         this.order = order;
     }
 
-    public OrderDetails(int id, int prod_id, int quantity, Order order, List<ProductData> productList) {
-        this.id = id;
+    public OrderDetails(int order_id, int prod_id, int quantity, Order order, List<ProductData> productList) {
+        this.order_id = order_id;
         this.prod_id = prod_id;
         this.quantity = quantity;
         this.order = order;
         this.productList = productList;
     }
 
-    public int getId() {
-        return id;
+    public int getOrder_id() {
+        return order_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrder_id(int id) {
+        this.order_id = id;
     }
 
     public int getProd_id() {

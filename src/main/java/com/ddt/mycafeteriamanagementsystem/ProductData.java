@@ -15,6 +15,8 @@ public class ProductData {
     private Integer quantity;
     private double pr;
 
+    public ProductData() {}
+
     //Inventory_form
     public ProductData(Integer id, String productID, String productName, int categories_id, Integer stock, Double price, String status, String image, Date date) {
         this.id = id;
@@ -75,6 +77,10 @@ public class ProductData {
         return productName;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
     public int getCategories_id() {
         return categories_id;
     }
@@ -101,6 +107,10 @@ public class ProductData {
 
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public double getPr() {

@@ -53,4 +53,14 @@ public class ProductCardDAOImpl implements ProductCardDAO{
     public void delete(Product product) throws SQLException {
 
     }
+
+    @Override
+    public ResultSet getIDProduct(Product product) throws SQLException {
+        connect = Database.connectDB();
+        String sql = "SELECT id FROM product WHERE prod_name = ?";
+        prepare = connect.prepareStatement(sql);
+        prepare.setString(1, product.getProd_name());
+        result = prepare.executeQuery();
+        return result;
+    }
 }

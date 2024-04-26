@@ -70,4 +70,14 @@ public class CusotmerDAOImpl implements CustomerDAO{
 
         return result;
     }
+
+    @Override
+    public ResultSet getAllCustomer(Customer customer) throws SQLException {
+        connect = Database.connectDB();
+        String sql = "SELECT * FROM customer WHERE customer_id = ?";
+        prepare = connect.prepareStatement(sql);
+        prepare.setString(1, String.valueOf(customer.getCustomer_id()));
+        result = prepare.executeQuery();
+        return result;
+    }
 }
