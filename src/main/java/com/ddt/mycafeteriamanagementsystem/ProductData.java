@@ -13,6 +13,7 @@ public class ProductData {
     private  String image;
     private Date date;
     private Integer quantity;
+    private double pr;
 
     //Inventory_form
     public ProductData(Integer id, String productID, String productName, int categories_id, Integer stock, Double price, String status, String image, Date date) {
@@ -100,6 +101,14 @@ public class ProductData {
 
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public double getPr() {
+        return pr;
+    }
+
+    public void setPr(double pr) {
+        this.pr = pr;
     }
 }
 
