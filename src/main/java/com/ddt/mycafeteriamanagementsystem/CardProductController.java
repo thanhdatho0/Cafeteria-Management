@@ -41,7 +41,7 @@ public class CardProductController implements Initializable {
     private int qty;
     private String prodID;
     private String prod_image;
-    private String type;
+    private int categories_id;
     private String prod_date;
 
 
@@ -62,7 +62,7 @@ public class CardProductController implements Initializable {
 
         prod_image = productData.getImage();
         prod_date = String.valueOf(productData.getDate());
-        type = productData.getType();
+        categories_id = productData.getCategories_id();
         prodID = productData.getProductID();
 
         prod_name.setText(productData.getProductName());
@@ -116,7 +116,7 @@ public class CardProductController implements Initializable {
                 }
 
                 if(checkStck == 0){
-                    product = new Product(0, prodID, prod_name.getText(), type, 0, pr, "Unavailable", prod_image, productData.getDate());
+                    product = new Product(0, prodID, prod_name.getText(), categories_id, 0, pr, "Unavailable", prod_image, productData.getDate());
                     productCardDAO = new ProductCardDAOImpl();
                     productCardDAO.update(product);
                 }
@@ -129,16 +129,16 @@ public class CardProductController implements Initializable {
                     alert.showAndWait();
                 }
                 else{
-                    prod_image = prod_image.replace("\\", "\\\\");
+//                    prod_image = prod_image.replace("\\", "\\\\");
                     totalP = (qty * pr);
 
-                    customer = new Customer(0, Data.cID, prodID, prod_name.getText(), type, qty, totalP, Data.username, prod_image);
+                    customer = new Customer(0, Data.cID, prodID, prod_name.getText(), categories_id, qty, totalP, Data.username, prod_image);
                     customerDAO = new CusotmerDAOImpl();
                     customerDAO.insert(customer);
 
                     int upStock = checkStck - qty;
 
-                    product = new Product(0, prodID, prod_name.getText(), type, upStock, pr, check, prod_image, productData.getDate());
+                    product = new Product(0, prodID, prod_name.getText(), categories_id, upStock, pr, check, prod_image, productData.getDate());
                     productCardDAO = new ProductCardDAOImpl();
                     productCardDAO.update(product);
 
