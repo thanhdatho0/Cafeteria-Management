@@ -329,7 +329,7 @@ public class MainFormController implements Initializable {
         {
             try {
                 InventoryDAOimpl.getInstance().delete(prod);
-                alert = new Alert(Alert.AlertType.ERROR);
+                alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
                 alert.setContentText("successfully Deleted!");
