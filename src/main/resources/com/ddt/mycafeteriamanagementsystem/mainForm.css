@@ -109,3 +109,12 @@
 .text_bold{
     -fx-font-weight: 700;
 }
+
+.summary-wrapper{
+    position: relative;
+}
+
+.summary-wrapper-children{
+    position: absolute;
+    -fx-min-width: 25%;
+}

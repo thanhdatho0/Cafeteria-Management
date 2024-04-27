@@ -202,15 +202,6 @@ public class MainFormController implements Initializable {
 
     //DashBoard function..............
 
-
-
-
-
-
-
-
-
-
     //Inventory function
     @FXML
     public void addDisplay_invent() {

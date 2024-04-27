@@ -107,9 +107,9 @@
                                  <children>
                                     <ScrollPane layoutX="254.0" layoutY="-30.0" prefHeight="185.6" prefWidth="969.5999999999999" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <content>
-                                          <AnchorPane prefHeight="169.0" prefWidth="1135.0" styleClass="border" stylesheets="@mainForm.css">
+                                          <AnchorPane fx:id="summary_wrapper" prefHeight="169.0" prefWidth="1135.0" stylesheets="@mainForm.css">
                                              <children>
-                                                <AnchorPane layoutX="15.0" layoutY="8.0" prefHeight="154.0" prefWidth="300.0" styleClass="gradient" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="8.0">
+                                                <AnchorPane layoutX="15.0" layoutY="8.0" prefHeight="154.0" prefWidth="300.0" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="8.0">
                                                    <children>
                                                       <ImageView fitHeight="82.0" fitWidth="94.0" layoutX="14.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -127,8 +127,12 @@
                                                          </font>
                                                       </Label>
                                                    </children>
+                                                   <styleClass>
+                                                      <String fx:value="gradient" />
+                                                      <String fx:value="summary-wrapper-children" />
+                                                   </styleClass>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="340.0" layoutY="7.0" prefHeight="154.0" prefWidth="300.0" styleClass="gradient" stylesheets="@mainForm.css">
+                                                <AnchorPane layoutX="340.0" layoutY="7.0" prefHeight="154.0" prefWidth="300.0" stylesheets="@mainForm.css">
                                                    <children>
                                                       <ImageView fitHeight="82.0" fitWidth="94.0" layoutX="14.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -146,8 +150,12 @@
                                                          </font>
                                                       </Label>
                                                    </children>
+                                                   <styleClass>
+                                                      <String fx:value="gradient" />
+                                                      <String fx:value="summary-wrapper-children" />
+                                                   </styleClass>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="665.0" layoutY="8.0" prefHeight="154.0" prefWidth="300.0" styleClass="gradient" stylesheets="@mainForm.css">
+                                                <AnchorPane layoutX="665.0" layoutY="8.0" prefHeight="154.0" prefWidth="300.0" stylesheets="@mainForm.css">
                                                    <children>
                                                       <ImageView fitHeight="82.0" fitWidth="94.0" layoutX="14.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -165,8 +173,12 @@
                                                          </font>
                                                       </Label>
                                                    </children>
+                                                   <styleClass>
+                                                      <String fx:value="gradient" />
+                                                      <String fx:value="summary-wrapper-children" />
+                                                   </styleClass>
                                                 </AnchorPane>
-                                                <AnchorPane layoutX="990.0" layoutY="7.0" prefHeight="154.0" prefWidth="300.0" styleClass="gradient" stylesheets="@mainForm.css">
+                                                <AnchorPane layoutX="990.0" layoutY="7.0" prefHeight="154.0" prefWidth="300.0" stylesheets="@mainForm.css">
                                                    <children>
                                                       <ImageView fitHeight="82.0" fitWidth="94.0" layoutX="14.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                                                          <image>
@@ -184,8 +196,16 @@
                                                          </font>
                                                       </Label>
                                                    </children>
+                                                   <styleClass>
+                                                      <String fx:value="gradient" />
+                                                      <String fx:value="summary-wrapper-children" />
+                                                   </styleClass>
                                                 </AnchorPane>
                                              </children>
+                                             <styleClass>
+                                                <String fx:value="border" />
+                                                <String fx:value="summary-wrapper" />
+                                             </styleClass>
                                           </AnchorPane>
                                        </content>
                                        <styleClass>
@@ -247,14 +267,14 @@
                                  <children>
                                     <TableView fx:id="inventory_tableView" layoutX="89.08799728125008" layoutY="70.65599784375007" prefHeight="592.1279819296881" prefWidth="915.4559720625009" stylesheets="@Inventory.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <columns>
-                                        <TableColumn fx:id="inventory_col_id" maxWidth="100.0" prefWidth="75.0" text="ID" />
-                                        <TableColumn fx:id="inventory_col_name" maxWidth="300.0" prefWidth="209.66390228271484" text="Name" />
+                                        <TableColumn fx:id="inventory_col_id" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="ID" />
+                                        <TableColumn fx:id="inventory_col_name" maxWidth="300.0" prefWidth="210.0" text="Name" />
                                           <TableColumn fx:id="inventory_col_type" maxWidth="125.0" minWidth="0.0" prefWidth="100.0" text="Type" />
                                           <TableColumn fx:id="inventory_col_stock" maxWidth="100.0" prefWidth="70.0" text="Stock" />
                                           <TableColumn fx:id="inventory_col_price" maxWidth="175.0" prefWidth="150.0" resizable="false" text="Price" />
                                           <TableColumn fx:id="inventory_col_status" maxWidth="110.0" text="Status" />
                                           <TableColumn fx:id="inventory_col_date" maxWidth="130.0" minWidth="0.0" prefWidth="100.0" text="Date" />
-                                          <TableColumn fx:id="inventory_col_change" maxWidth="500.0" minWidth="0.0" prefWidth="110.5919189453125" />
+                                          <TableColumn fx:id="inventory_col_change" maxWidth="500.0" minWidth="0.0" prefWidth="110.0" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
