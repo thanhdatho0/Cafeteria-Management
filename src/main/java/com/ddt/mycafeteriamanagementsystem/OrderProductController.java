@@ -53,11 +53,12 @@ public class OrderProductController implements Initializable {
 
         getID = productData.getId();
         order_name.setText(productData.getProductName());
-        order_price.setText(String.valueOf(productData.getPrice()) + " VND");
+        order_price.setText(String.valueOf(productData.getPr()) + " VND");
         String path = "File:" + productData.getImage();
         image = new Image(path, 40, 40, false, true);
         order_imageView.setImage(image);
         order_quantity.setText(String.valueOf(productData.getQuantity()));
+        order_subtotal.setText(String.valueOf(productData.getPrice()) + " VND");
     }
 
     public void orderGarbageBtn(){

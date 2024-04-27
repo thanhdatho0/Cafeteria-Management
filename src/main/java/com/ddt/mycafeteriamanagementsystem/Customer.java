@@ -7,7 +7,7 @@ public class Customer {
     private int customer_id;
     private String prod_id;
     private String prod_name;
-    private String type;
+    private int categories_id;
     private int quantity;
     private double price;
     private Date date;
@@ -16,24 +16,24 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(int id, int customer_id, String prod_id, String prod_name, String type, int quantity, double price, String em_username, String image) {
+    public Customer(int id, int customer_id, String prod_id, String prod_name, int categories_id, int quantity, double price, String em_username, String image) {
         this.id = id;
         this.customer_id = customer_id;
         this.prod_id = prod_id;
         this.prod_name = prod_name;
-        this.type = type;
+        this.categories_id = categories_id;
         this.quantity = quantity;
         this.price = price;
         this.em_username = em_username;
         this.image = image;
     }
 
-    public Customer(int id, int customer_id, String prod_id, String prod_name, String type, int quantity, double price, Date date, String em_username, String image) {
+    public Customer(int id, int customer_id, String prod_id, String prod_name, int categories_id, int quantity, double price, Date date, String em_username, String image) {
         this.id = id;
         this.customer_id = customer_id;
         this.prod_id = prod_id;
         this.prod_name = prod_name;
-        this.type = type;
+        this.categories_id = categories_id;
         this.quantity = quantity;
         this.price = price;
         this.date = date;
@@ -73,12 +73,12 @@ public class Customer {
         this.prod_name = prod_name;
     }
 
-    public String getType() {
-        return type;
+    public int getCategories_id() {
+        return categories_id;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategories_id(int categories_id) {
+        this.categories_id = categories_id;
     }
 
     public int getQuantity() {
@@ -128,7 +128,7 @@ public class Customer {
                 ", customer_id=" + customer_id +
                 ", prod_id='" + prod_id + '\'' +
                 ", prod_name='" + prod_name + '\'' +
-                ", type='" + type + '\'' +
+                ", categories_id='" + categories_id + '\'' +
                 ", quantity=" + quantity +
                 ", date=" + date +
                 ", em_username='" + em_username + '\'' +

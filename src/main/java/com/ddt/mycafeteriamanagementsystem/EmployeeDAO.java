@@ -12,4 +12,6 @@ public interface EmployeeDAO extends DAO<Employee>{
 
     void updatePass(Employee employee) throws SQLException;
 
+    ResultSet getIDEmployee(Employee employee) throws SQLException;
+
 }

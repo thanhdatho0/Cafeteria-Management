@@ -26,14 +26,14 @@ public class InventoryDAOimpl implements ProductDAO {
             int Id = res.getInt("id");
             String prodId = res.getString("prod_id");
             String prodName = res.getString("prod_name");
-            String type = res.getString("type");
+            int categoriesId = res.getInt("categories_id");
             int stock = res.getInt("stock");
             Double price = res.getDouble("price");
             String status = res.getString("status");
             String img = res.getString("image");
             java.sql.Date date = res.getDate("date");
 
-            productData = new ProductData(Id, prodId, prodName, type, stock, price, status, img, date);
+            productData = new ProductData(Id, prodId, prodName, categoriesId, stock, price, status, img, date);
         }
         return productData;
     }
@@ -59,14 +59,14 @@ public class InventoryDAOimpl implements ProductDAO {
     {
             // Tạo ket noi den CSDL
             Connection connection = Database.connectDB();
-            String sql =  "insert into product(prod_id, prod_name, type, stock, price, status, image, date)"
+            String sql =  "insert into product(prod_id, prod_name, categories_id, stock, price, status, image, date)"
                             + "values (?, ?, ?, ?, ?, ?, ?, ?)";
 
             PreparedStatement prepare = connection.prepareStatement(sql);
 
             prepare.setString(1, productData.getProductID());
             prepare.setString(2, productData.getProductName());
-            prepare.setString(3, productData.getType());
+            prepare.setInt(3, productData.getCategories_id());
             prepare.setInt(4, productData.getStock());
             prepare.setDouble(5, productData.getPrice());
             prepare.setString(6, productData.getStatus());
@@ -85,13 +85,13 @@ public class InventoryDAOimpl implements ProductDAO {
             // Tạo ket noi den CSDL
             Connection connection = Database.connectDB();
             // thuc  thi cau len sql
-            String sql = "UPDATE product SET prod_id = ?, prod_name = ?, type = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE prod_id = ?";
+            String sql = "UPDATE product SET prod_id = ?, prod_name = ?, categories_id = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE prod_id = ?";
 
             PreparedStatement prepare = connection.prepareStatement(sql);
 
             prepare.setString(1, productData.getProductID());
             prepare.setString(2, productData.getProductName());
-            prepare.setString(3, productData.getType());
+        prepare.setInt(3, productData.getCategories_id());
             prepare.setInt(4, productData.getStock());
             prepare.setDouble(5, productData.getPrice());
             prepare.setString(6, productData.getStatus());

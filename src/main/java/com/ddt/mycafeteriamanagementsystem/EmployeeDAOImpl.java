@@ -167,4 +167,14 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
         prepare.executeUpdate();
     }
+
+    @Override
+    public ResultSet getIDEmployee(Employee employee) throws SQLException {
+        connect = Database.connectDB();
+        String sql = "SELECT id FROM employee WHERE username = ?";
+        prepare = connect.prepareStatement(sql);
+        prepare.setString(1, Data.username);
+        result = prepare.executeQuery();
+        return result;
+    }
 }

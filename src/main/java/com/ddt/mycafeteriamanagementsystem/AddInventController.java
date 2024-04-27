@@ -51,7 +51,7 @@ public class AddInventController implements Initializable {
     private TextField invent_add_stock;
 
     @FXML
-    private ComboBox<String> invent_add_type;
+    private ComboBox<Integer> invent_add_type;
     @FXML
     private Button invent_add_update;
     private Image image;
@@ -60,6 +60,10 @@ public class AddInventController implements Initializable {
     private String Path;
     private String[]  typeList = {"Drink", "Fast Food", "Main Food"};
     private String[] statusList = {"Available", "Unavailable"};
+    private Categories categories = null;
+    private CategoriesDAOImpl categoriesDAO = null;
+    int categories_id[];
+
     public void setAddInvent_form(ProductData productData)
     {
         this.productData = productData;
@@ -67,7 +71,7 @@ public class AddInventController implements Initializable {
         invent_add_name.setText(productData.getProductName());
         invent_add_stock.setText((String.valueOf(productData.getStock())));
         invent_add_price.setText(String.valueOf(productData.getPrice()));
-        invent_add_type.setValue(productData.getType());
+        invent_add_type.setValue(productData.getCategories_id());
         invent_add_status.setValue(productData.getStatus());
 
         this.Path = productData.getImage();
@@ -84,9 +88,31 @@ public class AddInventController implements Initializable {
     public void inventoryTypeList()
     {
         List<String> typeL = new ArrayList<>();
-        for (String data : typeList)
-            typeL.add(data);
+        for (String data : typeList) {
+            try {
+                categories = new Categories(0, data);
+                if(!CategoriesDAOImpl.checkCategories(categories)){
+                    categoriesDAO = new CategoriesDAOImpl();
+                    categoriesDAO.insert(categories);
+                }
+                else continue;
 
+            } catch (Exception e) {}
+        }
+
+        int index = 0;
+        categories_id = new int[100];
+
+        categories = new Categories();
+        try {
+            categoriesDAO = new CategoriesDAOImpl();
+            ResultSet resultSet = categoriesDAO.getAllCate(categories);
+            while (resultSet.next()){
+                categories_id[index] = resultSet.getInt("id");
+                index++;
+                typeL.add(resultSet.getString("typeName"));
+            }
+        } catch (SQLException e) {e.printStackTrace();}
         ObservableList listData = FXCollections.observableArrayList(typeL);
         invent_add_type.setItems(listData);
     }
@@ -149,7 +175,7 @@ public class AddInventController implements Initializable {
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
                     InventoryDAOimpl.getInstance().insert(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
-                            invent_add_type.getSelectionModel().getSelectedItem(),
+                            categories_id[invent_add_type.getSelectionModel().getSelectedIndex()],
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
                             invent_add_status.getSelectionModel().getSelectedItem(),
@@ -204,7 +230,7 @@ public class AddInventController implements Initializable {
                 if (option.get().equals(ButtonType.OK)) {
 
                     InventoryDAOimpl.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
-                            invent_add_type.getSelectionModel().getSelectedItem(),
+                            categories_id[invent_add_type.getSelectionModel().getSelectedIndex()],
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
                             invent_add_status.getSelectionModel().getSelectedItem(),
