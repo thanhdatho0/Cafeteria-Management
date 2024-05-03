@@ -40,7 +40,7 @@ public class OrderProductController implements Initializable {
     @FXML
     private Label order_subtotal;
 
-    private ProductData productData;
+    private Product product;
     private Image image;
     private Alert alert;
     private Connection connect;
@@ -48,17 +48,17 @@ public class OrderProductController implements Initializable {
     private int getID;
 
 
-    public void setData(ProductData productData){
-        this.productData = productData;
+    public void setData(Product product){
+        this.product = product;
 
-        getID = productData.getId();
-        order_name.setText(productData.getProductName());
-        order_price.setText(String.valueOf(productData.getPr()) + " VND");
-        String path = "File:" + productData.getImage();
+        getID = product.getId();
+        order_name.setText(product.getProd_name());
+        order_price.setText(String.valueOf(product.getPr()) + " VND");
+        String path = "File:" + product.getImage();
         image = new Image(path, 40, 40, false, true);
         order_imageView.setImage(image);
-        order_quantity.setText(String.valueOf(productData.getQuantity()));
-        order_subtotal.setText(String.valueOf(productData.getPrice()) + " VND");
+        order_quantity.setText(String.valueOf(product.getQuantity()));
+        order_subtotal.setText(String.valueOf(product.getPrice()) + " VND");
     }
 
     public void orderGarbageBtn(){

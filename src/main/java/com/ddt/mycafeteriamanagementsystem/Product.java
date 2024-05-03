@@ -9,9 +9,12 @@ public class Product {
     private Categories categories;
     private int stock;
     private double price;
+    private int quantity;
     private String status;
     private  String image;
     private Date date;
+    private double pr;
+
 
     //public Product() {}
 
@@ -26,6 +29,29 @@ public class Product {
         this.image = image;
         this.date = date;
     }
+
+    public Product(String prod_id, String prod_name, Categories categories, int stock, double price, String status, String image, Date date) {
+        this.prod_id = prod_id;
+        this.prod_name = prod_name;
+        this.categories = categories;
+        this.stock = stock;
+        this.price = price;
+        this.status = status;
+        this.image = image;
+        this.date = date;
+    }
+
+    //Order_form
+    public Product(int id, String productId, String prod_name, int quantity, double price, String image, Date date){
+        this.id = id;
+        this.prod_id = productId;
+        this.prod_name = prod_name;
+        this.quantity = quantity;
+        this.price = price;
+        this.image = image;
+        this.date = date;
+    }
+
 
     public Product() {this(0, null, null, null, 0, 0, null, null, null);}
 
@@ -99,5 +125,14 @@ public class Product {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+    public double getPr() {
+        return pr;
+    }
+    public void setPr(double pr) {
+        this.pr = pr;
+    }
+    public int getQuantity() {
+        return quantity;
     }
 }

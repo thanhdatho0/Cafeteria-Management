@@ -9,6 +9,7 @@ public class Data {
     public static Date date;
 
     public static Integer id;
-    public static ProductData productData;
+
+    public static Product product;
     public static  Integer cID;
 }
