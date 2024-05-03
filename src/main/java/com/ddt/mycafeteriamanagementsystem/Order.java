@@ -49,7 +49,7 @@ public class Order {
         this.items = items;
     }
 
-//    public void addItems(ProductData prod_id, int quantity, double price){
+//    public void addItems(Product prod_id, int quantity, double price){
 //        this.items.add(new OrderDetails(id, prod_id, quantity, price));
 //    }
 }

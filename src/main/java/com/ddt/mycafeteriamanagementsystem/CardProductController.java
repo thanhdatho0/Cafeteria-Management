@@ -35,7 +35,7 @@ public class CardProductController implements Initializable {
     @FXML
     private Spinner<Integer> prod_spinner;
 
-    private ProductData productData;
+//    private Product product;
     private Image image;
     private SpinnerValueFactory<Integer> spin;
     private int qty;

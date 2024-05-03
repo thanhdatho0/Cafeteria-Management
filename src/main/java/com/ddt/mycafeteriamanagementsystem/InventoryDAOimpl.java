@@ -10,38 +10,38 @@ public class InventoryDAOimpl implements ProductDAO {
         return new InventoryDAOimpl();
     }
 
-    @Override
-    public ProductData get(int id) throws SQLException {
-        Connection connection = Database.connectDB();
-        ProductData productData = null;
-        String sql = "SELECT * FROM product WHERE id = ?";
-        PreparedStatement prepare = connection.prepareStatement(sql);
-        prepare.setInt(1, id);
-
-        ResultSet res = prepare.executeQuery();
-
-        // kiem tra truy van co tra ve mot ban du lieu ko
-        if (res.next())
-        {
-            int Id = res.getInt("id");
-            String prodId = res.getString("prod_id");
-            String prodName = res.getString("prod_name");
-            int categoriesId = res.getInt("categories_id");
-            int stock = res.getInt("stock");
-            Double price = res.getDouble("price");
-            String status = res.getString("status");
-            String img = res.getString("image");
-            java.sql.Date date = res.getDate("date");
-
-            productData = new ProductData(Id, prodId, prodName, categoriesId, stock, price, status, img, date);
-        }
-        return productData;
+//    @Override
+    public Product get(int id) throws SQLException {
+//        Connection connection = Database.connectDB();
+//        Product product = null;
+//        String sql = "SELECT * FROM product WHERE id = ?";
+//        PreparedStatement prepare = connection.prepareStatement(sql);
+//        prepare.setInt(1, id);
+//
+//        ResultSet res = prepare.executeQuery();
+//
+//        // kiem tra truy van co tra ve mot ban du lieu ko
+//        if (res.next())
+//        {
+//            int Id = res.getInt("id");
+//            String prodId = res.getString("prod_id");
+//            String prodName = res.getString("prod_name");
+//            int categoriesId = res.getInt("categories_id");
+//            int stock = res.getInt("stock");
+//            Double price = res.getDouble("price");
+//            String status = res.getString("status");
+//            String img = res.getString("image");
+//            java.sql.Date date = res.getDate("date");
+//
+//            product = new Product(Id, prodId, prodName, categoriesId, stock, price, status, img, date);
+//        }
+        return null;
     }
     @Override
-    public List<ProductData> getAll() throws SQLException {
-        List<ProductData> productDataList = new ArrayList<>();
+    public List<Product> getAll() throws SQLException {
+        List<Product> productDataList = new ArrayList<>();
         int pId = 1;
-        ProductData prod = get(pId);
+        Product prod = get(pId);
         while(prod != null){
             productDataList.add(prod);
             pId++;
@@ -51,11 +51,11 @@ public class InventoryDAOimpl implements ProductDAO {
         return productDataList;
     }
     @Override
-    public int save(ProductData productData) throws SQLException {
+    public int save(Product product) throws SQLException {
         return 0;
     }
     @Override
-    public void insert(ProductData productData) throws SQLException
+    public void insert(Product product) throws SQLException
     {
             // Tạo ket noi den CSDL
             Connection connection = Database.connectDB();
@@ -64,14 +64,14 @@ public class InventoryDAOimpl implements ProductDAO {
 
             PreparedStatement prepare = connection.prepareStatement(sql);
 
-            prepare.setString(1, productData.getProductID());
-            prepare.setString(2, productData.getProductName());
-            prepare.setInt(3, productData.getCategories_id());
-            prepare.setInt(4, productData.getStock());
-            prepare.setDouble(5, productData.getPrice());
-            prepare.setString(6, productData.getStatus());
-            prepare.setString(7, productData.getImage());
-            prepare.setString(8, String.valueOf(productData.getDate()));
+            prepare.setString(1, product.getProd_id());
+            prepare.setString(2, product.getProd_name());
+            prepare.setInt(3, product.getCategories().getId());
+            prepare.setInt(4, product.getStock());
+            prepare.setDouble(5, product.getPrice());
+            prepare.setString(6, product.getStatus());
+            prepare.setString(7, product.getImage());
+            prepare.setString(8, String.valueOf(product.getDate()));
 
             prepare.executeUpdate();
 
@@ -81,7 +81,7 @@ public class InventoryDAOimpl implements ProductDAO {
             Database.closeConnection(connection);
     }
     @Override
-    public void update(ProductData productData) throws SQLException {
+    public void update(Product product) throws SQLException {
             // Tạo ket noi den CSDL
             Connection connection = Database.connectDB();
             // thuc  thi cau len sql
@@ -89,15 +89,15 @@ public class InventoryDAOimpl implements ProductDAO {
 
             PreparedStatement prepare = connection.prepareStatement(sql);
 
-            prepare.setString(1, productData.getProductID());
-            prepare.setString(2, productData.getProductName());
-        prepare.setInt(3, productData.getCategories_id());
-            prepare.setInt(4, productData.getStock());
-            prepare.setDouble(5, productData.getPrice());
-            prepare.setString(6, productData.getStatus());
-            prepare.setString(7, productData.getImage());
-            prepare.setString(8, String.valueOf(productData.getDate()));
-            prepare.setString(9, productData.getProductID());
+            prepare.setString(1, product.getProd_id());
+            prepare.setString(2, product.getProd_name());
+        prepare.setInt(3, product.getCategories().getId());
+            prepare.setInt(4, product.getStock());
+            prepare.setDouble(5, product.getPrice());
+            prepare.setString(6, product.getStatus());
+            prepare.setString(7, product.getImage());
+            prepare.setString(8, String.valueOf(product.getDate()));
+            prepare.setString(9, product.getProd_id());
 
             prepare.executeUpdate();
             System.out.println("ban da :" + sql);
@@ -118,11 +118,11 @@ public class InventoryDAOimpl implements ProductDAO {
 
 
     @Override
-    public void delete(ProductData productData) throws SQLException {
+    public void delete(Product product) throws SQLException {
         Connection connect = Database.connectDB();
         String sql = "DELETE FROM product WHERE id = ?";
         PreparedStatement prepare = connect.prepareStatement(sql);
-        prepare.setInt(1, productData.getId());
+        prepare.setInt(1, product.getId());
 
         prepare.executeUpdate();
         System.out.println("ban da :" + sql);

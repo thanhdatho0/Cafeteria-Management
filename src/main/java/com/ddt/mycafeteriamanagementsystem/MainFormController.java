@@ -80,34 +80,34 @@ public class MainFormController implements Initializable {
     private Button inventory_reloadBtn;
 
     @FXML
-    private TableColumn<ProductData, Void> inventory_col_change;
+    private TableColumn<Product, Void> inventory_col_change;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_date;
+    private TableColumn<Product, String> inventory_col_date;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_id;
+    private TableColumn<Product, String> inventory_col_id;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_name;
+    private TableColumn<Product, String> inventory_col_name;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_price;
+    private TableColumn<Product, String> inventory_col_price;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_status;
+    private TableColumn<Product, String> inventory_col_status;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_stock;
+    private TableColumn<Product, String> inventory_col_stock;
 
     @FXML
-    private TableColumn<ProductData, String> inventory_col_type;
+    private TableColumn<Product, String> inventory_col_type;
 
     @FXML
     private AnchorPane inventory_form;
 
     @FXML
-    private TableView<ProductData> inventory_tableView;
+    private TableView<Product> inventory_tableView;
 
     @FXML
     private TextField inventory_search;
@@ -206,7 +206,7 @@ public class MainFormController implements Initializable {
     private Image images;
     private ObservableList<Product> cardListData = FXCollections.observableArrayList();
 
-    private ObservableList<ProductData> inventoryListData;
+    private ObservableList<Product> inventoryListData;
     private int cID;
     private Receipt receipt = null;
     private ReceiptDAO receiptDAO = null;
@@ -245,7 +245,7 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    public void editForm(ProductData productData) {
+    public void editForm(Product product) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("addInventory.fxml"));
 
@@ -260,44 +260,44 @@ public class MainFormController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             AddInventController addIn = fxmlLoader.getController();
-            addIn.setAddInvent_form(productData);
+            addIn.setAddInvent_form(product);
             stage.showAndWait();
 
         }catch (Exception e){e.printStackTrace();}
     }
 
-
     // Hien data len bang
     public void inventoryShowData() {
         inventoryListData = InventoryDataList();
 
-        inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("productID"));
-        inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("productName"));
-        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("categories_id"));
+        inventory_col_id.setCellValueFactory(new PropertyValueFactory<>("prod_id"));
+        inventory_col_name.setCellValueFactory(new PropertyValueFactory<>("prod_name"));
+        inventory_col_type.setCellValueFactory(new PropertyValueFactory<>("categories"));
         inventory_col_stock.setCellValueFactory(new PropertyValueFactory<>("stock"));
         inventory_col_price.setCellValueFactory(new PropertyValueFactory<>("price"));
         inventory_col_status.setCellValueFactory(new PropertyValueFactory<>("status"));
         inventory_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
 
+
         // Tạo một hàm callback để tạo các ô chứa nút cho mỗi hàng trong cột "Action"
-        Callback<TableColumn<ProductData, Void>, TableCell<ProductData, Void>> cellFactory = new Callback<>() {
+        Callback<TableColumn<Product, Void>, TableCell<Product, Void>> cellFactory = new Callback<>() {
             @Override
-            public TableCell<ProductData, Void> call(final TableColumn<ProductData, Void> param) {
-                final TableCell<ProductData, Void> cell = new TableCell<>() {
+            public TableCell<Product, Void> call(final TableColumn<Product, Void> param) {
+                final TableCell<Product, Void> cell = new TableCell<>() {
                     private final Button editButton = new Button();
                     private final Button deleteButton = new Button();
 
                     {
                         // Xử lý sự kiện khi ấn nút 'Edit'
                         editButton.setOnAction(event -> {
-                            ProductData product = getTableView().getItems().get(getIndex());
+                            Product product = getTableView().getItems().get(getIndex());
                             editForm(product);
                             inventoryLoadData();
                         });
 
                         // Xử lý sự kiện khi ấn nút 'Delete'
                         deleteButton.setOnAction(event -> {
-                            ProductData product = getTableView().getItems().get(getIndex());
+                            Product product = getTableView().getItems().get(getIndex());
                             DeleteProduct(product);
                             inventoryLoadData();
                         });
@@ -330,12 +330,12 @@ public class MainFormController implements Initializable {
     }
 
 
-    public void DeleteProduct(ProductData prod)
+    public void DeleteProduct(Product prod)
     {
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Error Message");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to DELETE Product ID: " + prod.getProductID() + " ?");
+        alert.setContentText("Are you sure you want to DELETE Product ID: " + prod.getProd_id() + " ?");
         Optional<ButtonType> option =  alert.showAndWait();
 
         if (option.get().equals(ButtonType.OK))
@@ -358,29 +358,29 @@ public class MainFormController implements Initializable {
             inventory_tableView.setItems(inventoryListData);
     }
 
-    public ObservableList<ProductData> InventoryDataList() {
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+    public ObservableList<Product> InventoryDataList() {
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         String sql = "SELECT * FROM product";
 
         connect = Database.connectDB();
-
+        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData prodData;
+            Product prod;
             while(result.next()){
-                prodData = new ProductData(result.getInt("id"),
+                prod = new Product(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getInt("categories_id"),
+                        productCardDAO.getCategories(result.getInt("categories_id")),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
-                listData.add(prodData);
+                listData.add(prod);
             }
         }catch (Exception e){e.printStackTrace();}
 
@@ -388,7 +388,7 @@ public class MainFormController implements Initializable {
     }
 
     public void searchInventory(){
-        FilteredList<ProductData> filter = new FilteredList<>(inventoryListData, e -> true);
+        FilteredList<Product> filter = new FilteredList<>(inventoryListData, e -> true);
         inventory_search.textProperty().addListener((Observable, oldValue, newValue)->{
             filter.setPredicate(inven ->{
                 if(newValue == null && newValue.isEmpty()){
@@ -396,14 +396,14 @@ public class MainFormController implements Initializable {
                 }
                 String searchKey = newValue;
 
-                if(inven.getProductName().toString().contains(searchKey)){
+                if(inven.getProd_name().toString().contains(searchKey)){
                     return true;
                 }
                 else return false;
             });
         });
 
-        SortedList<ProductData> sortedList = new SortedList<>(filter);
+        SortedList<Product> sortedList = new SortedList<>(filter);
         sortedList.comparatorProperty().bind(inventory_tableView.comparatorProperty());
         inventory_tableView.setItems(sortedList);
     }
@@ -740,20 +740,20 @@ public class MainFormController implements Initializable {
         menu_fastFood_btn.getStyleClass().add("btn_clicked");
     }
 
-    public ObservableList<ProductData> orderGetData(){
+    public ObservableList<Product> orderGetData(){
         customerID();
         String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
 
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData productData;
+            Product product;
             while(result.next()){
-                productData = new ProductData(
+                product = new Product(
                         result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
@@ -761,16 +761,16 @@ public class MainFormController implements Initializable {
                         result.getDouble("price"),
                         result.getString("image"),
                         result.getDate("date"));
-                productData.setPr(result.getDouble("price") / result.getInt("quantity"));
+                product.setPr(result.getDouble("price") / result.getInt("quantity"));
 
-                listData.add(productData);
+                listData.add(product);
             }
         }catch (Exception e){e.printStackTrace();}
 
         return listData;
     }
 
-    private ObservableList<ProductData> orderListData = FXCollections.observableArrayList();
+    private ObservableList<Product> orderListData = FXCollections.observableArrayList();
     public void orderDisplay(){
         orderListData.clear();
         orderListData.addAll(orderGetData());

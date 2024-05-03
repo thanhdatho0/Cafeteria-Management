@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 public class AddInventController implements Initializable {
-    private ProductData productData;
+    private Product product;
     @FXML
     private AnchorPane addInvent_form;
 
@@ -64,19 +64,19 @@ public class AddInventController implements Initializable {
     private CategoriesDAOImpl categoriesDAO = null;
     int categories_id[];
 
-    public void setAddInvent_form(ProductData productData)
+    public void setAddInvent_form(Product product)
     {
-        this.productData = productData;
-        invent_add_id.setText(productData.getProductID());
-        invent_add_name.setText(productData.getProductName());
-        invent_add_stock.setText((String.valueOf(productData.getStock())));
-        invent_add_price.setText(String.valueOf(productData.getPrice()));
-        invent_add_type.setValue(productData.getCategories_id());
-        invent_add_status.setValue(productData.getStatus());
+        this.product = product;
+        invent_add_id.setText(product.getProd_id());
+        invent_add_name.setText(product.getProd_name());
+        invent_add_stock.setText((String.valueOf(product.getStock())));
+        invent_add_price.setText(String.valueOf(product.getPrice()));
+        invent_add_type.setValue(product.getCategories().getId());
+        invent_add_status.setValue(product.getStatus());
 
-        this.Path = productData.getImage();
+        this.Path = product.getImage();
 
-        String path = "File:" + productData.getImage();
+        String path = "File:" + product.getImage();
         image = new Image(path, 137,128,false,true);
         invent_add_imageView.setImage(image);
 
@@ -174,8 +174,8 @@ public class AddInventController implements Initializable {
                     Date date = new Date(System.currentTimeMillis());
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                    InventoryDAOimpl.getInstance().insert(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
-                            categories_id[invent_add_type.getSelectionModel().getSelectedIndex()],
+                    InventoryDAOimpl.getInstance().insert(new Product(invent_add_id.getText(), invent_add_name.getText(),
+                            new Categories(categories_id[invent_add_type.getSelectionModel().getSelectedIndex()]),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
                             invent_add_status.getSelectionModel().getSelectedItem(),
@@ -211,7 +211,7 @@ public class AddInventController implements Initializable {
 
         } else {
 
-            String path = this.productData.getImage();
+            String path = this.product.getImage();
             path = path.replace("\\", "\\\\");
 
             Date date = new Date(System.currentTimeMillis());
@@ -229,8 +229,8 @@ public class AddInventController implements Initializable {
 
                 if (option.get().equals(ButtonType.OK)) {
 
-                    InventoryDAOimpl.getInstance().update(new ProductData(invent_add_id.getText(), invent_add_name.getText(),
-                            categories_id[invent_add_type.getSelectionModel().getSelectedIndex()],
+                    InventoryDAOimpl.getInstance().update(new Product(invent_add_id.getText(), invent_add_name.getText(),
+                            new Categories(categories_id[invent_add_type.getSelectionModel().getSelectedIndex()]),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
                             invent_add_status.getSelectionModel().getSelectedItem(),

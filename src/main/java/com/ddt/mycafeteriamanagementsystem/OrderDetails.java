@@ -8,7 +8,7 @@ public class OrderDetails {
     private int prod_id;
     private int quantity;
     private Order order;
-    private List<ProductData> productList = new ArrayList<ProductData>();
+    private List<Product> productList = new ArrayList<Product>();
 
     public OrderDetails() {}
 
@@ -25,7 +25,7 @@ public class OrderDetails {
         this.order = order;
     }
 
-    public OrderDetails(int order_id, int prod_id, int quantity, Order order, List<ProductData> productList) {
+    public OrderDetails(int order_id, int prod_id, int quantity, Order order, List<Product> productList) {
         this.order_id = order_id;
         this.prod_id = prod_id;
         this.quantity = quantity;
@@ -65,11 +65,11 @@ public class OrderDetails {
         this.order = order;
     }
 
-    public List<ProductData> getProductData() {
+    public List<Product> getProductData() {
         return productList;
     }
 
-    public void setProductData(List<ProductData> productList) {
+    public void setProductData(List<Product> productList) {
         this.productList = productList;
     }
 
