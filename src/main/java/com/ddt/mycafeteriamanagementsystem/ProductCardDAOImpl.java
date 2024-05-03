@@ -30,7 +30,7 @@ public class ProductCardDAOImpl implements ProductCardDAO{
         String sql = "SELECT * FROM product";
         prepare = connect.prepareStatement(sql);
         result = prepare.executeQuery();
-        if(result.next()){
+        while(result.next()){
             categories = getCategories(result.getInt("categories_id"));
             product = new Product(
                     result.getInt("id"),
@@ -182,7 +182,7 @@ public class ProductCardDAOImpl implements ProductCardDAO{
         prepare = connect.prepareStatement(sql);
         prepare.setString(1, name);
         result = prepare.executeQuery();
-        if(result.next()){
+        while(result.next()){
             product = new Product(
                     result.getInt("id"),
                     result.getString("prod_id"),

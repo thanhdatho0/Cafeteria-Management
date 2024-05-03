@@ -121,7 +121,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label layoutX="255.0" layoutY="14.0" prefHeight="27.0" prefWidth="12.0" text="0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
+                                                      <Label fx:id="numOfCustomer" layoutX="255.0" layoutY="14.0" prefHeight="27.0" prefWidth="12.0" text="0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
@@ -144,7 +144,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label alignment="CENTER" layoutX="235.0" layoutY="14.0" prefHeight="27.0" prefWidth="50.0" text="\$0.0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
+                                                      <Label fx:id="dayIncome" alignment="CENTER" layoutX="235.0" layoutY="14.0" prefHeight="27.0" prefWidth="50.0" text="\$0.0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
@@ -167,7 +167,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="14.0" prefHeight="27.0" prefWidth="51.0" text="\$0.0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
+                                                      <Label fx:id="totalIncome" alignment="CENTER" contentDisplay="CENTER" layoutX="234.0" layoutY="14.0" prefHeight="27.0" prefWidth="51.0" text="\$0.0" textFill="WHITE" AnchorPane.rightAnchor="40.80000000000001">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
@@ -190,7 +190,7 @@
                                                             <Font size="15.0" />
                                                          </font>
                                                       </Label>
-                                                      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="255.0" layoutY="14.0" prefHeight="27.0" prefWidth="12.0" text="0" textFill="WHITE" AnchorPane.rightAnchor="40.8">
+                                                      <Label fx:id="numOfProSold" alignment="CENTER" contentDisplay="CENTER" layoutX="255.0" layoutY="14.0" prefHeight="27.0" prefWidth="12.0" text="0" textFill="WHITE" AnchorPane.rightAnchor="40.8">
                                                          <font>
                                                             <Font size="18.0" />
                                                          </font>
@@ -229,7 +229,7 @@
                                           <String fx:value="white-bg" />
                                        </styleClass>
                                        <children>
-                                          <BarChart layoutX="-0.8" prefHeight="440.0" prefWidth="373.0" title="Customer's Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <BarChart fx:id="customerBarChart" layoutX="-0.8" prefHeight="440.0" prefWidth="373.0" title="Customer's Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>
@@ -246,7 +246,7 @@
                                           <String fx:value="border" />
                                        </styleClass>
                                        <children>
-                                          <LineChart layoutX="5.0" layoutY="14.0" prefHeight="440.0" prefWidth="460.0" title="Day Income's Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <LineChart fx:id="dayLineChart" layoutX="5.0" layoutY="14.0" prefHeight="440.0" prefWidth="460.0" title="Day Income's Chart" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
                                             </xAxis>

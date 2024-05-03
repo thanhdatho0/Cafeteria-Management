@@ -14,6 +14,9 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -47,15 +50,25 @@ public class MainFormController implements Initializable {
 
     //Biến trong dashBoard_form
     @FXML
+    private Label numOfCustomer;
+
+    @FXML
+    private Label dayIncome;
+
+    @FXML
+    private Label totalIncome;
+
+    @FXML
+    private Label numOfProSold;
+
+    @FXML
     private AnchorPane dashBoard_form;
 
+    @FXML
+    private BarChart<?, ?> customerBarChart;
 
-
-
-
-
-
-
+    @FXML
+    private LineChart<?, ?> dayLineChart;
 
 
 
@@ -1101,6 +1114,39 @@ public class MainFormController implements Initializable {
         }catch (Exception e){e.printStackTrace();}
     }
 
+
+    //Chart
+    public void displayBarChart() throws SQLException {
+        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
+        XYChart.Series chartData = new XYChart.Series();
+        connect = Database.connectDB();
+        prepare = connect.prepareStatement(sql);
+        result = prepare.executeQuery();
+        while (result.next()){
+            chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+
+        }
+        customerBarChart.getData().add(chartData);
+    }
+
+    public void displayLineChart() throws SQLException {
+        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
+        XYChart.Series chartData = new XYChart.Series();
+        connect = Database.connectDB();
+        prepare = connect.prepareStatement(sql);
+        result = prepare.executeQuery();
+        while (result.next()){
+            chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+
+        }
+        dayLineChart.getData().add(chartData);
+    }
+
+    public void statistics() throws SQLException {
+        StatisticDAO statisticDAO = new StatisticDAOImpl();
+        numOfCustomer.setText(String.valueOf(statisticDAO.getNumberOfCustomer()));
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -1110,5 +1156,20 @@ public class MainFormController implements Initializable {
         menuDisplayTotal();
         orderDisplay();
         customerShowData();
+        try {
+            displayBarChart();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            displayLineChart();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            statistics();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
