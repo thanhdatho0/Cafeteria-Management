@@ -51,7 +51,7 @@ public class AddInventController implements Initializable {
     private TextField invent_add_stock;
 
     @FXML
-    private ComboBox<Integer> invent_add_type;
+    private ComboBox<String> invent_add_type;
     @FXML
     private Button invent_add_update;
     private Image image;
@@ -71,7 +71,7 @@ public class AddInventController implements Initializable {
         invent_add_name.setText(product.getProd_name());
         invent_add_stock.setText((String.valueOf(product.getStock())));
         invent_add_price.setText(String.valueOf(product.getPrice()));
-        invent_add_type.setValue(product.getCategories().getId());
+        invent_add_type.setValue(product.getCategories().getTypeName());
         invent_add_status.setValue(product.getStatus());
 
         this.Path = product.getImage();
