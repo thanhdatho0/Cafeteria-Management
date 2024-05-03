@@ -57,21 +57,20 @@ public class CardProductController implements Initializable {
     private Product product = null;
     private ProductCardDAO productCardDAO = null;
 
-    public void setData(ProductData productData){
-        this.productData = productData;
+    public void setData(Product product){
+        this.product = product;
 
-        prod_image = productData.getImage();
-        prod_date = String.valueOf(productData.getDate());
-        categories_id = productData.getCategories_id();
-        prodID = productData.getProductID();
+        prod_image = product.getImage();
+        prod_date = String.valueOf(product.getDate());
+        categories_id = product.getCategories().getId();
+        prodID = product.getProd_id();
 
-        prod_name.setText(productData.getProductName());
-        prod_price.setText(String.valueOf(productData.getPrice()) + " VND");
-        String path = "File:" + productData.getImage();
+        prod_name.setText(product.getProd_name());
+        prod_price.setText(String.valueOf(product.getPrice()) + " VND");
+        String path = "File:" + product.getImage();
         image = new Image(path, 160, 102, false, true);
         prod_imageView.setImage(image);
-        pr = productData.getPrice();
-
+        pr = product.getPrice();
     }
 
     public void setQuantity(){
@@ -116,8 +115,9 @@ public class CardProductController implements Initializable {
                 }
 
                 if(checkStck == 0){
-                    product = new Product(0, prodID, prod_name.getText(), categories_id, 0, pr, "Unavailable", prod_image, productData.getDate());
+                    //product = new Product(0, prodID, prod_name.getText(), categories_id, 0, pr, "Unavailable", prod_image, productData.getDate());
                     productCardDAO = new ProductCardDAOImpl();
+                    product = productCardDAO.getProductByName(prod_name.getText());
                     productCardDAO.update(product);
                 }
 
@@ -138,8 +138,9 @@ public class CardProductController implements Initializable {
 
                     int upStock = checkStck - qty;
 
-                    product = new Product(0, prodID, prod_name.getText(), categories_id, upStock, pr, check, prod_image, productData.getDate());
+                    //product = new Product(0, prodID, prod_name.getText(), categories_id, upStock, pr, check, prod_image, productData.getDate());
                     productCardDAO = new ProductCardDAOImpl();
+                    product = productCardDAO.getProductByName(prod_name.getText());
                     productCardDAO.update(product);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);

@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,12 +25,10 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.Date;
 import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
@@ -192,7 +191,8 @@ public class MainFormController implements Initializable {
     private Statement statement;
     private ResultSet result;
     private Image images;
-    private ObservableList<ProductData> cardListData = FXCollections.observableArrayList();
+    private ObservableList<Product> cardListData = FXCollections.observableArrayList();
+
     private ObservableList<ProductData> inventoryListData;
     private int cID;
     private Receipt receipt = null;
@@ -207,6 +207,7 @@ public class MainFormController implements Initializable {
     private ProductCardDAO productCardDAO = null;
     private Customer customer = null;
     private CusotmerDAOImpl cusotmerDAO = null;
+    private javafx.event.ActionEvent ActionEvent;
 
     //DashBoard function..............
 
@@ -404,123 +405,181 @@ public class MainFormController implements Initializable {
         menu_time.setText(formattedDate);
     }
 
-    public ObservableList<ProductData> menuGetData(){
+    public ObservableList<Product> menuGetData() throws SQLException {
         String sql = "SELECT * FROM product";
 
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData productData;
+            Product product;
+            ProductCardDAO productCardDAO = new ProductCardDAOImpl();
             while(result.next()){
-                productData = new ProductData(result.getInt("id"),
+                product = new Product(
+                        result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getInt("categories_id"),
+                        productCardDAO.getCategories(result.getInt("categories_id")),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
-                listData.add(productData);
+                listData.add(product);
             }
         }catch (Exception e){e.printStackTrace();}
 
         return listData;
     }
-
-    public ObservableList<ProductData> menuDrinkData(){
+    public ObservableList<Product> menuDrinkData(){
         String sql = "SELECT * FROM product WHERE categories_id = 1";
 
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData productData;
+            Product product;
+            ProductCardDAO productCardDAO = new ProductCardDAOImpl();
             while(result.next()){
-                productData = new ProductData(result.getInt("id"),
+                product = new Product(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getInt("categories_id"),
+                        productCardDAO.getCategories(result.getInt("categories_id")),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
-                listData.add(productData);
+                listData.add(product);
             }
         }catch (Exception e){e.printStackTrace();}
 
         return listData;
     }
 
-    public ObservableList<ProductData> menuFastFoodData(){
+    public ObservableList<Product> menuFastFoodData(){
         String sql = "SELECT * FROM product WHERE categories_id = 2";
 
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData productData;
+            Product product;
+            ProductCardDAO productCardDAO = new ProductCardDAOImpl();
             while(result.next()){
-                productData = new ProductData(result.getInt("id"),
+                product = new Product(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getInt("categories_id"),
+                        productCardDAO.getCategories(result.getInt("id")),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
-                listData.add(productData);
+                listData.add(product);
             }
         }catch (Exception e){e.printStackTrace();}
 
         return listData;
     }
 
-    public ObservableList<ProductData> menuMainFoodData(){
+    public ObservableList<Product> menuMainFoodData(){
         String sql = "SELECT * FROM product WHERE categories_id = 3";
 
-        ObservableList<ProductData> listData = FXCollections.observableArrayList();
+        ObservableList<Product> listData = FXCollections.observableArrayList();
         connect = Database.connectDB();
 
         try {
             prepare = connect.prepareStatement(sql);
             result = prepare.executeQuery();
 
-            ProductData productData;
+            Product product;
+            ProductCardDAO productCardDAO = new ProductCardDAOImpl();
             while(result.next()){
-                productData = new ProductData(result.getInt("id"),
+                product = new Product(result.getInt("id"),
                         result.getString("prod_id"),
                         result.getString("prod_name"),
-                        result.getInt("categories_id"),
+                        productCardDAO.getCategories(result.getInt("categories_id")),
                         result.getInt("stock"),
                         result.getDouble("price"),
                         result.getString("status"),
                         result.getString("image"),
                         result.getDate("date"));
 
-                listData.add(productData);
+                listData.add(product);
             }
         }catch (Exception e){e.printStackTrace();}
 
         return listData;
     }
 
-    public void menuDisplayCard(){
+    public ObservableList<Product> getData2(ActionEvent event) throws SQLException{
+        String name = null;
+        System.out.println("here");
+        if(event.getSource() == menu_all_btn){
+            name = menu_all_btn.getText();
+            System.out.println("all");
+        } else if (event.getSource() == menu_drink_btn) {
+            name = menu_drink_btn.getText();
+            System.out.println("drink");
+        } else if (event.getSource() == menu_fastFood_btn) {
+            name = menu_fastFood_btn.getText();
+        } else if (event.getSource() == menu_mainFood_btn) {
+            name = menu_mainFood_btn.getText();
+        }
+        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+        return productCardDAO.getProductsByType(name);
+    }
+
+    public void menuDisplay(ActionEvent event) throws SQLException{
+        cardListData.clear();
+        cardListData.addAll(getData2(event));
+
+        int row = 0;
+        int column = 0;
+
+        menu_gridPane.getChildren().clear();
+        menu_gridPane.getRowConstraints().clear();
+        menu_gridPane.getColumnConstraints().clear();
+
+        for(int q = 0; q < cardListData.size(); q++){
+
+            try {
+                FXMLLoader load = new FXMLLoader();
+                load.setLocation(getClass().getResource("cardProduct.fxml"));
+                AnchorPane pane = load.load();
+                CardProductController cardC = load.getController();
+                cardC.setData(cardListData.get(q));
+
+                if(column == 3){
+                    column = 0;
+                    row += 1;
+                }
+
+                menu_gridPane.add(pane, column++, row);
+                GridPane.setMargin(pane, new Insets(15));
+
+            }catch (Exception e){e.printStackTrace();}
+        }
+        menu_all_btn.getStyleClass().add("btn_clicked");
+        menu_drink_btn.getStyleClass().remove("btn_clicked");
+        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
+        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
+    }
+
+    public void menuDisplayCard() throws SQLException {
         cardListData.clear();
         cardListData.addAll(menuGetData());
 
@@ -552,7 +611,7 @@ public class MainFormController implements Initializable {
         }
     }
 
-    public void menuAllBtn(){
+    public void menuAllBtn() throws SQLException {
         menuDisplayCard();
         menu_all_btn.getStyleClass().add("btn_clicked");
         menu_drink_btn.getStyleClass().remove("btn_clicked");
@@ -667,55 +726,6 @@ public class MainFormController implements Initializable {
         menu_mainFood_btn.getStyleClass().remove("btn_clicked");
         menu_fastFood_btn.getStyleClass().add("btn_clicked");
     }
-
-//
-//    public void searchMenu(){
-//        FilteredList<ProductData> filter = new FilteredList<>(cardListData, e -> true);
-//        menu_search_text.textProperty().addListener((Observable, oldValue, newValue)->{
-//            filter.setPredicate(cardMenu ->{
-//                if(newValue == null && newValue.isEmpty()){
-//                    return true;
-//                }
-//                String searchKey = newValue;
-//
-//                if(cardMenu.getProductName().toString().contains(searchKey)){
-//                    return true;
-//                }
-//                else return false;
-//            });
-//        });
-//
-//        SortedList<ProductData> sortedList = new SortedList<>(filter);
-//        cardListData.clear();
-//        cardListData.addAll(sortedList);
-//
-//        int row = 0;
-//        int column = 0;
-//
-//        menu_gridPane.getChildren().clear();
-//        menu_gridPane.getRowConstraints().clear();
-//        menu_gridPane.getColumnConstraints().clear();
-//
-//        for(int q = 0; q < cardListData.size(); q++){
-//
-//            try {
-//                FXMLLoader load = new FXMLLoader();
-//                load.setLocation(getClass().getResource("cardProduct.fxml"));
-//                AnchorPane pane = load.load();
-//                CardProductController cardC = load.getController();
-//                cardC.setData(cardListData.get(q));
-//
-//                if(column == 3){
-//                    column = 0;
-//                    row += 1;
-//                }
-//
-//                menu_gridPane.add(pane, column++, row);
-//                GridPane.setMargin(pane, new Insets(15));
-//
-//            }catch (Exception e){e.printStackTrace();}
-//        }
-//    }
 
     public ObservableList<ProductData> orderGetData(){
         customerID();
@@ -1026,7 +1036,7 @@ public class MainFormController implements Initializable {
     }
 
     //Chuyển Form
-    public void switchForm(ActionEvent event){
+    public void switchForm(ActionEvent event) throws SQLException {
         if(event.getSource() == dashboard_btn){
             dashBoard_form.setVisible(true);
             inventory_form.setVisible(false);
@@ -1096,12 +1106,9 @@ public class MainFormController implements Initializable {
 
         //Đưa tất cả trong hàm này vào hàm switch form
         inventoryShowData();
-
         menuTime();
-        menuDisplayCard();
         menuDisplayTotal();
         orderDisplay();
-
         customerShowData();
     }
 }

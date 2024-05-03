@@ -1,6 +1,7 @@
 package com.ddt.mycafeteriamanagementsystem;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesDAOImpl implements CategoriesDAO{
@@ -28,7 +29,20 @@ public class CategoriesDAOImpl implements CategoriesDAO{
 
     @Override
     public List<Categories> getAll() throws SQLException {
-        return null;
+        List<Categories> categoriesList = new ArrayList<>();
+        Categories categories = null;
+        connect = Database.connectDB();
+        String sql = "SELECT * FROM categories";
+        prepare = connect.prepareStatement(sql);
+        result = prepare.executeQuery();
+        if(result.next()){
+            categories = new Categories(
+                    result.getInt("id"),
+                    result.getString("typeName")
+            );
+            categoriesList.add(categories);
+        }
+        return categoriesList;
     }
 
     @Override
@@ -84,5 +98,31 @@ public class CategoriesDAOImpl implements CategoriesDAO{
         result = prepare.executeQuery();
 
         return result;
+    }
+
+    @Override
+    public List<Product> getAllProduct(Categories categories) throws SQLException{
+        List<Product> productList = new ArrayList<>();
+        Product product = null;
+        connect = Database.connectDB();
+        String sql = "SELECT * FROM product WHERE categories_id = ?";
+        prepare.setInt(1, categories.getId());
+        prepare = connect.prepareStatement(sql);
+        result = prepare.executeQuery();
+        if(result.next()){
+            product = new Product(
+                    result.getInt( "id"),
+                    result.getString("prod_id"),
+                    result.getString("prod_name"),
+                    categories,
+                    result.getInt("stock"),
+                    result.getDouble("price"),
+                    result.getString("status"),
+                    result.getString("image"),
+                    result.getDate("date")
+            );
+            productList.add(product);
+        }
+        return productList;
     }
 }

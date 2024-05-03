@@ -3,34 +3,23 @@ package com.ddt.mycafeteriamanagementsystem;
 import java.sql.Date;
 
 public class Product {
-    private Integer id;
+    private int id;
     private String prod_id;
     private String prod_name;
-    private int categories_id;
-    private Integer stock;
-    private Double price;
+    private Categories categories;
+    private int stock;
+    private double price;
     private String status;
     private  String image;
     private Date date;
 
-    public Product() {}
+    //public Product() {}
 
-    public Product(Integer id, String prod_id, String prod_name, int categories_id, Integer stock, Double price, String status, String image) {
+    public Product(int id, String prod_id, String prod_name, Categories categories, int stock, double price, String status, String image, Date date) {
         this.id = id;
         this.prod_id = prod_id;
         this.prod_name = prod_name;
-        this.categories_id = categories_id;
-        this.stock = stock;
-        this.price = price;
-        this.status = status;
-        this.image = image;
-    }
-
-    public Product(Integer id, String prod_id, String prod_name, int categories_id, Integer stock, Double price, String status, String image, Date date) {
-        this.id = id;
-        this.prod_id = prod_id;
-        this.prod_name = prod_name;
-        this.categories_id = categories_id;
+        this.categories = categories;
         this.stock = stock;
         this.price = price;
         this.status = status;
@@ -38,11 +27,13 @@ public class Product {
         this.date = date;
     }
 
-    public Integer getId() {
+    public Product() {this(0, null, null, null, 0, 0, null, null, null);}
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -62,27 +53,27 @@ public class Product {
         this.prod_name = prod_name;
     }
 
-    public int getCategories_id() {
-        return categories_id;
+    public Categories getCategories() {
+        return categories;
     }
 
-    public void setCategories_id(int categories_id) {
-        this.categories_id = categories_id;
+    public void setCategories(Categories categories) {
+        this.categories = categories;
     }
 
-    public Integer getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(Integer stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

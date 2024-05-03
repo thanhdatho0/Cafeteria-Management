@@ -1,9 +1,12 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import java.util.List;
+
 public class Categories {
     int id;
-    String typeName;
+    private String typeName;
 
+    private List<Product> productList;
     public Categories() {}
 
     public Categories(int id, String typeName) {

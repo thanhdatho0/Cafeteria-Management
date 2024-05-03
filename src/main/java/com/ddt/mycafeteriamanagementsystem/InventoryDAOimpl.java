@@ -115,6 +115,8 @@ public class InventoryDAOimpl implements ProductDAO {
         ResultSet res = prepare.executeQuery();
         return res;
     }
+
+
     @Override
     public void delete(ProductData productData) throws SQLException {
         Connection connect = Database.connectDB();
