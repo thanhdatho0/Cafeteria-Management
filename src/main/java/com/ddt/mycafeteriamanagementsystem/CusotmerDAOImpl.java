@@ -8,9 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public class CusotmerDAOImpl implements CustomerDAO{
-    private Connection connect;
-    private PreparedStatement prepare;
-    ResultSet result;
 
     @Override
     public Customer get(int id) throws SQLException {
@@ -29,12 +26,12 @@ public class CusotmerDAOImpl implements CustomerDAO{
 
     @Override
     public void insert(Customer customer) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
 
         String insertData  = "INSERT INTO customer"
                 + "(customer_id, prod_id, prod_name, quantity, price, date, em_username, image)"
                 + "VALUES(?,?,?,?,?,?,?,?)";
-        prepare = connect.prepareStatement(insertData );
+        PreparedStatement prepare = connect.prepareStatement(insertData );
 
         prepare.setString(1, String.valueOf(customer.getCustomer_id()));
         prepare.setString(2, customer.getProd_id());
@@ -62,22 +59,22 @@ public class CusotmerDAOImpl implements CustomerDAO{
 
     @Override
     public ResultSet maxCustomer(Customer customer) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT MAX(customer_id) from customer";
 
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
 
         return result;
     }
 
     @Override
     public ResultSet getAllCustomer(Customer customer) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM customer WHERE customer_id = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, String.valueOf(customer.getCustomer_id()));
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 }

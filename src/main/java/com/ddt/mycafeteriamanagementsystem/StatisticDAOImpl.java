@@ -10,9 +10,6 @@ import java.util.List;
 import java.text.DecimalFormat;
 
 public class StatisticDAOImpl implements StatisticDAO{
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
     @Override
     public Statistic get(int id) throws SQLException {
         return null;
@@ -45,11 +42,11 @@ public class StatisticDAOImpl implements StatisticDAO{
 
     @Override
     public int getNumberOfCustomer() throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         int count = 0;
         String sql = "SELECT id FROM customer";
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
         while (result.next())
             count++;
         return count;
@@ -58,13 +55,13 @@ public class StatisticDAOImpl implements StatisticDAO{
     @Override
     public double getDayIncome() throws SQLException {
         double dayIncome = 0;
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT quantity*price FROM customer WHERE date = ?";
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, String.valueOf(sqlDate));
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         while (result.next()){
             dayIncome += result.getDouble(1);
         }
@@ -82,11 +79,11 @@ public class StatisticDAOImpl implements StatisticDAO{
         calendar.setTime(sqlDate);
         int month = calendar.get(Calendar.MONTH) + 1;
 
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT quantity*price FROM customer WHERE MONTH(date) = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, month);
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         while (result.next()){
             monthIncome += result.getDouble(1);
         }
@@ -97,13 +94,13 @@ public class StatisticDAOImpl implements StatisticDAO{
     @Override
     public int getSoldNumber() throws SQLException {
         int solds = 0;
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT sum(quantity) FROM customer WHERE date = ?";
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, String.valueOf(sqlDate));
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         while (result.next()){
             solds += result.getDouble(1);
         }

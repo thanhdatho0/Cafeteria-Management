@@ -12,10 +12,6 @@ public interface ProductCardDAO extends DAO<Product>{
     Product getProductByName(String name) throws SQLException;
 
     Categories getCategories(int id) throws SQLException;
-
-    Categories getCategoriesByTypeName(String name) throws SQLException;
-
-    ObservableList<Product> getProductsByType(String name) throws SQLException;
 }
 
 

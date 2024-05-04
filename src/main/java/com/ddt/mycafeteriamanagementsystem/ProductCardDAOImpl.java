@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCardDAOImpl implements ProductCardDAO{
-    private Connection connect;
-    private PreparedStatement prepare;
-    private ResultSet result;
-
     @Override
     public Product get(int id) throws SQLException {
         return null;
@@ -26,10 +22,10 @@ public class ProductCardDAOImpl implements ProductCardDAO{
         ObservableList<Product> products = FXCollections.observableArrayList();
         Categories categories = null;
         Product product = null;
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM product";
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
         while(result.next()){
             categories = getCategories(result.getInt("categories_id"));
             product = new Product(
@@ -77,9 +73,9 @@ public class ProductCardDAOImpl implements ProductCardDAO{
 //    }
 
     public void update(Product product) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String updateStock = "UPDATE product SET prod_name = ?, categories_id = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE prod_id = ?";
-        prepare = connect.prepareStatement(updateStock);
+        PreparedStatement prepare = connect.prepareStatement(updateStock);
 
         prepare.setString(1, product.getProd_name());
         prepare.setInt(2, product.getCategories().getId());
@@ -100,35 +96,34 @@ public class ProductCardDAOImpl implements ProductCardDAO{
 
     @Override
     public ResultSet getIDProduct(Product product) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT id FROM product WHERE prod_name = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, product.getProd_name());
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 
     @Override
     public Product getProductByName(String name) throws SQLException {
-        Categories categories = null;
         Product product = null;
-        connect = Database.connectDB();
-        String sql = "SELECT * FROM product WHERE prod_name = ?";
-        prepare = connect.prepareStatement(sql);
+        Connection connect = Database.connectDB();
+        String sql = "SELECT id, prod_id, prod_name, categories_id, stock, price, status, image, product.date FROM product WHERE prod_name = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, name);
-        result = prepare.executeQuery();
-        if(result.next()){
-            categories = getCategories(result.getInt("categories_id"));
+        ResultSet result2 = prepare.executeQuery();
+        while (result2.next()){
+            int cate_id = result2.getInt("categories_id");
             product = new Product(
-                    result.getInt("id"),
-                    result.getString("prod_id"),
-                    result.getString("prod_name"),
-                    categories,
-                    result.getInt("stock"),
-                    result.getDouble("price"),
-                    result.getString("status"),
-                    result.getString("image"),
-                    result.getDate("date")
+                    result2.getInt("id"),
+                    result2.getString("prod_id"),
+                    result2.getString("prod_name"),
+                    getCategories(cate_id),
+                    result2.getInt("stock"),
+                    result2.getDouble("price"),
+                    result2.getString("status"),
+                    result2.getString("image"),
+                    result2.getDate("date")
             );
         }
         return product;
@@ -136,12 +131,12 @@ public class ProductCardDAOImpl implements ProductCardDAO{
 
     @Override
     public Categories getCategories(int id) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         Categories categories = null;
         String sql = "SELECT * FROM categories WHERE id = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, id);
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         if(result.next())
             categories = new Categories(
                     result.getInt("id"),
@@ -149,56 +144,4 @@ public class ProductCardDAOImpl implements ProductCardDAO{
             );
         return categories;
     }
-
-    @Override
-    public Categories getCategoriesByTypeName(String name) throws SQLException {
-        connect = Database.connectDB();
-        Categories categories = null;
-        String sql = "SELECT * FROM categories WHERE typeName = ?";
-        prepare = connect.prepareStatement(sql);
-        prepare.setString(1, name);
-        result = prepare.executeQuery();
-        if(result.next())
-            categories = new Categories(
-                    result.getInt("id"),
-                    result.getString("typeName")
-            );
-        return categories;
-    }
-
-    @Override
-    public ObservableList<Product> getProductsByType(String name) throws SQLException {
-        ObservableList<Product> products = FXCollections.observableArrayList();
-        Product product = null;
-        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
-        connect = Database.connectDB();
-        if(name == "All"){
-            products = getAll();
-            return products;
-        }
-        String sql = "SELECT product.id, prod_id, prod_name, categories_id, stock, price, status, image, date " +
-                "FROM product, categories WHERE product.categories_id = categories.id " +
-                "AND categories.typeName = ?";
-        prepare = connect.prepareStatement(sql);
-        prepare.setString(1, name);
-        result = prepare.executeQuery();
-        while(result.next()){
-            product = new Product(
-                    result.getInt("id"),
-                    result.getString("prod_id"),
-                    result.getString("prod_name"),
-                    productCardDAO.getCategories(result.getInt("id")),
-                    result.getInt("stock"),
-                    result.getDouble("price"),
-                    result.getString("status"),
-                    result.getString("image"),
-                    result.getDate("date")
-            );
-            products.add(product);
-        }
-        return products;
-
-    }
-
-
 }

@@ -8,9 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDetailsDAOImpl implements OrderDetailsDAO{
-    private Connection connect;
-    private PreparedStatement prepare;
-    ResultSet result;
 
     @Override
     public OrderDetails get(int id) throws SQLException {
@@ -29,11 +26,11 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO{
 
     @Override
     public void insert(OrderDetails orderDetails) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
 
         String insertPay = "INSERT INTO `order details` (order_id, prod_id, quantity) "
                 + "VALUES(?,?,?)";
-        prepare = connect.prepareStatement(insertPay);
+        PreparedStatement prepare = connect.prepareStatement(insertPay);
 
         prepare.setString(1, String.valueOf(orderDetails.getOrder_id()));
         prepare.setString(2, String.valueOf(orderDetails.getProd_id()));

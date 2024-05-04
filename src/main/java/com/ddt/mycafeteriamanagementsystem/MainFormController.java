@@ -32,6 +32,9 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
@@ -538,59 +541,59 @@ public class MainFormController implements Initializable {
         return listData;
     }
 
-    public ObservableList<Product> getData2(ActionEvent event) throws SQLException{
-        String name = null;
-        System.out.println("here");
-        if(event.getSource() == menu_all_btn){
-            name = menu_all_btn.getText();
-            System.out.println("all");
-        } else if (event.getSource() == menu_drink_btn) {
-            name = menu_drink_btn.getText();
-            System.out.println("drink");
-        } else if (event.getSource() == menu_fastFood_btn) {
-            name = menu_fastFood_btn.getText();
-        } else if (event.getSource() == menu_mainFood_btn) {
-            name = menu_mainFood_btn.getText();
-        }
-        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
-        return productCardDAO.getProductsByType(name);
-    }
+//    public ObservableList<Product> getData2(ActionEvent event) throws SQLException{
+//        String name = null;
+//        System.out.println("here");
+//        if(event.getSource() == menu_all_btn){
+//            name = menu_all_btn.getText();
+//            System.out.println("all");
+//        } else if (event.getSource() == menu_drink_btn) {
+//            name = menu_drink_btn.getText();
+//            System.out.println("drink");
+//        } else if (event.getSource() == menu_fastFood_btn) {
+//            name = menu_fastFood_btn.getText();
+//        } else if (event.getSource() == menu_mainFood_btn) {
+//            name = menu_mainFood_btn.getText();
+//        }
+//        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+//        return productCardDAO.getProductsByType(name);
+//    }
 
-    public void menuDisplay(ActionEvent event) throws SQLException{
-        cardListData.clear();
-        cardListData.addAll(getData2(event));
-
-        int row = 0;
-        int column = 0;
-
-        menu_gridPane.getChildren().clear();
-        menu_gridPane.getRowConstraints().clear();
-        menu_gridPane.getColumnConstraints().clear();
-
-        for(int q = 0; q < cardListData.size(); q++){
-
-            try {
-                FXMLLoader load = new FXMLLoader();
-                load.setLocation(getClass().getResource("cardProduct.fxml"));
-                AnchorPane pane = load.load();
-                CardProductController cardC = load.getController();
-                cardC.setData(cardListData.get(q));
-
-                if(column == 3){
-                    column = 0;
-                    row += 1;
-                }
-
-                menu_gridPane.add(pane, column++, row);
-                GridPane.setMargin(pane, new Insets(15));
-
-            }catch (Exception e){e.printStackTrace();}
-        }
-        menu_all_btn.getStyleClass().add("btn_clicked");
-        menu_drink_btn.getStyleClass().remove("btn_clicked");
-        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
-        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
-    }
+//    public void menuDisplay(ActionEvent event) throws SQLException{
+//        cardListData.clear();
+//        cardListData.addAll(getData2(event));
+//
+//        int row = 0;
+//        int column = 0;
+//
+//        menu_gridPane.getChildren().clear();
+//        menu_gridPane.getRowConstraints().clear();
+//        menu_gridPane.getColumnConstraints().clear();
+//
+//        for(int q = 0; q < cardListData.size(); q++){
+//
+//            try {
+//                FXMLLoader load = new FXMLLoader();
+//                load.setLocation(getClass().getResource("cardProduct.fxml"));
+//                AnchorPane pane = load.load();
+//                CardProductController cardC = load.getController();
+//                cardC.setData(cardListData.get(q));
+//
+//                if(column == 3){
+//                    column = 0;
+//                    row += 1;
+//                }
+//
+//                menu_gridPane.add(pane, column++, row);
+//                GridPane.setMargin(pane, new Insets(15));
+//
+//            }catch (Exception e){e.printStackTrace();}
+//        }
+//        menu_all_btn.getStyleClass().add("btn_clicked");
+//        menu_drink_btn.getStyleClass().remove("btn_clicked");
+//        menu_mainFood_btn.getStyleClass().remove("btn_clicked");
+//        menu_fastFood_btn.getStyleClass().remove("btn_clicked");
+//    }
 
     public void menuDisplayCard() throws SQLException {
         cardListData.clear();
@@ -955,6 +958,7 @@ public class MainFormController implements Initializable {
 
                     orderDisplay();
                     menuReset();
+                    statistics();
                 }
                 else{
                     alert = new Alert(Alert.AlertType.WARNING);
@@ -1174,5 +1178,6 @@ public class MainFormController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

@@ -92,7 +92,7 @@ public class CardProductController implements Initializable {
             prepare = connect.prepareStatement(checkAvailable);
             result = prepare.executeQuery();
 
-            if(result.next()){
+            while(result.next()){
                 check = result.getString("status");
             }
             if(!check.equals("Available") || qty == 0){

@@ -5,17 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesDAOImpl implements CategoriesDAO{
-    Connection connect;
-    PreparedStatement prepare;
     ResultSet result;
 
     @Override
     public Categories get(int id) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         Categories categories = null;
         String sql = "SELECT * FROM categories WHERE id = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, id);
-        prepare = connect.prepareStatement(sql);
         result = prepare.executeQuery();
 
         if(result.next()){
@@ -31,9 +29,9 @@ public class CategoriesDAOImpl implements CategoriesDAO{
     public List<Categories> getAll() throws SQLException {
         List<Categories> categoriesList = new ArrayList<>();
         Categories categories = null;
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM categories";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         result = prepare.executeQuery();
         if(result.next()){
             categories = new Categories(
@@ -52,9 +50,9 @@ public class CategoriesDAOImpl implements CategoriesDAO{
 
     @Override
     public void insert(Categories categories) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "INSERT INTO categories(typeName) VALUES(?)";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, categories.getTypeName());
 
         prepare.executeUpdate();
@@ -92,9 +90,9 @@ public class CategoriesDAOImpl implements CategoriesDAO{
 
     @Override
     public ResultSet getAllCate(Categories categories) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM categories";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         result = prepare.executeQuery();
 
         return result;
@@ -104,10 +102,10 @@ public class CategoriesDAOImpl implements CategoriesDAO{
     public List<Product> getAllProduct(Categories categories) throws SQLException{
         List<Product> productList = new ArrayList<>();
         Product product = null;
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM product WHERE categories_id = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, categories.getId());
-        prepare = connect.prepareStatement(sql);
         result = prepare.executeQuery();
         if(result.next()){
             product = new Product(

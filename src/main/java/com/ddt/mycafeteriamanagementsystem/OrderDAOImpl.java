@@ -8,14 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO{
-    private Connection connect;
-    private PreparedStatement prepare;
-    ResultSet result;
-
     @Override
     public Order get(int id) throws SQLException {
-        connect = Database.connectDB();
-
         return null;
     }
 
@@ -31,11 +25,11 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public void insert(Order order) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
 
         String sql = "INSERT INTO `order` (employee_id, date) "
                 + "VALUES(?,?)";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
 
         prepare.setString(1, String.valueOf(order.getEmployee_id()));
         Date date = new Date();
@@ -58,10 +52,10 @@ public class OrderDAOImpl implements OrderDAO{
 
     @Override
     public ResultSet getAllOrder(Order order) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT MAX(id) FROM `order`";
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 }
