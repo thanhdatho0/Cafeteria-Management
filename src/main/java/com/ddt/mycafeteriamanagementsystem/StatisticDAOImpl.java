@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.text.DecimalFormat;
 
 public class StatisticDAOImpl implements StatisticDAO{
     private Connection connect;
@@ -50,5 +53,60 @@ public class StatisticDAOImpl implements StatisticDAO{
         while (result.next())
             count++;
         return count;
+    }
+
+    @Override
+    public double getDayIncome() throws SQLException {
+        double dayIncome = 0;
+        connect = Database.connectDB();
+        String sql = "SELECT quantity*price FROM customer WHERE date = ?";
+        Date date = new Date();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        prepare = connect.prepareStatement(sql);
+        prepare.setString(1, String.valueOf(sqlDate));
+        result = prepare.executeQuery();
+        while (result.next()){
+            dayIncome += result.getDouble(1);
+        }
+        DecimalFormat format = new DecimalFormat("##.00");
+        return Double.parseDouble(format.format(dayIncome));
+    }
+
+    @Override
+    public double getMonthIncome() throws SQLException {
+        double monthIncome = 0;
+
+        Date date = new Date();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(sqlDate);
+        int month = calendar.get(Calendar.MONTH) + 1;
+
+        connect = Database.connectDB();
+        String sql = "SELECT quantity*price FROM customer WHERE MONTH(date) = ?";
+        prepare = connect.prepareStatement(sql);
+        prepare.setInt(1, month);
+        result = prepare.executeQuery();
+        while (result.next()){
+            monthIncome += result.getDouble(1);
+        }
+        DecimalFormat format = new DecimalFormat("##.00");
+        return Double.parseDouble(format.format(monthIncome));
+    }
+
+    @Override
+    public int getSoldNumber() throws SQLException {
+        int solds = 0;
+        connect = Database.connectDB();
+        String sql = "SELECT sum(quantity) FROM customer WHERE date = ?";
+        Date date = new Date();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        prepare = connect.prepareStatement(sql);
+        prepare.setString(1, String.valueOf(sqlDate));
+        result = prepare.executeQuery();
+        while (result.next()){
+            solds += result.getDouble(1);
+        }
+        return solds;
     }
 }

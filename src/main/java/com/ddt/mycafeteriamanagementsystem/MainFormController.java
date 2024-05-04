@@ -56,7 +56,7 @@ public class MainFormController implements Initializable {
     private Label dayIncome;
 
     @FXML
-    private Label totalIncome;
+    private Label monthIncome;
 
     @FXML
     private Label numOfProSold;
@@ -1145,6 +1145,9 @@ public class MainFormController implements Initializable {
     public void statistics() throws SQLException {
         StatisticDAO statisticDAO = new StatisticDAOImpl();
         numOfCustomer.setText(String.valueOf(statisticDAO.getNumberOfCustomer()));
+        dayIncome.setText("$" + String.valueOf(statisticDAO.getDayIncome()));
+        monthIncome.setText("$" + String.valueOf(statisticDAO.getMonthIncome()));
+        numOfProSold.setText(String.valueOf(statisticDAO.getSoldNumber()));
     }
 
     @Override
