@@ -152,7 +152,7 @@ public class AddInventController implements Initializable {
         {
             try
             {
-                result = InventoryDAOimpl.getInstance().check(invent_add_id.getText());
+                result = ProductDAOimpl.getInstance().check(invent_add_id.getText());
 
                 if (result.next())
                 {
@@ -174,7 +174,7 @@ public class AddInventController implements Initializable {
                     Date date = new Date(System.currentTimeMillis());
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-                    InventoryDAOimpl.getInstance().insert(new Product(invent_add_id.getText(), invent_add_name.getText(),
+                    ProductDAOimpl.getInstance().insert(new Product(invent_add_id.getText(), invent_add_name.getText(),
                             new Categories(categories_id[invent_add_type.getSelectionModel().getSelectedIndex()]),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),
@@ -229,7 +229,7 @@ public class AddInventController implements Initializable {
 
                 if (option.get().equals(ButtonType.OK)) {
 
-                    InventoryDAOimpl.getInstance().update(new Product(invent_add_id.getText(), invent_add_name.getText(),
+                    ProductDAOimpl.getInstance().update(new Product(invent_add_id.getText(), invent_add_name.getText(),
                             new Categories(categories_id[invent_add_type.getSelectionModel().getSelectedIndex()]),
                             Integer.parseInt(invent_add_stock.getText()),
                             Double.parseDouble(invent_add_price.getText()),

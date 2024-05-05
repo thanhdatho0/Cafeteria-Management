@@ -1,13 +1,16 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryDAOimpl implements ProductDAO {
-    public static InventoryDAOimpl getInstance()
+public class ProductDAOimpl implements ProductDAO {
+    public static ProductDAOimpl getInstance()
     {
-        return new InventoryDAOimpl();
+        return new ProductDAOimpl();
     }
 
 //    @Override
@@ -130,4 +133,62 @@ public class InventoryDAOimpl implements ProductDAO {
         Database.closePreparedStatement(prepare);
         Database.closeConnection(connect);
     }
+
+    @Override
+    public ObservableList<Product> DataList() throws SQLException {
+        ObservableList<Product> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM product";
+
+        Connection connect = Database.connectDB();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+
+        Product prod;
+        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+
+        while(result.next()){
+            prod = new Product(result.getInt("id"),
+                    result.getString("prod_id"),
+                    result.getString("prod_name"),
+                    productCardDAO.getCategories(result.getInt("categories_id")),
+                    result.getInt("stock"),
+                    result.getDouble("price"),
+                    result.getString("status"),
+                    result.getString("image"),
+                    result.getDate("date"));
+
+            listData.add(prod);
+        }
+        return listData;
+    }
+
+    @Override
+    public ObservableList<Product> DataTypeList(int categories_id) throws SQLException {
+        ObservableList<Product> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM product WHERE categories_id = ?";
+
+        Connection connect = Database.connectDB();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setInt(1, categories_id);
+        ResultSet result = prepare.executeQuery();
+
+        Product prod;
+        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+
+        while(result.next()){
+            prod = new Product(result.getInt("id"),
+                    result.getString("prod_id"),
+                    result.getString("prod_name"),
+                    productCardDAO.getCategories(result.getInt("categories_id")),
+                    result.getInt("stock"),
+                    result.getDouble("price"),
+                    result.getString("status"),
+                    result.getString("image"),
+                    result.getDate("date"));
+
+            listData.add(prod);
+        }
+        return listData;
+    }
+
 }
