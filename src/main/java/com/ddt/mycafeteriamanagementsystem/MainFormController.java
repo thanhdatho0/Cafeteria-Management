@@ -780,33 +780,12 @@ public class MainFormController implements Initializable {
     }
 
     //Customer_form
-    public ObservableList<CustomerData> customerDataList(){
-        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM receipt";
-        connect = Database.connectDB();
-
-        try {
-            prepare = connect.prepareStatement(sql);
-            result = prepare.executeQuery();
-            CustomerData cData;
-
-            while (result.next()){
-                cData = new CustomerData(
-                        result.getInt("id"),
-                        result.getInt("customer_id"),
-                        result.getDouble("total"),
-                        result.getDate("date"),
-                        result.getString("em_username"));
-
-                listData.add(cData);
-            }
-
-        }catch (Exception e){e.printStackTrace();}
-        return listData;
+    public ObservableList<CustomerData> customerDataList() throws SQLException {
+        return ReceiptDAOImpl.getInstance().DataList();
     }
 
     private ObservableList<CustomerData> customerListData;
-    public void customerShowData(){
+    public void customerShowData() throws SQLException {
         customerListData = customerDataList();
 
         customer_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
@@ -964,7 +943,11 @@ public class MainFormController implements Initializable {
         menuTime();
         menuDisplayTotal();
         orderDisplay();
-        customerShowData();
+        try {
+            customerShowData();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         try {
             displayBarChart();
         } catch (SQLException e) {

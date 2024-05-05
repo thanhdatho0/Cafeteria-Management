@@ -1,5 +1,8 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +14,12 @@ public class ReceiptDAOImpl implements ReceiptDAO{
     private Connection connect;
     private PreparedStatement prepare;
     ResultSet result;
+
+    public static ReceiptDAOImpl getInstance()
+    {
+        return new ReceiptDAOImpl();
+    }
+
     @Override
     public Receipt get(int id) throws SQLException {
         return null;
@@ -54,5 +63,29 @@ public class ReceiptDAOImpl implements ReceiptDAO{
     @Override
     public void delete(Receipt receipt) throws SQLException {
 
+    }
+
+    @Override
+    public ObservableList<CustomerData> DataList() throws SQLException {
+        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM receipt";
+
+        Connection connect = Database.connectDB();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+
+        CustomerData cData;
+
+        while (result.next()){
+            cData = new CustomerData(
+                    result.getInt("id"),
+                    result.getInt("customer_id"),
+                    result.getDouble("total"),
+                    result.getDate("date"),
+                    result.getString("em_username"));
+
+            listData.add(cData);
+        }
+        return listData;
     }
 }
