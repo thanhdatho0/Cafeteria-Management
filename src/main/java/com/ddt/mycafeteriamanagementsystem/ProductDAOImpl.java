@@ -15,30 +15,24 @@ public class ProductDAOImpl implements ProductDAO {
 
 //    @Override
     public Product get(int id) throws SQLException {
-//        Connection connection = Database.connectDB();
-//        Product product = null;
-//        String sql = "SELECT * FROM product WHERE id = ?";
-//        PreparedStatement prepare = connection.prepareStatement(sql);
-//        prepare.setInt(1, id);
-//
-//        ResultSet res = prepare.executeQuery();
-//
-//        // kiem tra truy van co tra ve mot ban du lieu ko
-//        if (res.next())
-//        {
-//            int Id = res.getInt("id");
-//            String prodId = res.getString("prod_id");
-//            String prodName = res.getString("prod_name");
-//            int categoriesId = res.getInt("categories_id");
-//            int stock = res.getInt("stock");
-//            Double price = res.getDouble("price");
-//            String status = res.getString("status");
-//            String img = res.getString("image");
-//            java.sql.Date date = res.getDate("date");
-//
-//            product = new Product(Id, prodId, prodName, categoriesId, stock, price, status, img, date);
-//        }
-        return null;
+        Product product = null;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT * FROM product WHERE id = " + id;
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+        if(result.next()) {
+            product = new Product(
+                    result.getInt("id"),
+                    result.getString("prod_id"),
+                    result.getString("prod_name"),
+                    getCategories(result.getInt("categories_id")),
+                    result.getInt("stock"),
+                    result.getDouble("price"),
+                    result.getString("status"),
+                    result.getString("image"),
+                    result.getDate("date"));
+        }
+        return product;
     }
     @Override
     public List<Product> getAll() throws SQLException {
@@ -115,7 +109,6 @@ public class ProductDAOImpl implements ProductDAO {
         ResultSet res = prepare.executeQuery();
         return res;
     }
-
 
     @Override
     public void delete(Product product) throws SQLException {

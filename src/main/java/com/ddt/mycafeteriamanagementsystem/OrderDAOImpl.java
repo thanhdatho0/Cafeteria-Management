@@ -10,7 +10,20 @@ import java.util.List;
 public class OrderDAOImpl implements OrderDAO{
     @Override
     public Order get(int id) throws SQLException {
-        return null;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT * FROM `order` WHERE id = " + id;
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+        Order order = null;
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        if(result.next()){
+            order = new Order(
+                    result.getInt("id"),
+                    employeeDAO.get(result.getInt("employee_id")),
+                    result.getDate("date")
+            );
+        }
+        return order;
     }
 
     @Override
@@ -31,7 +44,7 @@ public class OrderDAOImpl implements OrderDAO{
                 + "VALUES(?,?)";
         PreparedStatement prepare = connect.prepareStatement(sql);
 
-        prepare.setString(1, String.valueOf(order.getEmployee_id()));
+        prepare.setString(1, String.valueOf(order.getEmployee().getId()));
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 

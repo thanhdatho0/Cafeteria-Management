@@ -28,12 +28,12 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO{
     public void insert(OrderDetails orderDetails) throws SQLException {
         Connection connect = Database.connectDB();
 
-        String insertPay = "INSERT INTO `order details` (order_id, prod_id, quantity) "
+        String insertPay = "INSERT INTO `order details` (order_id, prod_id, quantity)"
                 + "VALUES(?,?,?)";
         PreparedStatement prepare = connect.prepareStatement(insertPay);
 
-        prepare.setString(1, String.valueOf(orderDetails.getOrder_id()));
-        prepare.setString(2, String.valueOf(orderDetails.getProd_id()));
+        prepare.setString(1, String.valueOf(orderDetails.getOrder().getId()));
+        prepare.setString(2, String.valueOf(orderDetails.getProduct().getId()));
         prepare.setString(3, String.valueOf(orderDetails.getQuantity()));
 
         prepare.executeUpdate();

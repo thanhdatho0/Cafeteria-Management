@@ -4,56 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetails {
-    private int order_id;
-    private int prod_id;
-    private int quantity;
     private Order order;
-    private List<Product> productList = new ArrayList<Product>();
+    private Product product;
+    private int quantity;
 
-    public OrderDetails() {}
-
-    public OrderDetails(int order_id, int prod_id, int quantity) {
-        this.order_id = order_id;
-        this.prod_id = prod_id;
-        this.quantity = quantity;
-    }
-
-    public OrderDetails(int order_id, int prod_id, int quantity, Order order) {
-        this.order_id = order_id;
-        this.prod_id = prod_id;
-        this.quantity = quantity;
+    public OrderDetails(Order order, Product product, int quantity) {
         this.order = order;
-    }
-
-    public OrderDetails(int order_id, int prod_id, int quantity, Order order, List<Product> productList) {
-        this.order_id = order_id;
-        this.prod_id = prod_id;
-        this.quantity = quantity;
-        this.order = order;
-        this.productList = productList;
-    }
-
-    public int getOrder_id() {
-        return order_id;
-    }
-
-    public void setOrder_id(int id) {
-        this.order_id = id;
-    }
-
-    public int getProd_id() {
-        return prod_id;
-    }
-
-    public void setProd_id(int prod_id) {
-        this.prod_id = prod_id;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
 
@@ -65,15 +22,19 @@ public class OrderDetails {
         this.order = order;
     }
 
-    public List<Product> getProductData() {
-        return productList;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductData(List<Product> productList) {
-        this.productList = productList;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-//    public void addProduct(ProductData productList, int quantity){
-//        this.productList.add(new ProductData(productList, quantity));
-//    }
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

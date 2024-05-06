@@ -606,6 +606,7 @@ public class MainFormController implements Initializable {
     int order_id;
 
     public void menuPayBtn(){
+        order = new Order();
         if(totalP == 0){
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error message");
@@ -640,8 +641,8 @@ public class MainFormController implements Initializable {
                     }
 
                     //Dien du lieu vao table order khi co khoa ngoai la ID cua employee
-                    order = new Order();
-                    order.setEmployee_id(employee_id);
+                    employee = employeeDAO.get(employee_id);
+                    order.setEmployee(employee);
                     orderDAO = new OrderDAOImpl();
                     orderDAO.insert(order);
                     ResultSet resultSetOrder = orderDAO.getAllOrder(order);
@@ -649,7 +650,7 @@ public class MainFormController implements Initializable {
                     if(resultSetOrder.next()){
                         order_id = resultSetOrder.getInt("MAX(id)");
                     }
-
+                    order = orderDAO.get(order_id);
                     /**
                      * OrderDetail can prod_id va quantity => lay thong qua customer
                      */
@@ -675,8 +676,11 @@ public class MainFormController implements Initializable {
                                 prodID = resultSetProd.getInt("id");
                             }
 
+                            product = productDAO.get(prodID);
+
                             //Dien vao order detail
-                            orderDetails = new OrderDetails(order_id, prodID, quantityCus);
+                            orderDetails = new OrderDetails(order, product, quantityCus);
+                            System.out.println(order.getId());
                             orderDetailsDAO = new OrderDetailsDAOImpl();
                             orderDetailsDAO.insert(orderDetails);
                         }

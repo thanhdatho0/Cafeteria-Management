@@ -182,7 +182,7 @@ public class AddInventController implements Initializable {
                             path, sqlDate));
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Error Message");
+                    alert.setTitle("Information Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Successfully Added!");
                     alert.showAndWait();

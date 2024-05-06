@@ -6,15 +6,23 @@ import java.util.List;
 
 public class Order {
     private int id;
-    private int employee_id;
+    private Employee employee;
     private Date date;
     private List<OrderDetails> items = new ArrayList<OrderDetails>();
 
     public Order() {}
 
-    public Order(int id, int employee_id) {
+    public Order(int id, Employee employee, Date date, List<OrderDetails> items) {
         this.id = id;
-        this.employee_id = employee_id;
+        this.employee = employee;
+        this.date = date;
+        this.items = items;
+    }
+
+    public Order(int id, Employee employee, Date date) {
+        this.id = id;
+        this.employee = employee;
+        this.date = date;
     }
 
     public int getId() {
@@ -25,12 +33,12 @@ public class Order {
         this.id = id;
     }
 
-    public int getEmployee_id() {
-        return employee_id;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmployee_id(int employee_id) {
-        this.employee_id = employee_id;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Date getDate() {
@@ -48,8 +56,4 @@ public class Order {
     public void setItems(List<OrderDetails> items) {
         this.items = items;
     }
-
-//    public void addItems(Product prod_id, int quantity, double price){
-//        this.items.add(new OrderDetails(id, prod_id, quantity, price));
-//    }
 }
