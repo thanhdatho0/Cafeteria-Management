@@ -340,7 +340,7 @@ public class MainFormController implements Initializable {
         if (option.get().equals(ButtonType.OK))
         {
             try {
-                ProductDAOImpl.getInstance().delete(prod);
+                ProductDAOImpl.getInstance().delete(new Product(prod));
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -393,7 +393,7 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<Product> menuGetData() throws SQLException {
-        return ProductDAOImpl.getInstance().DataList();
+        return ProductDAOImpl.getInstance().DataMenu();
     }
     public ObservableList<Product> menuDrinkData() throws SQLException {
         return ProductDAOImpl.getInstance().DataTypeList(1);

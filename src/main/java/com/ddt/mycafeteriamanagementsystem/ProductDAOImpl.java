@@ -113,9 +113,11 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public void delete(Product product) throws SQLException {
         Connection connect = Database.connectDB();
-        String sql = "DELETE FROM product WHERE id = ?";
+        String sql = "UPDATE product SET status = ?, available = ? WHERE prod_id = ?";
         PreparedStatement prepare = connect.prepareStatement(sql);
-        prepare.setInt(1, product.getId());
+        prepare.setString(1, "Unavailable");
+        prepare.setInt(2,0);
+        prepare.setString(3, product.getProd_id());
 
         prepare.executeUpdate();
         System.out.println("ban da :" + sql);
@@ -127,10 +129,11 @@ public class ProductDAOImpl implements ProductDAO {
     @Override
     public ObservableList<Product> DataList() throws SQLException {
         ObservableList<Product> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM product";
+        String sql = "SELECT * FROM product WHERE available = ?";
 
         Connection connect = Database.connectDB();
         PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setInt(1,1);
         ResultSet result = prepare.executeQuery();
 
         Product prod;
@@ -151,15 +154,42 @@ public class ProductDAOImpl implements ProductDAO {
         }
         return listData;
     }
+    public ObservableList<Product> DataMenu() throws SQLException {
+        ObservableList<Product> listData = FXCollections.observableArrayList();
+        String sql = "SELECT * FROM product WHERE status = ?";
 
+        Connection connect = Database.connectDB();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setString(1, "Available");
+        ResultSet result = prepare.executeQuery();
+
+        Product prod;
+        ProductDAO productDAO = new ProductDAOImpl();
+
+        while(result.next()){
+            prod = new Product(result.getInt("id"),
+                    result.getString("prod_id"),
+                    result.getString("prod_name"),
+                    productDAO.getCategories(result.getInt("categories_id")),
+                    result.getInt("stock"),
+                    result.getDouble("price"),
+                    result.getString("status"),
+                    result.getString("image"),
+                    result.getDate("date"));
+
+            listData.add(prod);
+        }
+        return listData;
+    }
     @Override
     public ObservableList<Product> DataTypeList(int categories_id) throws SQLException {
         ObservableList<Product> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM product WHERE categories_id = ?";
+        String sql = "SELECT * FROM product WHERE categories_id = ? AND status = ?";
 
         Connection connect = Database.connectDB();
         PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, categories_id);
+        prepare.setString(2, "Available");
         ResultSet result = prepare.executeQuery();
 
         Product prod;
