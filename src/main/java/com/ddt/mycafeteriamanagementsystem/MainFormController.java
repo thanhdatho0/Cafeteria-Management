@@ -22,6 +22,10 @@ import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 import java.net.URL;
 import java.sql.*;
@@ -64,8 +68,6 @@ public class MainFormController implements Initializable {
 
     @FXML
     private LineChart<?, ?> dayLineChart;
-
-
 
     //Biến trong inventory_form
     @FXML
@@ -155,12 +157,6 @@ public class MainFormController implements Initializable {
 
     @FXML
     private ScrollPane menu_scrollPane;
-
-    @FXML
-    private ImageView menu_search_icon;
-
-    @FXML
-    private TextField menu_search_text;
 
     @FXML
     private AnchorPane menu_tableView;
@@ -697,7 +693,6 @@ public class MainFormController implements Initializable {
                     alert.showAndWait();
 
                     orderDisplay();
-                    menuReset();
                     statistics();
                 }
                 else{
@@ -769,6 +764,31 @@ public class MainFormController implements Initializable {
             Data.cID = cID;
 
         }catch (Exception e){e.printStackTrace();}
+    }
+
+    public void reportBtn(){
+        if(totalP == 0 || menu_amount.getText().isEmpty()){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setContentText("Please order first");
+            alert.showAndWait();
+        }
+        else{
+            customerID();
+            HashMap map = new HashMap();
+            map.put("getReceipt", (cID-1));
+
+            try {
+                JasperDesign jasperDesign = JRXmlLoader.load("src/main/resources/com/ddt/mycafeteriamanagementsystem/report.jrxml");
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, map, connect);
+
+                JasperViewer.viewReport(jasperPrint, false);
+                menuReset();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     //Chuyển Form

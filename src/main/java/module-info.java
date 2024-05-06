@@ -3,6 +3,7 @@ module com.ddt.mycafeteriamanagementsystem {
     requires javafx.fxml;
     requires java.sql;
 //    requires mysql.connector.java;
+    requires jasperreports;
 
 
     opens com.ddt.mycafeteriamanagementsystem to javafx.fxml;
