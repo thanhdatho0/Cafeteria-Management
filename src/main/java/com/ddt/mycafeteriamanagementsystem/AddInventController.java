@@ -133,6 +133,10 @@ public class AddInventController implements Initializable {
     }
     public void inventoryAdd(MouseEvent event)
     {
+        // kiem tra Stock , price co chua chu hay ko
+        String inputStock = invent_add_stock.getText();
+        String inputPrice = invent_add_price.getText();
+
         if (invent_add_id.getText().isEmpty() ||
                 invent_add_name.getText().isEmpty() ||
                 invent_add_stock.getText().isEmpty() ||
@@ -148,6 +152,15 @@ public class AddInventController implements Initializable {
             alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
         }
+        else if (!inputStock.matches("[0-9]+") || !inputPrice.matches("[0-9]+"))
+        {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please only enter numbers for price and stock.");
+            alert.showAndWait();
+        }
+
         else
         {
             try
@@ -197,11 +210,15 @@ public class AddInventController implements Initializable {
 
     public void updateProduct(MouseEvent event)
     {
+        // kiem tra Stock , price co chua chu hay ko
+        String inputStock = invent_add_stock.getText();
+        String inputPrice = invent_add_price.getText();
+
         if (invent_add_type.getSelectionModel().getSelectedItem() == null
                 || invent_add_stock.getText().isEmpty()
-                || invent_add_stock.getText().isEmpty()
+                || invent_add_price.getText().isEmpty()
                 || invent_add_status.getSelectionModel().getSelectedItem() == null
-                || invent_add_imageView == null) {
+                || invent_add_imageView.getImage() == null) {
 
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
@@ -209,7 +226,16 @@ public class AddInventController implements Initializable {
             alert.setContentText("Please fill all blank fields");
             alert.showAndWait();
 
-        } else {
+        }
+        else if (!inputStock.matches("[0-9]+") || !inputPrice.matches("[0-9]+"))
+        {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please only enter numbers for price and stock.");
+            alert.showAndWait();
+        }
+        else {
 
             String path = this.product.getImage();
             path = path.replace("\\", "\\\\");
@@ -237,7 +263,7 @@ public class AddInventController implements Initializable {
                             path, sqlDate));
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Error Message");
+                    alert.setTitle("Information Message");
                     alert.setHeaderText(null);
                     alert.setContentText("Successfully Updated!");
                     alert.showAndWait();
