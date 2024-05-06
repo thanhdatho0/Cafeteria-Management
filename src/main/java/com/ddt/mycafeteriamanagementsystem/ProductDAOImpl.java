@@ -7,10 +7,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAOimpl implements ProductDAO {
-    public static ProductDAOimpl getInstance()
+public class ProductDAOImpl implements ProductDAO {
+    public static ProductDAOImpl getInstance()
     {
-        return new ProductDAOimpl();
+        return new ProductDAOImpl();
     }
 
 //    @Override
@@ -88,22 +88,19 @@ public class ProductDAOimpl implements ProductDAO {
             // Tạo ket noi den CSDL
             Connection connection = Database.connectDB();
             // thuc  thi cau len sql
-            String sql = "UPDATE product SET prod_id = ?, prod_name = ?, categories_id = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE prod_id = ?";
+            String sql = "UPDATE product SET categories_id = ?, stock = ?, price = ?, status = ?, image = ?, date = ? WHERE prod_id = ?";
 
             PreparedStatement prepare = connection.prepareStatement(sql);
 
-            prepare.setString(1, product.getProd_id());
-            prepare.setString(2, product.getProd_name());
-        prepare.setInt(3, product.getCategories().getId());
-            prepare.setInt(4, product.getStock());
-            prepare.setDouble(5, product.getPrice());
-            prepare.setString(6, product.getStatus());
-            prepare.setString(7, product.getImage());
-            prepare.setString(8, String.valueOf(product.getDate()));
-            prepare.setString(9, product.getProd_id());
+            prepare.setInt(1, product.getCategories().getId());
+            prepare.setInt(2, product.getStock());
+            prepare.setDouble(3, product.getPrice());
+            prepare.setString(4, product.getStatus());
+            prepare.setString(5, product.getImage());
+            prepare.setString(6, String.valueOf(product.getDate()));
+            prepare.setString(7, product.getProd_id());
 
             prepare.executeUpdate();
-            System.out.println("ban da :" + sql);
 
             Database.closePreparedStatement(prepare);
             Database.closeConnection(connection);
@@ -144,13 +141,13 @@ public class ProductDAOimpl implements ProductDAO {
         ResultSet result = prepare.executeQuery();
 
         Product prod;
-        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+        ProductDAO productDAO = new ProductDAOImpl();
 
         while(result.next()){
             prod = new Product(result.getInt("id"),
                     result.getString("prod_id"),
                     result.getString("prod_name"),
-                    productCardDAO.getCategories(result.getInt("categories_id")),
+                    productDAO.getCategories(result.getInt("categories_id")),
                     result.getInt("stock"),
                     result.getDouble("price"),
                     result.getString("status"),
@@ -173,13 +170,13 @@ public class ProductDAOimpl implements ProductDAO {
         ResultSet result = prepare.executeQuery();
 
         Product prod;
-        ProductCardDAO productCardDAO = new ProductCardDAOImpl();
+        ProductDAO productDAO = new ProductDAOImpl();
 
         while(result.next()){
             prod = new Product(result.getInt("id"),
                     result.getString("prod_id"),
                     result.getString("prod_name"),
-                    productCardDAO.getCategories(result.getInt("categories_id")),
+                    productDAO.getCategories(result.getInt("categories_id")),
                     result.getInt("stock"),
                     result.getDouble("price"),
                     result.getString("status"),
@@ -189,6 +186,57 @@ public class ProductDAOimpl implements ProductDAO {
             listData.add(prod);
         }
         return listData;
+    }
+
+    @Override
+    public ResultSet getIDProduct(Product product) throws SQLException {
+        Connection connect = Database.connectDB();
+        String sql = "SELECT id FROM product WHERE prod_name = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setString(1, product.getProd_name());
+        ResultSet result = prepare.executeQuery();
+        return result;
+    }
+
+    @Override
+    public Product getProductByName(String name) throws SQLException {
+        Product product = null;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT id, prod_id, prod_name, categories_id, stock, price, status, image, product.date FROM product WHERE prod_name = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setString(1, name);
+        ResultSet result2 = prepare.executeQuery();
+        while (result2.next()){
+            int cate_id = result2.getInt("categories_id");
+            product = new Product(
+                    result2.getInt("id"),
+                    result2.getString("prod_id"),
+                    result2.getString("prod_name"),
+                    getCategories(cate_id),
+                    result2.getInt("stock"),
+                    result2.getDouble("price"),
+                    result2.getString("status"),
+                    result2.getString("image"),
+                    result2.getDate("date")
+            );
+        }
+        return product;
+    }
+
+    @Override
+    public Categories getCategories(int id) throws SQLException {
+        Connection connect = Database.connectDB();
+        Categories categories = null;
+        String sql = "SELECT * FROM categories WHERE id = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setInt(1, id);
+        ResultSet result = prepare.executeQuery();
+        if(result.next())
+            categories = new Categories(
+                    result.getInt("id"),
+                    result.getString("typeName")
+            );
+        return categories;
     }
 
 }

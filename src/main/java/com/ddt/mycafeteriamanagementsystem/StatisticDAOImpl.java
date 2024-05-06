@@ -106,4 +106,20 @@ public class StatisticDAOImpl implements StatisticDAO{
         }
         return solds;
     }
+
+    @Override
+    public ResultSet dayCustomersStatistic() throws SQLException {
+        Connection connect = Database.connectDB();
+        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        return prepare.executeQuery();
+    }
+
+    @Override
+    public ResultSet dayIncomesStatistic() throws SQLException {
+        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
+        Connection connect = Database.connectDB();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        return prepare.executeQuery();
+    }
 }

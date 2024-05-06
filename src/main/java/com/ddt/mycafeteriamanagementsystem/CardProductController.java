@@ -55,7 +55,8 @@ public class CardProductController implements Initializable {
     private Customer customer = null;
     private CustomerDAO  customerDAO = null;
     private Product product = null;
-    private ProductCardDAO productCardDAO = null;
+
+    private ProductDAO productDAO = null;
 
     public void setData(Product product){
         this.product = product;
@@ -116,9 +117,9 @@ public class CardProductController implements Initializable {
 
                 if(checkStck == 0){
                     //product = new Product(0, prodID, prod_name.getText(), categories_id, 0, pr, "Unavailable", prod_image, productData.getDate());
-                    productCardDAO = new ProductCardDAOImpl();
-                    product = productCardDAO.getProductByName(prod_name.getText());
-                    productCardDAO.update(product);
+                    productDAO = new ProductDAOImpl();
+                    product = productDAO.getProductByName(prod_name.getText());
+                    productDAO.update(product);
                 }
 
                 if(checkStck < qty){
@@ -139,9 +140,9 @@ public class CardProductController implements Initializable {
                     int upStock = checkStck - qty;
 
                     //product = new Product(0, prodID, prod_name.getText(), categories_id, upStock, pr, check, prod_image, productData.getDate());
-                    productCardDAO = new ProductCardDAOImpl();
-                    product = productCardDAO.getProductByName(prod_name.getText());
-                    productCardDAO.update(product);
+                    productDAO = new ProductDAOImpl();
+                    product = productDAO.getProductByName(prod_name.getText());
+                    productDAO.update(product);
 
                     alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Information Message");

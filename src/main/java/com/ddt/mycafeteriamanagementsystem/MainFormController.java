@@ -1,13 +1,10 @@
 package com.ddt.mycafeteriamanagementsystem;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,16 +23,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 public class MainFormController implements Initializable {
     //Cây thư mục điều hướng
@@ -220,7 +212,7 @@ public class MainFormController implements Initializable {
     private Employee employee = null;
     private EmployeeDAOImpl employeeDAO = null;
     private Product product = null;
-    private ProductCardDAO productCardDAO = null;
+    private ProductDAO productDAO = null;
     private Customer customer = null;
     private CusotmerDAOImpl cusotmerDAO = null;
     private javafx.event.ActionEvent ActionEvent;
@@ -352,7 +344,7 @@ public class MainFormController implements Initializable {
         if (option.get().equals(ButtonType.OK))
         {
             try {
-                ProductDAOimpl.getInstance().delete(prod);
+                ProductDAOImpl.getInstance().delete(prod);
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error Message");
                 alert.setHeaderText(null);
@@ -370,7 +362,7 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<Product> InventoryDataList() throws SQLException {
-        return ProductDAOimpl.getInstance().DataList();
+        return ProductDAOImpl.getInstance().DataList();
     }
 
     public void searchInventory(){
@@ -405,18 +397,18 @@ public class MainFormController implements Initializable {
     }
 
     public ObservableList<Product> menuGetData() throws SQLException {
-        return ProductDAOimpl.getInstance().DataList();
+        return ProductDAOImpl.getInstance().DataList();
     }
     public ObservableList<Product> menuDrinkData() throws SQLException {
-        return ProductDAOimpl.getInstance().DataTypeList(1);
+        return ProductDAOImpl.getInstance().DataTypeList(1);
     }
 
     public ObservableList<Product> menuFastFoodData() throws SQLException {
-        return ProductDAOimpl.getInstance().DataTypeList(2);
+        return ProductDAOImpl.getInstance().DataTypeList(2);
     }
 
     public ObservableList<Product> menuMainFoodData() throws SQLException {
-        return ProductDAOimpl.getInstance().DataTypeList(3);
+        return ProductDAOImpl.getInstance().DataTypeList(3);
     }
 
 //    public ObservableList<Product> getData2(ActionEvent event) throws SQLException{
@@ -731,8 +723,8 @@ public class MainFormController implements Initializable {
                             //Lay dc prod_name thi se lay dc ID la primary key cua product
                             product = new Product();
                             product.setProd_name(prodNameCus);
-                            productCardDAO = new ProductCardDAOImpl();
-                            ResultSet resultSetProd = productCardDAO.getIDProduct(product);
+                            productDAO = new ProductDAOImpl();
+                            ResultSet resultSetProd = productDAO.getIDProduct(product);
                             if(resultSetProd.next()){
                                 prodID = resultSetProd.getInt("id");
                             }
@@ -898,11 +890,9 @@ public class MainFormController implements Initializable {
 
     //Chart
     public void displayBarChart() throws SQLException {
-        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
         XYChart.Series chartData = new XYChart.Series();
-        connect = Database.connectDB();
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        StatisticDAO statisticDAO = new StatisticDAOImpl();
+        ResultSet result = statisticDAO.dayCustomersStatistic();
         while (result.next()){
             chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
 
@@ -911,11 +901,9 @@ public class MainFormController implements Initializable {
     }
 
     public void displayLineChart() throws SQLException {
-        String sql = "SELECT date, count(id) FROM customer GROUP BY date ORDER BY TIMESTAMP(date) ASC";
         XYChart.Series chartData = new XYChart.Series();
-        connect = Database.connectDB();
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        StatisticDAO statisticDAO = new StatisticDAOImpl();
+        ResultSet result = statisticDAO.dayIncomesStatistic();
         while (result.next()){
             chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
 
@@ -937,32 +925,16 @@ public class MainFormController implements Initializable {
         //Đưa tất cả trong hàm này vào hàm switch form
         try {
             inventoryShowData();
+            customerShowData();
+            displayBarChart();
+            displayLineChart();
+            statistics();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         menuTime();
         menuDisplayTotal();
         orderDisplay();
-        try {
-            customerShowData();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            displayBarChart();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            displayLineChart();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            statistics();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 }

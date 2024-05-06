@@ -1,5 +1,6 @@
 package com.ddt.mycafeteriamanagementsystem;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface StatisticDAO extends DAO<Statistic> {
@@ -10,6 +11,10 @@ public interface StatisticDAO extends DAO<Statistic> {
     double getMonthIncome() throws SQLException;
 
     int getSoldNumber() throws SQLException;
+
+    ResultSet dayCustomersStatistic() throws SQLException;
+
+    ResultSet dayIncomesStatistic() throws SQLException;
 }
 
 
