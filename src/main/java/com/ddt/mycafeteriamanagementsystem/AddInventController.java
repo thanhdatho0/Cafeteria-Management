@@ -237,7 +237,7 @@ public class AddInventController implements Initializable {
         }
         else {
 
-            String path = this.product.getImage();
+            String path = this.Path;
             path = path.replace("\\", "\\\\");
 
             Date date = new Date(System.currentTimeMillis());
