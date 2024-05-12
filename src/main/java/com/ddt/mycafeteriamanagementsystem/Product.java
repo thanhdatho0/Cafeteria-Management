@@ -14,6 +14,7 @@ public class Product {
     private  String image;
     private Date date;
     private double pr;
+    private int available;
 
 
     //public Product() {}
@@ -52,6 +53,18 @@ public class Product {
         this.date = date;
     }
 
+    // delete_form
+    public Product(Product product) {
+        this.prod_id = product.prod_id;
+        this.prod_name = product.prod_name;
+        this.categories = product.categories;
+        this.stock = product.stock;
+        this.price = product.price;
+        this.status = "Unavailable";
+        this.image = product.image;
+        this.date = product.date;
+        this.available = 0;
+    }
 
     public Product() {this(0, null, null, null, 0, 0, null, null, null);}
 
