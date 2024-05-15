@@ -131,7 +131,7 @@ public class CardProductController implements Initializable {
                 }
                 else{
 //                    prod_image = prod_image.replace("\\", "\\\\");
-                    totalP = (qty * pr);
+                    totalP = pr;
 
                     customer = new Customer(0, Data.cID, prodID, prod_name.getText(), categories_id, qty, totalP, Data.username, prod_image);
                     customerDAO = new CusotmerDAOImpl();
