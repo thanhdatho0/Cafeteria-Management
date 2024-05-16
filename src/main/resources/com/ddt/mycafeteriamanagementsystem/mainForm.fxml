@@ -91,6 +91,11 @@
                               </ImageView>
                            </graphic>
                         </Button>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Img/t.gif" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
                </left>
