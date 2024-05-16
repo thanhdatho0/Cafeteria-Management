@@ -14,4 +14,5 @@ public interface EmployeeDAO extends DAO<Employee>{
 
     ResultSet getIDEmployee(Employee employee) throws SQLException;
 
+    Employee getEmployeeByUserName(String username) throws SQLException;
 }

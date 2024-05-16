@@ -64,6 +64,17 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     @Override
+    public int getOrderId() throws SQLException {
+        int id = 0;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT MAX(id) FROM `order`";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+        if(result.next()) id = result.getInt(1);
+        return id;
+    }
+
+    @Override
     public ResultSet getAllOrder(Order order) throws SQLException {
         Connection connect = Database.connectDB();
         String sql = "SELECT MAX(id) FROM `order`";

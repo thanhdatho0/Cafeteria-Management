@@ -8,7 +8,7 @@ public class Order {
     private int id;
     private Employee employee;
     private Date date;
-    private List<OrderDetails> items = new ArrayList<OrderDetails>();
+    public static List<OrderDetails> items = new ArrayList<>();
 
     public Order() {}
 
@@ -16,7 +16,7 @@ public class Order {
         this.id = id;
         this.employee = employee;
         this.date = date;
-        this.items = items;
+        Order.items = items;
     }
 
     public Order(int id, Employee employee, Date date) {
@@ -53,7 +53,15 @@ public class Order {
         return items;
     }
 
-    public void setItems(List<OrderDetails> items) {
-        this.items = items;
+    public void add(OrderDetails orderDetails){
+        items.add(orderDetails);
     }
+
+    int total_amount(){
+        int amount = 0;
+        for(OrderDetails orderDetails : items)
+            amount += orderDetails.getQuantity();
+        return amount;
+    }
+
 }

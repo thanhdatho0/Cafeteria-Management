@@ -17,7 +17,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -172,22 +171,22 @@ public class MainFormController implements Initializable {
 
     //Biến trong customer_form
     @FXML
-    private TableColumn<CustomerData, String> customer_col_cashier;
+    private TableColumn<CustomerDetails, String> customer_col_cashier;
 
     @FXML
-    private TableColumn<CustomerData, String> customer_col_customerID;
+    private TableColumn<CustomerDetails, String> customer_col_customerID;
 
     @FXML
-    private TableColumn<CustomerData, String> customer_col_date;
+    private TableColumn<CustomerDetails, String> customer_col_date;
 
     @FXML
-    private TableColumn<CustomerData, String> customer_col_total;
+    private TableColumn<CustomerDetails, String> customer_col_total;
 
     @FXML
     private AnchorPane customer_form;
 
     @FXML
-    private TableView<CustomerData> customer_tableView;
+    private TableView<CustomerDetails> customer_tableView;
 
     private Alert alert;
     private Connection connect;
@@ -408,6 +407,7 @@ public class MainFormController implements Initializable {
     }
 
     public void menuDisplay(ObservableList<Product> menuType) {
+        menu_scrollPane.setFocusTraversable(false);
         cardListData.clear();
         cardListData.addAll(menuType);
 
@@ -505,26 +505,22 @@ public class MainFormController implements Initializable {
         return listData;
     }
 
-    private ObservableList<Product> orderListData = FXCollections.observableArrayList();
     public void orderDisplay(){
-        orderListData.clear();
-        orderListData.addAll(orderGetData());
-
-        int row = 0;
-        int column = 0;
-
         order_gridPane.getChildren().clear();
         order_gridPane.getRowConstraints().clear();
         order_gridPane.getColumnConstraints().clear();
 
-        for(int q = 0; q < orderListData.size(); q++){
+        int row = 0;
+        int column = 0;
+
+        for(int q = 0; q < Order.items.size(); q++){
 
             try {
                 FXMLLoader load = new FXMLLoader();
                 load.setLocation(getClass().getResource("ordersProduct.fxml"));
                 AnchorPane pane = load.load();
                 OrderProductController oderC = load.getController();
-                oderC.setData(orderListData.get(q));
+                oderC.setData(Order.items.get(q));
 
                 if(column == 1){
                     column = 0;
@@ -535,6 +531,79 @@ public class MainFormController implements Initializable {
 
             }catch (Exception e){e.printStackTrace();}
         }
+        orderInfo();
+    }
+
+    public void orderInfo(){
+        double total = 0;
+        double discount = 0;
+        int amount = 0;
+        int count = 0;
+        for(OrderDetails orderDetails : Order.items){
+            amount += orderDetails.getQuantity();
+            total += orderDetails.getQuantity()*orderDetails.getProduct().getPrice();
+        }
+        count = amount/10;
+        discount = (double) (count * 20) /100;
+        System.out.println(count);
+        System.out.println(discount);
+        total = total - total*discount;
+        totalP = total;
+
+        menu_discount.setText("-" + String.valueOf(total*discount) + "VND");
+        menu_amount.setText(String.valueOf(amount));
+        menu_total.setText(String.valueOf(total) + "VND");
+    }
+
+    public void payBtn() throws SQLException {
+        if(Order.items.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error Message");
+            alert.setContentText("404 NOT FOUND");
+            alert.showAndWait();
+            return;
+        }
+        //Khai bao - Lay du lieu cua Nhan Vien
+        Employee employee = new Employee();
+        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
+        employee = employeeDAO.getEmployeeByUserName(Data.username);
+
+        //Khoi tao 1 Order moi voi cac thuoc tinh co ban
+        Order order = new Order();
+        order.setEmployee(employee);
+        OrderDAO orderDAO = new OrderDAOImpl();
+        orderDAO.insert(order);
+        order.setId(orderDAO.getOrderId());
+
+        //Khoi tao, luu cac Chi tiet hoa don vao db tu du lieu co san
+        OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAOImpl();
+        Order.items.forEach(item->{
+            item.setOrder(order);
+            try {
+                orderDetailsDAO.insert(item);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        //Ghi du lieu vao Customers
+        Customers customers = new Customers();
+        customers.setOrder(order);
+        customers.setTotal(order.total_amount());
+        CustomersDAO customersDAO = new CustomersDAOImpl();
+        customersDAO.insert(customers);
+
+        Order.items.clear();
+        order_gridPane.getChildren().clear();
+        System.out.println(Order.items);
+        menuReset();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Information Message");
+        alert.setContentText("Successfully Create Order");
+        alert.show();
     }
 
     private double totalP;
@@ -587,12 +656,6 @@ public class MainFormController implements Initializable {
             menu_discount.setText("-" + 20000 + " VND");
             menu_total.setText(discount + " VND");
         }
-    }
-
-    public void menuDisplayTotal(){
-        menuGetAmount();
-        menu_amount.setText(String.valueOf(qty));
-        menuGetDiscount();
     }
 
     int employee_id;
@@ -692,7 +755,7 @@ public class MainFormController implements Initializable {
                     alert.setContentText("Successful");
                     alert.showAndWait();
 
-                    orderDisplay();
+                    //orderDisplay();
                     statistics();
                 }
                 else{
@@ -717,20 +780,19 @@ public class MainFormController implements Initializable {
     }
 
     //Customer_form
-    public ObservableList<CustomerData> customerDataList() throws SQLException {
-        return ReceiptDAOImpl.getInstance().DataList();
-    }
 
-    private ObservableList<CustomerData> customerListData;
     public void customerShowData() throws SQLException {
-        customerListData = customerDataList();
+        ///customerListData = customerDataList();
+        ObservableList<CustomerDetails> customerDetails = null;
+        CustomersDAO customersDAO = new CustomersDAOImpl();
+        customerDetails = customersDAO.customerDetailsDataList();
 
-        customer_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        customer_col_customerID.setCellValueFactory(new PropertyValueFactory<>("customer_id"));
         customer_col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
         customer_col_date.setCellValueFactory(new PropertyValueFactory<>("date"));
-        customer_col_cashier.setCellValueFactory(new PropertyValueFactory<>("emUsername"));
+        customer_col_cashier.setCellValueFactory(new PropertyValueFactory<>("cashier"));
 
-        customer_tableView.setItems(customerListData);
+        customer_tableView.setItems(customerDetails);
     }
 
     public void customerID(){
@@ -817,8 +879,7 @@ public class MainFormController implements Initializable {
 
             menuTime();
             menuDisplayCard();
-            menuDisplayTotal();
-            orderDisplay();
+            //orderDisplay();
 //            searchMenu();
         }
         else if(event.getSource() == customers_btn){
@@ -903,8 +964,7 @@ public class MainFormController implements Initializable {
             throw new RuntimeException(e);
         }
         menuTime();
-        menuDisplayTotal();
-        orderDisplay();
+        //orderDisplay();
 
     }
 }

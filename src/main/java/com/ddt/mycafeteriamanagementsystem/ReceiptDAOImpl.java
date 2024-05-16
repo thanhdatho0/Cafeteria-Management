@@ -65,27 +65,4 @@ public class ReceiptDAOImpl implements ReceiptDAO{
 
     }
 
-    @Override
-    public ObservableList<CustomerData> DataList() throws SQLException {
-        ObservableList<CustomerData> listData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM receipt";
-
-        Connection connect = Database.connectDB();
-        PreparedStatement prepare = connect.prepareStatement(sql);
-        ResultSet result = prepare.executeQuery();
-
-        CustomerData cData;
-
-        while (result.next()){
-            cData = new CustomerData(
-                    result.getInt("id"),
-                    result.getInt("customer_id"),
-                    result.getDouble("total"),
-                    result.getDate("date"),
-                    result.getString("em_username"));
-
-            listData.add(cData);
-        }
-        return listData;
-    }
 }

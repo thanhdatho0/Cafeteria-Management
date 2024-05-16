@@ -35,6 +35,10 @@
     -fx-border-color: #43cea2;
 }
 
+.btn_pay{
+    -fx-text-fill: #fff;
+}
+
 .btn_nav:hover,
 .btn_pay:hover{
     -fx-background-color: linear-gradient(to top right , #92ffdb, #53ffc4);
@@ -117,4 +121,9 @@
 .summary-wrapper-children{
     position: absolute;
     -fx-min-width: 25%;
+}
+
+.reload-order-bn{
+    -fx-background-color: transparent;
+
 }

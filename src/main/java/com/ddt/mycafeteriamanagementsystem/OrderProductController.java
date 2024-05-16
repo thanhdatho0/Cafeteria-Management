@@ -12,8 +12,10 @@ import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class OrderProductController implements Initializable {
     @FXML
@@ -48,37 +50,26 @@ public class OrderProductController implements Initializable {
     private int getID;
 
 
-    public void setData(Product product){
-        this.product = product;
-
+    public void setData(OrderDetails orderDetails){
+        Product product = orderDetails.getProduct();
         getID = product.getId();
         order_name.setText(product.getProd_name());
-        order_price.setText(String.valueOf(product.getPr()) + " VND");
         String path = "File:" + product.getImage();
         image = new Image(path, 40, 40, false, true);
         order_imageView.setImage(image);
-        order_quantity.setText(String.valueOf(product.getQuantity()));
+        order_quantity.setText(String.valueOf(orderDetails.getQuantity()));
         order_subtotal.setText(String.valueOf(product.getPrice()) + " VND");
     }
 
     public void orderGarbageBtn(){
-        String deleteData = "DELETE FROM customer WHERE id = " + getID;
-        connect = Database.connectDB();
-        try {
-            alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmation Message");
-            alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete this order");
-            Optional<ButtonType> option = alert.showAndWait();
-            if(option.get().equals(ButtonType.OK)){
-                prepare = connect.prepareStatement(deleteData);
-                prepare.executeUpdate();
-            }
-            else{
-
-            }
-
-        }catch (Exception e){e.printStackTrace();}
+        Order.items = Order.items.stream()
+                .filter(item -> item.getProduct().getId() != getID)
+                .collect(Collectors.toList());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle("Information Message");
+        alert.setContentText("Deleted out of Order! Please reload!");
+        alert.show();
     }
 
     @Override

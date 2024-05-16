@@ -57,16 +57,6 @@ public class CusotmerDAOImpl implements CustomerDAO{
 
     }
 
-    @Override
-    public ResultSet maxCustomer(Customer customer) throws SQLException {
-        Connection connect = Database.connectDB();
-        String sql = "SELECT MAX(customer_id) from customer";
-
-        PreparedStatement prepare = connect.prepareStatement(sql);
-        ResultSet result = prepare.executeQuery();
-
-        return result;
-    }
 
     @Override
     public ResultSet getAllCustomer(Customer customer) throws SQLException {

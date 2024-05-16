@@ -8,6 +8,8 @@ public class OrderDetails {
     private Product product;
     private int quantity;
 
+    public OrderDetails(){}
+
     public OrderDetails(Order order, Product product, int quantity) {
         this.order = order;
         this.product = product;
@@ -36,5 +38,14 @@ public class OrderDetails {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderDetails{" +
+                "order=" + order +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                '}';
     }
 }

@@ -4,5 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface OrderDAO extends DAO<Order>{
+    int getOrderId() throws SQLException;
     ResultSet getAllOrder(Order order) throws SQLException;
 }

@@ -9,15 +9,13 @@ import java.util.List;
 import java.util.Date;
 
 public class EmployeeDAOImpl implements EmployeeDAO{
-    Connection connect;
-    PreparedStatement prepare;
-    ResultSet result;
+
     @Override
     public Employee get(int id) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         Employee employee = null;
         String sql = "SELECT * FROM employee WHERE id = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setInt(1, id);
 
         ResultSet res = prepare.executeQuery();
@@ -38,10 +36,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
     public List<Employee> getAll() throws SQLException {
         List<Employee> employeeList = new ArrayList<>();
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT * FROM employee";
-        prepare = connect.prepareStatement(sql);
-        result = prepare.executeQuery();
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
 
         if(result.next()){
 
@@ -65,9 +63,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public void insert(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "INSERT INTO employee(username, password, question, answer, date)" + "VALUES(?, ?, ?, ?, ?)";
-         prepare = connect.prepareStatement(sql);
+         PreparedStatement prepare = connect.prepareStatement(sql);
 
         prepare.setString(1, employee.getUsername());
         prepare.setString(2, employee.getPassword());
@@ -84,10 +82,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public void update(Employee employee) throws SQLException {
-        Connection con = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "UPDATE employee SET username = ?, password = ?, question = ?, answer = ?, date = ? WHERE id = ?";
 
-        prepare  = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
 
         prepare.setString(1, employee.getUsername());
         prepare.setString(2, employee.getPassword());
@@ -105,10 +103,10 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public void delete(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "DELETE FROM employee WHERE id = ?";
 
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
 
         prepare.setInt(1, employee.getId());
 
@@ -117,48 +115,48 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public ResultSet login(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT username, password FROM employee WHERE username = ? AND password = ?";
 
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, employee.getUsername());
         prepare.setString(2, employee.getPassword());
 
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 
     @Override
     public ResultSet isUserExist(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT username FROM employee WHERE username = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, employee.getUsername());
 
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 
     @Override
     public ResultSet isTrueInfo(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT username, question, answer FROM employee WHERE username = ? AND question = ? AND answer = ?";
 
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, employee.getUsername());
         prepare.setString(2, employee.getQuestion());
         prepare.setString(3, employee.getAnswer());
 
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
     }
 
     @Override
     public void updatePass(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "UPDATE employee SET password = ?, date = ? WHERE username = ?";
 
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, employee.getPassword());
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -170,11 +168,32 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public ResultSet getIDEmployee(Employee employee) throws SQLException {
-        connect = Database.connectDB();
+        Connection connect = Database.connectDB();
         String sql = "SELECT id FROM employee WHERE username = ?";
-        prepare = connect.prepareStatement(sql);
+        PreparedStatement prepare = connect.prepareStatement(sql);
         prepare.setString(1, Data.username);
-        result = prepare.executeQuery();
+        ResultSet result = prepare.executeQuery();
         return result;
+    }
+
+    @Override
+    public Employee getEmployeeByUserName(String username) throws SQLException {
+        Employee employee = null;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT * FROM employee WHERE username = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setString(1, username);
+        ResultSet result = prepare.executeQuery();
+        if(result.next()){
+            employee = new Employee(
+                  result.getInt("id"),
+                  result.getString("username"),
+                  result.getString("password"),
+                  result.getString("question"),
+                  result.getString("answer"),
+                  result.getDate("date")
+            );
+        }
+        return employee;
     }
 }
