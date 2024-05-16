@@ -96,15 +96,15 @@ WHERE
 		<groupFooter>
 			<band height="67">
 				<staticText>
-					<reportElement x="110" y="30" width="30" height="10" uuid="d76f2413-06f4-4820-9013-4b87d08be6fe"/>
-					<textElement textAlignment="Right">
+					<reportElement x="0" y="0" width="80" height="20" uuid="d76f2413-06f4-4820-9013-4b87d08be6fe"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<text><![CDATA[Total: ]]></text>
+					<text><![CDATA[Total]]></text>
 				</staticText>
 				<textField pattern="# VND">
-					<reportElement x="140" y="30" width="40" height="10" uuid="ac2de945-a5a8-4888-8942-c4b5b6071e83"/>
-					<textElement textAlignment="Center">
+					<reportElement x="130" y="1" width="50" height="19" uuid="ac2de945-a5a8-4888-8942-c4b5b6071e83"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
@@ -118,25 +118,41 @@ WHERE
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="40" y="30" width="100" height="30" uuid="aeccf98b-61b5-46ef-8805-20021f973c1a"/>
+				<reportElement x="40" y="30" width="100" height="20" uuid="aeccf98b-61b5-46ef-8805-20021f973c1a"/>
 				<textElement textAlignment="Center">
 					<font fontName="Comic Sans MS"/>
 				</textElement>
 				<text><![CDATA[DTD's Cafe Shop]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="120" y="0" width="40" height="10" uuid="3acc8aef-5075-42af-a0a7-ab86c5bb6288"/>
-				<textElement textAlignment="Right">
-					<font size="6" isBold="true"/>
+				<reportElement x="0" y="55" width="45" height="10" uuid="3acc8aef-5075-42af-a0a7-ab86c5bb6288">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="7" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Customer ID:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="160" y="0" width="20" height="10" uuid="022bbe66-2638-4277-a8b2-f9503d5a115c"/>
+				<reportElement x="45" y="55" width="20" height="10" uuid="a2dccd66-4d79-429b-92ec-44f81fa7c01e"/>
 				<textElement>
-					<font size="6"/>
+					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customer_id}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="30" height="30" uuid="cafbc7a9-97dd-4580-9e19-67a354d1a964"/>
+				<imageExpression><![CDATA["src/main/resources/com/ddt/mycafeteriamanagementsystem/Img/fast-food-black.png"]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy h.mm.a">
+				<reportElement x="0" y="65" width="90" height="9" uuid="d2cfac81-12b6-481c-8dff-8cbd04d5b56e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -242,15 +258,6 @@ WHERE
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<text><![CDATA[Thank you for your Order!]]></text>
 			</staticText>
-			<textField pattern="dd/MM/yyyy h.mm.a">
-				<reportElement x="90" y="50" width="90" height="17" uuid="3ec3cba8-8abd-46a7-8d3a-ca0368ab7a39">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 		</band>
 	</pageFooter>
 	<summary>
