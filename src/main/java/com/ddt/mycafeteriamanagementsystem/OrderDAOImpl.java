@@ -40,15 +40,16 @@ public class OrderDAOImpl implements OrderDAO{
     public void insert(Order order) throws SQLException {
         Connection connect = Database.connectDB();
 
-        String sql = "INSERT INTO `order` (employee_id, date) "
-                + "VALUES(?,?)";
+        String sql = "INSERT INTO `order` (employee_id, discount, date) "
+                + "VALUES(?,?,?)";
         PreparedStatement prepare = connect.prepareStatement(sql);
 
         prepare.setString(1, String.valueOf(order.getEmployee().getId()));
+        prepare.setString(2, String.valueOf(order.getDiscount()));
         Date date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
-        prepare.setString(2, String.valueOf(sqlDate));
+        prepare.setString(3, String.valueOf(sqlDate));
 
         prepare.executeUpdate();
     }

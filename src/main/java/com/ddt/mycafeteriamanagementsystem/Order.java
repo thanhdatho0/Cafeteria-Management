@@ -7,6 +7,7 @@ import java.util.List;
 public class Order {
     private int id;
     private Employee employee;
+    private double discount;
     private Date date;
     public static List<OrderDetails> items = new ArrayList<>();
 
@@ -25,6 +26,13 @@ public class Order {
         this.date = date;
     }
 
+    public Order(int id, Employee employee, double discount, Date date) {
+        this.id = id;
+        this.employee = employee;
+        this.discount = discount;
+        this.date = date;
+    }
+
     public int getId() {
         return id;
     }
@@ -39,6 +47,14 @@ public class Order {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public Date getDate() {

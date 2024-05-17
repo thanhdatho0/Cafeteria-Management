@@ -48,4 +48,15 @@ public class OrderDetailsDAOImpl implements OrderDetailsDAO{
     public void delete(OrderDetails orderDetails) throws SQLException {
 
     }
+
+    @Override
+    public int getOrderDetailId() throws SQLException {
+        int id = 0;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT MAX(order_id) FROM `order details`";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        ResultSet result = prepare.executeQuery();
+        if(result.next()) id = result.getInt(1);
+        return id;
+    }
 }
