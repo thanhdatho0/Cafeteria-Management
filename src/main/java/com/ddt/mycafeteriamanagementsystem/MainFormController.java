@@ -598,6 +598,7 @@ public class MainFormController implements Initializable {
         order_gridPane.getChildren().clear();
         System.out.println(Order.items);
         menuReset();
+        //statistics();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setHeaderText(null);
@@ -860,6 +861,7 @@ public class MainFormController implements Initializable {
             inventory_form.setVisible(false);
             menu_form.setVisible(false);
             customer_form.setVisible(false);
+            statistics();
         }
         else if(event.getSource() == inventory_btn){
             dashBoard_form.setVisible(false);
@@ -920,26 +922,27 @@ public class MainFormController implements Initializable {
 
 
     //Chart
+    private XYChart.Series barChartData = new XYChart.Series();
     public void displayBarChart() throws SQLException {
-        XYChart.Series chartData = new XYChart.Series();
+        customerBarChart.getData().clear();
         StatisticDAO statisticDAO = new StatisticDAOImpl();
         ResultSet result = statisticDAO.dayCustomersStatistic();
         while (result.next()){
-            chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
+            barChartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
 
         }
-        customerBarChart.getData().add(chartData);
+        customerBarChart.getData().add(barChartData);
     }
 
+    private XYChart.Series lineChartData = new XYChart.Series();
     public void displayLineChart() throws SQLException {
-        XYChart.Series chartData = new XYChart.Series();
+        dayLineChart.getData().clear();
         StatisticDAO statisticDAO = new StatisticDAOImpl();
         ResultSet result = statisticDAO.dayIncomesStatistic();
         while (result.next()){
-            chartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
-
+            lineChartData.getData().add(new XYChart.Data(result.getString(1), result.getInt(2)));
         }
-        dayLineChart.getData().add(chartData);
+        dayLineChart.getData().add(lineChartData);
     }
 
     public void statistics() throws SQLException {
@@ -948,6 +951,8 @@ public class MainFormController implements Initializable {
         dayIncome.setText("$" + String.valueOf(statisticDAO.getDayIncome()));
         monthIncome.setText("$" + String.valueOf(statisticDAO.getMonthIncome()));
         numOfProSold.setText(String.valueOf(statisticDAO.getSoldNumber()));
+        displayBarChart();
+        displayLineChart();
     }
 
     @Override
@@ -957,14 +962,10 @@ public class MainFormController implements Initializable {
         try {
             inventoryShowData();
             customerShowData();
-            displayBarChart();
-            displayLineChart();
             statistics();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         menuTime();
-        //orderDisplay();
-
     }
 }
