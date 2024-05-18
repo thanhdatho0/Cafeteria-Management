@@ -32,16 +32,11 @@
                <left>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="gradient" stylesheets="@mainForm.css" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane layoutY="14.0" prefHeight="121.0" prefWidth="200.0" AnchorPane.bottomAnchor="579.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane layoutY="14.0" prefHeight="189.0" prefWidth="200.0" AnchorPane.bottomAnchor="513.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label layoutX="82.0" layoutY="42.0" prefHeight="28.0" prefWidth="111.0" styleClass="color" stylesheets="@mainForm.css" text="XINCHAO">
-                                 <font>
-                                    <Font size="19.0" />
-                                 </font>
-                              </Label>
-                              <ImageView fitHeight="51.0" fitWidth="59.0" layoutX="14.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="158.0" fitWidth="173.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@Img/fast-food.png" />
+                                    <Image url="@Img/logo.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -517,6 +512,11 @@
                                           </VBox>
                                        </children>
                                     </AnchorPane>
+                                    <ImageView fitHeight="79.0" fitWidth="108.0" layoutX="308.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@Img/giphy.gif" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </AnchorPane>
                            </children>
