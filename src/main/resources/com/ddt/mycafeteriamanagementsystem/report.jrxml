@@ -18,11 +18,13 @@
 			od.order_id, od.prod_id, od.quantity, 
 			p.id, p.price, p.prod_name,
 			c.id, c.order_id,
+			e.username,
 			(od.quantity * p.price)
 FROM `order` as o
 INNER JOIN `order details`  as od ON o.id = od.order_id
 INNER JOIN product as p ON od.prod_id = p.id
 INNER JOIN customers as c ON c.order_id = o.id
+INNER JOIN employee as e ON e.id = o.employee_id
 WHERE od.order_id = $P{getReceipt}]]>
 	</queryString>
 	<field name="id" class="java.lang.Integer">
@@ -80,6 +82,11 @@ WHERE od.order_id = $P{getReceipt}]]>
 		<property name="com.jaspersoft.studio.field.label" value="order_id"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="customers"/>
 	</field>
+	<field name="username" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="username"/>
+		<property name="com.jaspersoft.studio.field.label" value="username"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="employee"/>
+	</field>
 	<field name="(od.quantity * p.price)" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.name" value="(od.quantity * p.price)"/>
 		<property name="com.jaspersoft.studio.field.label" value="(od.quantity * p.price)"/>
@@ -87,36 +94,24 @@ WHERE od.order_id = $P{getReceipt}]]>
 	<variable name="(od.quantity * p.price)1" class="java.lang.Double" resetType="Group" resetGroup="total" calculation="Sum">
 		<variableExpression><![CDATA[$F{(od.quantity * p.price)}]]></variableExpression>
 	</variable>
+	<variable name="quantity1" class="java.lang.Integer" resetType="Group" resetGroup="total" calculation="Sum">
+		<variableExpression><![CDATA[$F{quantity}]]></variableExpression>
+	</variable>
 	<group name="total">
 		<groupExpression><![CDATA[$F{order_id}]]></groupExpression>
 		<groupFooter>
-			<band height="52">
+			<band height="88">
 				<staticText>
-					<reportElement x="0" y="0" width="80" height="20" uuid="5cb9d218-3fd4-4341-84f1-fbfd1bece1f6"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[Total before discount]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="130" y="0" width="50" height="19" uuid="d79ce14e-2f3a-450b-bc0a-376cd2fedc97">
-						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<reportElement x="0" y="30" width="80" height="15" uuid="9a7d7c84-cccd-497d-b7de-d96e509ce61d">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="7"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$V{(od.quantity * p.price)1}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="0" y="20" width="80" height="20" uuid="9a7d7c84-cccd-497d-b7de-d96e509ce61d"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font size="7"/>
-					</textElement>
-					<text><![CDATA[Total after discount]]></text>
+					<text><![CDATA[Total]]></text>
 				</staticText>
-				<textField>
-					<reportElement x="130" y="19" width="50" height="19" uuid="8c5336e1-71d6-4950-b428-86125a7af454">
+				<textField pattern="# VND">
+					<reportElement x="130" y="30" width="50" height="15" uuid="8c5336e1-71d6-4950-b428-86125a7af454">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -125,6 +120,44 @@ WHERE od.order_id = $P{getReceipt}]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{(od.quantity * p.price)1}-$F{discount}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement x="0" y="15" width="80" height="15" uuid="05e98f63-9b54-4891-8b89-cb8b4436e123">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Discount]]></text>
+				</staticText>
+				<textField pattern="# VND">
+					<reportElement x="130" y="15" width="50" height="15" uuid="06a04853-d4b7-4598-9d56-649caee7ea5d">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="15" uuid="f6d26a3e-6cad-4453-8b86-477ad40aceb6">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<text><![CDATA[Quantity]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="130" y="0" width="50" height="15" uuid="f5210a38-cfed-49a7-85b6-7f791e02cda9">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{quantity1}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupFooter>
 	</group>
@@ -132,7 +165,7 @@ WHERE od.order_id = $P{getReceipt}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="81" splitType="Stretch">
+		<band height="104" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="30" height="30" uuid="62a0ba2c-0def-4852-b0c1-f9e9d799ac7a"/>
 				<imageExpression><![CDATA["src/main/resources/com/ddt/mycafeteriamanagementsystem/Img/fast-food-black.png"]]></imageExpression>
@@ -145,23 +178,23 @@ WHERE od.order_id = $P{getReceipt}]]>
 				<text><![CDATA[DTD's Cafe Shop]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="120" y="55" width="40" height="10" uuid="effb9c35-6ee4-4b1f-93f3-2fd1ea43b83a">
+				<reportElement x="0" y="69" width="40" height="10" uuid="effb9c35-6ee4-4b1f-93f3-2fd1ea43b83a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<text><![CDATA[ORDER ID :]]></text>
+				<text><![CDATA[Order ID]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="160" y="55" width="20" height="10" uuid="9bc29a0b-3b0e-4982-aabe-08edc03b9100"/>
+				<reportElement x="160" y="69" width="20" height="10" uuid="9bc29a0b-3b0e-4982-aabe-08edc03b9100"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy h.mm.a">
-				<reportElement x="90" y="65" width="90" height="9" uuid="97d38383-f1b8-4834-bbdb-8ae89083c452">
+				<reportElement x="90" y="60" width="90" height="9" uuid="97d38383-f1b8-4834-bbdb-8ae89083c452">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -171,32 +204,25 @@ WHERE od.order_id = $P{getReceipt}]]>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="55" width="55" height="10" uuid="b10a260f-725a-4acd-b9ff-aec10b93303b">
+				<reportElement x="0" y="89" width="55" height="10" uuid="b10a260f-725a-4acd-b9ff-aec10b93303b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<text><![CDATA[EMPLOYEE ID :]]></text>
+				<text><![CDATA[Cashier]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="55" y="55" width="15" height="10" uuid="1c7b9c41-5b8f-45cd-bfe0-31fa1d665015"/>
-				<textElement>
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{employee_id}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="0" y="65" width="55" height="10" uuid="55462019-ed46-47ae-98a2-0873d9e3f5dc">
+				<reportElement x="0" y="79" width="55" height="10" uuid="55462019-ed46-47ae-98a2-0873d9e3f5dc">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="7" isBold="false"/>
 				</textElement>
-				<text><![CDATA[CUSTOMER ID :]]></text>
+				<text><![CDATA[Customer ID]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="55" y="65" width="15" height="10" uuid="e7ee5386-13ea-4f55-821a-df644fd81e5a">
+				<reportElement x="160" y="79" width="20" height="10" uuid="e7ee5386-13ea-4f55-821a-df644fd81e5a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -204,6 +230,25 @@ WHERE od.order_id = $P{getReceipt}]]>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{COLUMN_10}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="59" width="40" height="10" uuid="73dd1d7a-4dad-4da2-96a4-a24b683174cd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="89" width="30" height="10" uuid="5388aba4-d3da-490a-b173-84df8197c620">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
