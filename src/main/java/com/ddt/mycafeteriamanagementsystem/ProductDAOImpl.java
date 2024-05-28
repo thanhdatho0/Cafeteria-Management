@@ -211,15 +211,6 @@ public class ProductDAOImpl implements ProductDAO {
         return listData;
     }
 
-    @Override
-    public ResultSet getIDProduct(Product product) throws SQLException {
-        Connection connect = Database.connectDB();
-        String sql = "SELECT id FROM product WHERE prod_name = ?";
-        PreparedStatement prepare = connect.prepareStatement(sql);
-        prepare.setString(1, product.getProd_name());
-        ResultSet result = prepare.executeQuery();
-        return result;
-    }
 
     @Override
     public Product getProductByName(String name) throws SQLException {
@@ -262,4 +253,52 @@ public class ProductDAOImpl implements ProductDAO {
         return categories;
     }
 
+    @Override
+    public int getProdStock(Product product) throws SQLException {
+        int stock = 0;
+        Connection connect = Database.connectDB();
+        String sql = "SELECT stock FROM product WHERE id = ?";
+        PreparedStatement prepare = connect.prepareStatement(sql);
+        prepare.setInt(1, product.getId());
+        ResultSet result = prepare.executeQuery();
+        if(result.next()) stock = result.getInt("stock");
+        return stock;
+    }
+
+    @Override
+    public void updateProdStock(Product product) throws SQLException {
+        // Tạo ket noi den CSDL
+        Connection connection = Database.connectDB();
+        // thuc  thi cau len sql
+        String sql = "UPDATE product SET stock = ? WHERE prod_id = ?";
+
+        PreparedStatement prepare = connection.prepareStatement(sql);
+
+        prepare.setInt(1, product.getStock());
+        prepare.setString(2, product.getProd_id());
+
+        prepare.executeUpdate();
+
+        Database.closePreparedStatement(prepare);
+        Database.closeConnection(connection);
+    }
+
+    @Override
+    public void switchStatus(Product product) throws SQLException {
+        // Tạo ket noi den CSDL
+        Connection connection = Database.connectDB();
+        // thuc  thi cau len sql
+        String sql = "UPDATE product SET status = ?, available = ? WHERE prod_id = ?";
+
+        PreparedStatement prepare = connection.prepareStatement(sql);
+
+        prepare.setString(1, "Unavailable");
+        prepare.setInt(2, 0);
+        prepare.setInt(3, product.getId());
+
+        prepare.executeUpdate();
+
+        Database.closePreparedStatement(prepare);
+        Database.closeConnection(connection);
+    }
 }

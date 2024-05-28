@@ -457,36 +457,6 @@ public class MainFormController implements Initializable {
         menu_fastFood_btn.getStyleClass().add("btn_clicked");
     }
 
-//    public ObservableList<Product> orderGetData(){
-//        customerID();
-//        String sql = "SELECT * FROM customer WHERE customer_id = " + cID;
-//
-//        ObservableList<Product> listData = FXCollections.observableArrayList();
-//        connect = Database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            Product product;
-//            while(result.next()){
-//                product = new Product(
-//                        result.getInt("id"),
-//                        result.getString("prod_id"),
-//                        result.getString("prod_name"),
-//                        result.getInt("quantity"),
-//                        result.getDouble("price"),
-//                        result.getString("image"),
-//                        result.getDate("date"));
-//                product.setPr(result.getDouble("price") / result.getInt("quantity"));
-//
-//                listData.add(product);
-//            }
-//        }catch (Exception e){e.printStackTrace();}
-//
-//        return listData;
-//    }
-
     public void orderDisplay(){
         order_gridPane.getChildren().clear();
         order_gridPane.getRowConstraints().clear();
@@ -578,6 +548,27 @@ public class MainFormController implements Initializable {
             }
         });
 
+        //Cap nhat lai so hang trong kho
+        ProductDAO productDAO = new ProductDAOImpl();
+        Order.items.forEach(item ->{
+            int stock = 0;
+            try {
+                stock = productDAO.getProdStock(item.getProduct());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            item.getProduct().setStock(stock - item.getQuantity());
+            try {
+                productDAO.updateProdStock(item.getProduct());
+                if(item.getProduct().getStock() == 0) {
+                    System.out.println(item.getProduct().getStock());
+                    productDAO.switchStatus(item.getProduct());
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         //Ghi du lieu vao Customers
         Customers customers = new Customers();
         customers.setOrder(order);
@@ -596,167 +587,6 @@ public class MainFormController implements Initializable {
         alert.setContentText("Successfully Create Order");
         alert.show();
     }
-
-//    public void menuGetTotal(){
-//        customerID();
-//        String total = "SELECT SUM(price) FROM customer WHERE customer_id = " + cID;
-//
-//        connect = Database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(total);
-//            result  = prepare.executeQuery();
-//
-//            if(result.next()){
-//                totalP = result.getDouble("SUM(price)");
-//            }
-//
-//        }catch (Exception e){e.printStackTrace();}
-//    }
-
-//    public void menuGetAmount(){
-//        customerID();
-//        String amount = "SELECT SUM(quantity) FROM customer WHERE customer_id = " + cID;
-//
-//        connect = Database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(amount);
-//            result  = prepare.executeQuery();
-//
-//            if(result.next()){
-//                qty = result.getInt("SUM(quantity)");
-//            }
-//
-//        }catch (Exception e){e.printStackTrace();}
-//    }
-
-//    public void menuGetDiscount(){
-//        menuGetAmount();
-//        menuGetTotal();
-//
-//        if(qty < 10){
-//            discount = totalP;
-//            menu_total.setText(discount + " VND");
-//        }
-//        else{
-//            discount = totalP - 20000;
-//            menu_discount.setText("-" + 20000 + " VND");
-//            menu_total.setText(discount + " VND");
-//        }
-//    }
-
-//    int employee_id;
-//    int prodID;
-//    String prodNameCus;
-//    int quantityCus;
-//    int order_id;
-
-//    public void menuPayBtn(){
-//        order = new Order();
-//        if(totalP == 0){
-//            alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setTitle("Error message");
-//            alert.setHeaderText(null);
-//            alert.setContentText("Please choose the product");
-//            alert.showAndWait();
-//        }
-//        else{
-//
-//            try {
-//                alert = new Alert(Alert.AlertType.CONFIRMATION);
-//                alert.setTitle("Confirmation Message");
-//                alert.setHeaderText(null);
-//                alert.setContentText("Are you sure?");
-//                Optional<ButtonType> option = alert.showAndWait();
-//
-//                employee_id = 0;
-//                order_id = 0;
-//
-//                if(option.get().equals(ButtonType.OK)){
-//                    customerID();
-//                    menuGetTotal();
-//                    menuGetDiscount();
-//                    customerID();
-//
-//                    //Lay ID la primary key cua employee de insert vao order
-//                    employee = new Employee();
-//                    employeeDAO = new EmployeeDAOImpl();
-//                    ResultSet resultSetEpl = employeeDAO.getIDEmployee(employee);
-//                    if(resultSetEpl.next()){
-//                        employee_id = resultSetEpl.getInt("id");
-//                    }
-//
-//                    //Dien du lieu vao table order khi co khoa ngoai la ID cua employee
-//                    employee = employeeDAO.get(employee_id);
-//                    order.setEmployee(employee);
-//                    orderDAO = new OrderDAOImpl();
-//                    orderDAO.insert(order);
-//                    ResultSet resultSetOrder = orderDAO.getAllOrder(order);
-//                    //Lay id cua order_id la primary key de insert vao orderDetail
-//                    if(resultSetOrder.next()){
-//                        order_id = resultSetOrder.getInt("MAX(id)");
-//                    }
-//                    order = orderDAO.get(order_id);
-//                    /**
-//                     * OrderDetail can prod_id va quantity => lay thong qua customer
-//                     */
-//
-//                    //Lay prod_name va quantity cua customer da mua
-//                    customer = new Customer();
-//                    customer.setCustomer_id(cID);
-//                    cusotmerDAO = new CusotmerDAOImpl();
-//                    ResultSet resultSetCus = cusotmerDAO.getAllCustomer(customer);
-//
-//                    try {
-//                        //Dung vong lap de lay het ten mon va so luong cua 1 khach hang
-//                        while(resultSetCus.next()){
-//                            prodNameCus = resultSetCus.getString("prod_name");
-//                            quantityCus = resultSetCus.getInt("quantity");
-//
-//                            //Lay dc prod_name thi se lay dc ID la primary key cua product
-//                            product = new Product();
-//                            product.setProd_name(prodNameCus);
-//                            productDAO = new ProductDAOImpl();
-//                            ResultSet resultSetProd = productDAO.getIDProduct(product);
-//                            if(resultSetProd.next()){
-//                                prodID = resultSetProd.getInt("id");
-//                            }
-//
-//                            product = productDAO.get(prodID);
-//
-//                            //Dien vao order detail
-//                            orderDetails = new OrderDetails(order, product, quantityCus);
-//                            System.out.println(order.getId());
-//                            orderDetailsDAO = new OrderDetailsDAOImpl();
-//                            orderDetailsDAO.insert(orderDetails);
-//                        }
-//                    }catch (Exception e){e.printStackTrace();}
-//
-//                    receipt = new Receipt(0, cID, discount, Data.username);
-//                    receiptDAO = new ReceiptDAOImpl();
-//                    receiptDAO.insert(receipt);
-//
-//                    alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Successful");
-//                    alert.showAndWait();
-//
-//                    //orderDisplay();
-//                    statistics();
-//                }
-//                else{
-//                    alert = new Alert(Alert.AlertType.WARNING);
-//                    alert.setTitle("Information Message");
-//                    alert.setHeaderText(null);
-//                    alert.setContentText("Cancelled");
-//                    alert.showAndWait();
-//                }
-//
-//            }catch (Exception e){e.printStackTrace();}
-//        }
-//    }
 
     public void menuReset(){
         totalP = 0;
@@ -782,39 +612,6 @@ public class MainFormController implements Initializable {
 
         customer_tableView.setItems(customerDetails);
     }
-
-//    public void customerID(){
-//        String sql = "SELECT MAX(customer_id) from customer";
-//        connect = Database.connectDB();
-//
-//        try {
-//            prepare = connect.prepareStatement(sql);
-//            result = prepare.executeQuery();
-//
-//            if(result.next()){
-//                cID = result.getInt("MAX(customer_id)");
-//            }
-//
-//            String checkCID = "SELECT MAX(customer_id) FROM receipt";
-//            prepare = connect.prepareStatement(checkCID);
-//            result = prepare.executeQuery();
-//
-//            int checkID = 0;
-//            if(result.next()){
-//                checkID = result.getInt("MAX(customer_id)");
-//            }
-//
-//            if(cID == 0){
-//                cID += 1;
-//            }
-//            else if(cID == checkID){
-//                cID += 1;
-//            }
-//
-//            Data.cID = cID;
-//
-//        }catch (Exception e){e.printStackTrace();}
-//    }
 
     public void reportBtn(){
         if(totalP == 0 || menu_amount.getText().isEmpty()){

@@ -10,9 +10,11 @@ public interface ProductDAO extends DAO<Product> {
     ObservableList<Product> DataList() throws SQLException;
     ObservableList<Product> DataTypeList(int categories_id) throws SQLException;
     ObservableList<Product> DataMenu() throws SQLException;
-
-    ResultSet getIDProduct(Product product) throws SQLException;
     Product getProductByName(String name) throws SQLException;
     Categories getCategories(int id) throws SQLException;
-
+    int getProdStock(Product product) throws SQLException;
+    void updateProdStock(Product product) throws SQLException;
+    void switchStatus(Product product) throws  SQLException;
 }
+
+

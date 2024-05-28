@@ -82,6 +82,15 @@ public class CardProductController implements Initializable {
         ProductDAO productDAO = new ProductDAOImpl();
         product = productDAO.getProductByName(prod_name.getText());
 
+        if(prod_spinner.getValue() > product.getStock()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setTitle("Error Message");
+            alert.setContentText("Out of stock!\nStock: " + product.getStock());
+            alert.showAndWait();
+            return;
+        }
+
         OrderDetails orderDetails = new OrderDetails();
         orderDetails.setProduct(product);
         orderDetails.setQuantity(prod_spinner.getValue());
@@ -99,7 +108,7 @@ public class CardProductController implements Initializable {
                System.out.println(Order.items);
            }
         });
-        if(!check.get()){
+        if(!check.get()) {
             Order.items.add(orderDetails);
             System.out.println(Order.items);
         }
