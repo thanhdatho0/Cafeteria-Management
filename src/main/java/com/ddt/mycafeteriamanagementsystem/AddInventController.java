@@ -182,7 +182,7 @@ public class AddInventController implements Initializable {
                      \ = \\ va \\ = \\\\
                      */
                     String path = this.Path;
-                    path = path.replace("\\", "\\\\");
+//                    path = path.replace("\\", "\\\\");
 
                     Date date = new Date(System.currentTimeMillis());
                     java.sql.Date sqlDate = new java.sql.Date(date.getTime());
@@ -227,18 +227,33 @@ public class AddInventController implements Initializable {
             alert.showAndWait();
 
         }
-        else if (!inputStock.matches("[0-9]+") || !inputPrice.matches("[0-9]+"))
+        else if (!inputStock.matches("[0-9]+"))
         {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error Message");
             alert.setHeaderText(null);
-            alert.setContentText("Please only enter numbers for price and stock.");
+            alert.setContentText("Please only enter numbers for stock.");
+            alert.showAndWait();
+        }
+        else if (!inputPrice.matches("[0-9]+(\\.[0-9]+)?")) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Please only enter numbers for price.");
+            alert.showAndWait();
+        }
+        else if (inputStock.equals("0"))
+        {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Set the status to 'Unavailable' when the stock is 0.");
             alert.showAndWait();
         }
         else {
 
             String path = this.Path;
-            path = path.replace("\\", "\\\\");
+//            path = path.replace("\\", "\\\\");
 
             Date date = new Date(System.currentTimeMillis());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());

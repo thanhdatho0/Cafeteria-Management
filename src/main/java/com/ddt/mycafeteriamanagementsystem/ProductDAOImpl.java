@@ -270,12 +270,12 @@ public class ProductDAOImpl implements ProductDAO {
         // Tạo ket noi den CSDL
         Connection connection = Database.connectDB();
         // thuc  thi cau len sql
-        String sql = "UPDATE product SET stock = ? WHERE prod_id = ?";
+        String sql = "UPDATE product SET stock = ? WHERE id = ?";
 
         PreparedStatement prepare = connection.prepareStatement(sql);
 
         prepare.setInt(1, product.getStock());
-        prepare.setString(2, product.getProd_id());
+        prepare.setInt(2, product.getId());
 
         prepare.executeUpdate();
 
@@ -288,13 +288,12 @@ public class ProductDAOImpl implements ProductDAO {
         // Tạo ket noi den CSDL
         Connection connection = Database.connectDB();
         // thuc  thi cau len sql
-        String sql = "UPDATE product SET status = ?, available = ? WHERE prod_id = ?";
+        String sql = "UPDATE product SET status = ? WHERE id = ?";
 
         PreparedStatement prepare = connection.prepareStatement(sql);
 
         prepare.setString(1, "Unavailable");
-        prepare.setInt(2, 0);
-        prepare.setInt(3, product.getId());
+        prepare.setInt(2, product.getId());
 
         prepare.executeUpdate();
 
