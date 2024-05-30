@@ -86,7 +86,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="427.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="125.0">
                            <image>
                               <Image url="@Img/t.gif" />
                            </image>
@@ -97,7 +97,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="dashBoard_form" prefHeight="700.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="dashBoard_form" prefHeight="700.0" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="185.0" prefWidth="970.0" stylesheets="@mainForm.css" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                                  <styleClass>
@@ -274,7 +274,7 @@
                                           <TableColumn fx:id="inventory_col_price" maxWidth="175.0" prefWidth="150.0" resizable="false" text="Price" />
                                           <TableColumn fx:id="inventory_col_status" maxWidth="110.0" text="Status" />
                                           <TableColumn fx:id="inventory_col_date" maxWidth="130.0" minWidth="0.0" prefWidth="100.0" text="Date" />
-                                          <TableColumn fx:id="inventory_col_change" maxWidth="500.0" minWidth="0.0" prefWidth="110.0" />
+                                          <TableColumn fx:id="inventory_col_change" maxWidth="350.0" minWidth="0.0" prefWidth="110.0" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -312,7 +312,7 @@
                            <children>
                               <AnchorPane layoutX="635.0" layoutY="28.0" prefHeight="650.0" prefWidth="350.0" styleClass="statistics" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="21.600000000000023" AnchorPane.rightAnchor="14.600000000000023" AnchorPane.topAnchor="28.0">
                                  <children>
-                                    <AnchorPane layoutX="-2.0" layoutY="453.0" prefHeight="195.0" prefWidth="350.0">
+                                    <AnchorPane layoutX="-2.0" layoutY="453.0" prefHeight="195.0" prefWidth="350.0" AnchorPane.bottomAnchor="4.0">
                                        <children>
                                           <VBox layoutX="26.0" layoutY="-33.6" prefHeight="195.2" prefWidth="350.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <children>
@@ -408,7 +408,7 @@
                                           </VBox>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane fx:id="menu_tableView" prefHeight="455.0" prefWidth="350.0">
+                                    <AnchorPane fx:id="menu_tableView" prefHeight="455.0" prefWidth="350.0" AnchorPane.bottomAnchor="197.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <Label fx:id="menu_orders" layoutX="14.0" layoutY="14.0" prefHeight="29.0" prefWidth="178.0" text="Oders">
                                              <font>
@@ -424,7 +424,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <HBox layoutX="17.0" layoutY="44.0" prefHeight="38.0" prefWidth="321.0" styleClass="ruler" stylesheets="@mainForm.css">
+                                          <HBox layoutX="17.0" layoutY="44.0" prefHeight="38.0" prefWidth="321.0" styleClass="ruler" stylesheets="@mainForm.css" AnchorPane.topAnchor="44.0">
                                              <children>
                                                 <Label fx:id="menu_col_item" prefHeight="38.0" prefWidth="178.0" text="Item">
                                                    <font>
@@ -443,7 +443,7 @@
                                                 </Label>
                                              </children>
                                           </HBox>
-                                          <ScrollPane layoutX="14.0" layoutY="82.0" prefHeight="368.0" prefWidth="324.0">
+                                          <ScrollPane fitToHeight="true" layoutX="14.0" layoutY="82.0" prefHeight="368.0" prefWidth="324.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="82.0">
                                              <content>
                                                 <GridPane fx:id="order_gridPane" prefHeight="42.0" prefWidth="322.0">
                                                   <columnConstraints>
@@ -463,7 +463,7 @@
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="menu_time" layoutX="387.0" layoutY="28.0" prefHeight="50.0" prefWidth="194.0" text="Monday, 16 Feb 2023" AnchorPane.leftAnchor="387.0" AnchorPane.rightAnchor="13.799999999999955" AnchorPane.topAnchor="28.0">
+                                    <Label fx:id="menu_time" layoutX="387.0" layoutY="28.0" prefHeight="50.0" prefWidth="194.0" text="Monday, 16 Feb 2023" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="28.0">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -496,7 +496,7 @@
                                                       </Button>
                                                    </children>
                                                 </HBox>
-                                                <ScrollPane fx:id="menu_scrollPane" prefHeight="560.0" prefWidth="594.0">
+                                                <ScrollPane fx:id="menu_scrollPane" prefHeight="560.0" prefWidth="594.0" VBox.vgrow="ALWAYS">
                                                    <content>
                                                       <GridPane fx:id="menu_gridPane" prefHeight="34.0" prefWidth="106.0">
                                                         <columnConstraints>
@@ -512,7 +512,7 @@
                                           </VBox>
                                        </children>
                                     </AnchorPane>
-                                    <ImageView fitHeight="79.0" fitWidth="108.0" layoutX="308.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="79.0" fitWidth="108.0" layoutX="308.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="207.0">
                                        <image>
                                           <Image url="@Img/giphy.gif" />
                                        </image>
@@ -521,7 +521,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="customer_form" layoutX="291.0" layoutY="238.0" prefHeight="702.4" prefWidth="1000.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="customer_form" layoutX="291.0" layoutY="238.0" prefHeight="702.4" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="670.0" prefWidth="970.0" styleClass="statistics" stylesheets="@mainForm.css" AnchorPane.bottomAnchor="17.66399946093759" AnchorPane.leftAnchor="13.82399957812504" AnchorPane.rightAnchor="15.183999109375009" AnchorPane.topAnchor="14.0">
                                  <children>

@@ -1,17 +1,17 @@
 package com.ddt.mycafeteriamanagementsystem;
 
 public class Statistic {
-    Customer customer;
+    Customers customer;
 
-    public Statistic(Customer customer) {
+    public Statistic(Customers customer) {
         this.customer = customer;
     }
 
-    public Customer getCustomer() {
+    public Customers getCustomer() {
         return customer;
     }
 
-    public void setCustomer(Customer customer) {
+    public void setCustomer(Customers customer) {
         this.customer = customer;
     }
 }
